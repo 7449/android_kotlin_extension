@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="extension_str_copy">Copied</string>
+    <string name="extension_str_not_find_app">No related apps installed</string>
+</resources>
