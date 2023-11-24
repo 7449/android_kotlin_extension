@@ -2,6 +2,8 @@ package androidx.core.extension.compatible.databinding
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.extension.compatible.databinding.adapter.DataBindAdapter
 import androidx.core.extension.compatible.databinding.adapter.DataBindHolder
 import androidx.core.extension.compatible.databinding.adapter.SimpleDataBindAdapter
@@ -76,4 +78,18 @@ fun View.bindVisible(boolean: Boolean) {
 @BindingAdapter(value = ["bindTagKey", "bindTagValue"], requireAll = true)
 fun View.bindTag(key: Int, value: Any) {
     setTag(key, value)
+}
+
+@Suppress("DeprecatedCallableAddReplaceWith")
+@Deprecated(DATABIND_ING_HIDE_MESSAGE)
+@BindingAdapter(value = ["bindText"])
+fun TextView.bindText(value: String) {
+    text = value
+}
+
+@Suppress("DeprecatedCallableAddReplaceWith")
+@Deprecated(DATABIND_ING_HIDE_MESSAGE)
+@BindingAdapter(value = ["bindText"])
+fun Toolbar.bindText(value: String) {
+    title = value
 }

@@ -38,3 +38,4 @@ typealias ActionBoolean = Action<Boolean>
 typealias ActionAny = Action<Any>
 
 typealias StringMap = HashMap<String, String>
+typealias AnyMap = HashMap<String, Any>

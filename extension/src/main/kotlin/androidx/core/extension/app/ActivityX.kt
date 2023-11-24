@@ -84,6 +84,10 @@ inline fun <reified T : Fragment> AppCompatActivity.findFragmentByTag(
     ifNone: (String) -> T
 ): T = findFragmentByTag(tag) ?: ifNone(tag)
 
+fun Activity?.isAlive(): Boolean {
+    return this != null && !isFinishing && !isDestroyed
+}
+
 fun AppCompatActivity.fragments(): MutableList<Fragment> =
     supportFragmentManager.fragments
 
