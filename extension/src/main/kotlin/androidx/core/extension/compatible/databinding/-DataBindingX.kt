@@ -15,7 +15,7 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
-internal const val DATABIND_ING_HIDE_MESSAGE = "ksp does not support databinding"
+const val DATABIND_ING_HIDE_MESSAGE = "ksp does not support databinding"
 
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
 class ViewBindingViewHolder<T : ViewBinding>(val viewBinding: T) :
