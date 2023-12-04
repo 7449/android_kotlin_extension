@@ -1,6 +1,5 @@
 package androidx.core.extension.compatible.databinding
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -13,13 +12,8 @@ import androidx.core.extension.widget.recyclerview.SimpleAdapter
 import androidx.core.extension.widget.visible
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewbinding.ViewBinding
 
 const val DATABIND_ING_HIDE_MESSAGE = "ksp does not support databinding"
-
-@Deprecated(DATABIND_ING_HIDE_MESSAGE)
-class ViewBindingViewHolder<T : ViewBinding>(val viewBinding: T) :
-    RecyclerView.ViewHolder(viewBinding.root)
 
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
 fun RecyclerView.dataBindAdapter(): SimpleDataBindAdapter {
@@ -36,20 +30,13 @@ val RecyclerView.simpleAdapter: SimpleAdapter<*, *>?
 
 @Suppress("DeprecatedCallableAddReplaceWith")
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
-val RecyclerView.items: List<Any>
+val RecyclerView.simpleAdapterItems: List<Any>
     get() = simpleAdapter?.items.orEmpty()
 
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
-fun <T> RecyclerView.items(): List<T> {
+fun <T> RecyclerView.simpleAdapterItems(): List<T> {
     @Suppress("UNCHECKED_CAST")
     return simpleAdapter?.items.orEmpty() as List<T>
-}
-
-@SuppressLint("NotifyDataSetChanged")
-@Suppress("DeprecatedCallableAddReplaceWith")
-@Deprecated(DATABIND_ING_HIDE_MESSAGE)
-fun RecyclerView.notify() {
-    simpleAdapter?.notifyDataSetChanged()
 }
 
 @Suppress("DeprecatedCallableAddReplaceWith")
