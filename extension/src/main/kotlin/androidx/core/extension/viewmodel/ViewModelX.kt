@@ -19,7 +19,11 @@ typealias Scope<T> = suspend (CoroutineScope) -> T
 typealias Error = suspend (Exception) -> Unit
 typealias Cancel = suspend () -> Unit
 
-fun ViewModel.launch(scope: Scope<Unit>, error: Error? = null, cancel: Cancel? = null): Job {
+fun ViewModel.launch(
+    error: Error? = null,
+    cancel: Cancel? = null,
+    scope: Scope<Unit>,
+): Job {
     return viewModelScope.launch {
         try {
             scope.invoke(this)
