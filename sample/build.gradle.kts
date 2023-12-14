@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 android {
-    compileSdk = libs.versions.compildSdk.get().toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "androidx.core.extension.sample"
     defaultConfig {
         targetSdk = libs.versions.targetSdk.get().toInt()

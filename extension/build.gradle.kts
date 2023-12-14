@@ -4,7 +4,7 @@ plugins {
     kotlin("kapt")
 }
 android {
-    compileSdk = libs.versions.compildSdk.get().toInt()
+    compileSdk = libs.versions.compileSdk.get().toInt()
     namespace = "androidx.core.extension"
     defaultConfig { minSdk = 19 }
     buildFeatures.viewBinding = true
