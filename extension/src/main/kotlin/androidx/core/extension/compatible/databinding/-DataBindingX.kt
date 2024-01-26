@@ -43,14 +43,14 @@ fun <T> RecyclerView.simpleAdapterItems(): List<T> {
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
 inline fun <reified T> SimpleDataBindAdapter.addHolder(
     variable: Int,
-    factory: DataBindAdapter<T>
+    factory: DataBindAdapter<T>,
 ) = addHolder(arrayOf(Variable(variable)), factory)
 
 @Suppress("DeprecatedCallableAddReplaceWith")
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
 inline fun <reified T> SimpleDataBindAdapter.addHolder(
     variables: Array<Variable>,
-    factory: DataBindAdapter<T>
+    factory: DataBindAdapter<T>,
 ) = addHolder(DataBindHolder(variables, T::class.java, factory))
 
 @Suppress("DeprecatedCallableAddReplaceWith")

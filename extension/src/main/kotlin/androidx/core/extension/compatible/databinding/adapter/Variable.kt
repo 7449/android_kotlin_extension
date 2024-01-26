@@ -9,5 +9,5 @@ class Variable(
     @Deprecated(DATABIND_ING_HIDE_MESSAGE)
     val value: Any? = null,
     @Deprecated(DATABIND_ING_HIDE_MESSAGE)
-    val immutable: Boolean = false
+    val immutable: Boolean = false,
 )

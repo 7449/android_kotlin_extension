@@ -1,16 +1,17 @@
-package androidx.core.extension.app
+package androidx.core.extension.compatible.fragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.extension.R
+import androidx.core.extension.app.viewBinding
 import androidx.core.extension.databinding.ExtLayoutTabPagerBinding
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**
- * class SampleFragment : TabFragment<SampleModel>() {
+ * class SampleFragment : SimpleTabFragment<SampleModel>() {
  *
  *     override fun createFragments(item: SampleModel): Fragment {
  *         return Fragment()
@@ -27,7 +28,8 @@ import com.google.android.material.tabs.TabLayoutMediator
  *
  * }
  */
-abstract class TabFragment<T> : Fragment(R.layout.ext_layout_tab_pager) {
+@Deprecated("Use Compose")
+abstract class SimpleTabFragment<T> : Fragment(R.layout.ext_layout_tab_pager) {
 
     private val items = arrayListOf<T>()
     private val viewBinding by viewBinding(ExtLayoutTabPagerBinding::bind)

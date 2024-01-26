@@ -12,6 +12,10 @@ android {
         versionName = libs.versions.versionName.get()
     }
     buildFeatures.viewBinding = true
+    buildFeatures.compose = true
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -21,5 +25,8 @@ android {
     }
 }
 dependencies {
-    api(project(":extension"))
+    implementation(project(":extension"))
+    implementation(libs.bundles.androidx)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
 }

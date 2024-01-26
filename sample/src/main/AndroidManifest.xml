@@ -7,7 +7,8 @@
         tools:ignore="MissingApplicationIcon">
         <activity
             android:name=".SampleActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentActivity
 fun Fragment.simpleHttp(
     isDelayed: Boolean = false,
     transparent: Boolean = true,
-    action: suspend () -> Unit
+    action: suspend () -> Unit,
 ) {
     activity?.simpleHttp(isDelayed, transparent, action)
 }
@@ -18,7 +18,7 @@ fun Fragment.simpleHttp(
 fun FragmentActivity.simpleHttp(
     isDelayed: Boolean = false,
     transparent: Boolean = true,
-    action: suspend () -> Unit
+    action: suspend () -> Unit,
 ) {
     postMainThread {
         showProgressDialog(isDelayed, transparent) { dialog ->
@@ -68,7 +68,7 @@ fun <R> DataWrapper<R>.doAction(
     loadingRefresh: (() -> Unit)? = null,
     loadingNothing: (() -> Unit)? = null,
     success: ((data: R) -> Unit)? = null,
-    error: ((exception: Exception) -> Unit)? = null
+    error: ((exception: Exception) -> Unit)? = null,
 ) = apply {
     when (this) {
         is DataWrapper.Empty -> empty?.invoke()
@@ -81,3 +81,5 @@ fun <R> DataWrapper<R>.doAction(
         is DataWrapper.Success -> success?.invoke(data)
     }
 }
+
+const val DEFAULT_REQUEST_END_MARK = "request.end"
