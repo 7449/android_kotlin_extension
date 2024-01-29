@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
+    `maven-publish`
 }
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -27,4 +28,16 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     implementation(libs.gson)
+}
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("maven") {
+                from(components.getByName("release"))
+                artifactId = extra["MAVEN_ARTIFACT_ID"].toString()
+                groupId = extra["MAVEN_GROUP_ID"].toString()
+                version = extra["MAVEN_VERSION"].toString()
+            }
+        }
+    }
 }
