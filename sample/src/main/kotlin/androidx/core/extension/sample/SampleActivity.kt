@@ -1,11 +1,10 @@
 package androidx.core.extension.sample
 
 import android.os.Bundle
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Text
+import androidx.compose.material.Text
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.extension.compose.activity.ComposeActivity
@@ -19,7 +18,9 @@ class SampleActivity : ComposeActivity() {
         setThemeContent {
             val fieldValueMutableState = remember { textFieldValueStateOf() }
             Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight()
             ) {
                 Text("Compose")
                 SimpleInput(

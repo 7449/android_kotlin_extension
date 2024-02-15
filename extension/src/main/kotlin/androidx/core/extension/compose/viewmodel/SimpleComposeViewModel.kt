@@ -33,7 +33,7 @@ abstract class SimpleComposeViewModel : ViewModel() {
         request(false)
     }
 
-    private fun request(isRefresh: Boolean) {
+    fun request(isRefresh: Boolean) {
         logE("request $nextUrl")
         model.refresh()
         launch(error = { model.error(it) }) {

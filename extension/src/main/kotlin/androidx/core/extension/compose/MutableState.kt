@@ -2,6 +2,7 @@ package androidx.core.extension.compose
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.extension.http.DataWrapper
 
@@ -27,5 +28,9 @@ fun textFieldValueStateOf(
     value: TextFieldValue = TextFieldValue(),
 ): MutableState<TextFieldValue> {
     return mutableStateOf(value)
+}
+
+fun String.textField(): TextFieldValue {
+    return TextFieldValue(this, TextRange(length))
 }
 

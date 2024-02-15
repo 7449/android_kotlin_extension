@@ -27,7 +27,16 @@ import android.os.PowerManager
 import android.provider.MediaStore
 import android.telephony.TelephonyManager
 import android.widget.Toast
-import androidx.annotation.*
+import androidx.annotation.ArrayRes
+import androidx.annotation.BoolRes
+import androidx.annotation.ColorRes
+import androidx.annotation.DimenRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.FontRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.PluralsRes
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.extension.R
 import androidx.core.extension.installTimeCompatible
@@ -95,8 +104,16 @@ val Context.statusBarHeight: Int
         }.getOrNull() ?: 0
     }
 
+fun Context.showToastShortRes(res: Int) {
+    showToastShort(getString(res))
+}
+
 fun Context.showToastShort(any: Any): Unit =
     Toast.makeText(this, any.toString(), Toast.LENGTH_SHORT).show()
+
+fun Context.showToastLongRes(res: Int) {
+    showToastLong(getString(res))
+}
 
 fun Context.showToastLong(any: Any): Unit =
     Toast.makeText(this, any.toString(), Toast.LENGTH_LONG).show()
@@ -274,13 +291,18 @@ fun Context.openVideo(uri: Uri, error: () -> Unit) {
     }.onFailure { error.invoke() }
 }
 
+fun Context.openUri(uri: String) {
+    openUri(Uri.parse(uri))
+}
+
 fun Context.openUri(uri: Uri) {
     runCatching {
         val intent = Intent(Intent.ACTION_VIEW, uri)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }.onFailure {
-        Toast.makeText(this, getString(R.string.extension_str_not_find_app), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.extension_str_not_find_app), Toast.LENGTH_LONG)
+            .show()
     }
 }
 
@@ -350,6 +372,10 @@ inline fun <reified T> Context.service(name: String): T {
     } else {
         throw NullPointerException(name)
     }
+}
+
+fun Context.act(): AppCompatActivity {
+    return findActivity() as AppCompatActivity
 }
 
 fun Context?.findActivity(): Activity? {
