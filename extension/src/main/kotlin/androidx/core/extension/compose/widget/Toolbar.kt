@@ -1,8 +1,13 @@
 package androidx.core.extension.compose.widget
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -35,4 +40,27 @@ fun SimpleToolbar(
         backgroundColor = bgColor,
         modifier = Modifier.shadow(shadow)
     )
+}
+
+fun singleActionSearch(
+    onClick: (() -> Unit)? = null,
+): @Composable RowScope.() -> Unit {
+    if (onClick == null) return {}
+    return {
+        SimpleIconButton(imageVector = Icons.Default.Search, onClick = onClick)
+    }
+}
+
+fun singleNavArrowBack(
+    onClick: (() -> Unit)? = null,
+): @Composable (() -> Unit)? {
+    if (onClick == null) return null
+    return {
+        SimpleIconButton(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack, onClick = onClick,
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+        )
+    }
 }
