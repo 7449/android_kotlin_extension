@@ -19,6 +19,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.extension.compose.colorPrimary
 import androidx.core.extension.util.tag.TagItem
+import androidx.core.extension.util.tag.TagModel
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun <T> SimpleFlowRowTag(tags: List<TagModel<T>>, onTagClick: (TagModel<T>) -> Unit) {
+    FlowRow {
+        tags.forEach { item ->
+            SimpleTag(item) { onTagClick(item) }
+        }
+    }
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

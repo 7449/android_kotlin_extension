@@ -18,6 +18,35 @@ import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 
 @Composable
+fun SimpleBackToolbar(
+    title: String,
+    back: () -> Unit,
+) {
+    SimpleToolbar(
+        title = title,
+        navigationIcon = singleNavArrowBack(back),
+    )
+}
+
+@Composable
+fun SimpleBackSearchToolbar(
+    title: String,
+    back: () -> Unit,
+    search: () -> Unit,
+) {
+    SimpleToolbar(
+        title = title,
+        navigationIcon = singleNavArrowBack(back),
+        actions = {
+            SimpleIconButton(
+                imageVector = Icons.Default.Search,
+                onClick = search
+            )
+        }
+    )
+}
+
+@Composable
 fun SimpleToolbar(
     title: String,
     titleColor: Color = Color.White,

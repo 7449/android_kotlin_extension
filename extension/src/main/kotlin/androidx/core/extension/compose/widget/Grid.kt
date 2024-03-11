@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -24,6 +25,22 @@ fun LazyGridScope.header(
     content: @Composable LazyGridItemScope.() -> Unit,
 ) {
     item(span = { GridItemSpan(maxLineSpan) }, content = content)
+}
+
+fun <T> LazyGridScope.fillWidthItems(
+    item: List<T>?,
+    content: @Composable LazyGridItemScope.(T) -> Unit,
+) {
+    if (item == null) return
+    items(item, span = { GridItemSpan(maxLineSpan) }) { content(it) }
+}
+
+fun <T> LazyGridScope.fillWidthItem(
+    item: T?,
+    content: @Composable LazyGridItemScope.(T) -> Unit,
+) {
+    if (item == null) return
+    item(span = { GridItemSpan(maxLineSpan) }, content = { content(item) })
 }
 
 @OptIn(ExperimentalMaterialApi::class)

@@ -16,6 +16,7 @@ internal class NavArgType<E : NavRouterArgs>(private val clazz: Class<E>) : NavT
         get() = "NavArgType"
 
     override fun get(bundle: Bundle, key: String): E? {
+        @Suppress("DEPRECATION")
         return bundle.getSerializable(key) as? E
     }
 

@@ -21,6 +21,7 @@ inline fun <reified T : NavRouterArgs> NavBackStackEntry.argsInstance(): T {
 inline fun <reified T : NavRouterArgs> NavBackStackEntry.argsOrNull(): T? {
     val bundle = arguments ?: return null
     bundle.keySet().forEach {
+        @Suppress("DEPRECATION")
         val any = bundle.get(it)
         if (T::class.java == any?.javaClass) {
             return any as? T

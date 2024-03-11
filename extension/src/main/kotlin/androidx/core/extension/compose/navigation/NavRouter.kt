@@ -26,7 +26,7 @@ import androidx.navigation.navArgument
 open class NavRouter(private val target: String) {
 
     companion object {
-        internal const val NavKey = "nav_router_args_%s"
+        private const val NavKey = "nav_router_args_%s"
     }
 
     internal fun composable(): Pair<String, List<NamedNavArgument>> {
