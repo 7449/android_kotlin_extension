@@ -1,7 +1,6 @@
 package androidx.core.extension.compose.widget
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -51,6 +50,8 @@ fun <T> SimpleInfiniteVerticalGrid(
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
     columns: GridCells = GridCells.Fixed(2),
+    contentAlignment: Alignment = Alignment.TopStart,
+    propagateMinConstraints: Boolean = false,
     header: @Composable LazyGridItemScope.() -> Unit = {},
     content: @Composable (T) -> Unit,
 ) {
@@ -59,19 +60,21 @@ fun <T> SimpleInfiniteVerticalGrid(
         refreshing = refreshing,
         onRefresh = onRefresh
     )
-    Box(modifier = Modifier.fillMaxSize().pullRefresh(state)) {
-        Column {
-            LazyVerticalGrid(
-                state = gridState,
-                columns = columns,
-                modifier = Modifier.fillMaxHeight()
-            ) {
-                header(header)
-                itemsIndexed(items) { index, item ->
-                    content(item)
-                    if (index == items.size - 1 && !refreshing) {
-                        onLoadMore()
-                    }
+    Box(
+        modifier = Modifier.fillMaxSize().pullRefresh(state),
+        contentAlignment,
+        propagateMinConstraints
+    ) {
+        LazyVerticalGrid(
+            state = gridState,
+            columns = columns,
+            modifier = Modifier.fillMaxHeight()
+        ) {
+            header(header)
+            itemsIndexed(items) { index, item ->
+                content(item)
+                if (index == items.size - 1 && !refreshing) {
+                    onLoadMore()
                 }
             }
         }

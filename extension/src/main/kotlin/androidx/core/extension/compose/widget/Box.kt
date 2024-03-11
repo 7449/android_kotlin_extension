@@ -1,6 +1,7 @@
 package androidx.core.extension.compose.widget
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
@@ -14,15 +15,22 @@ import androidx.core.extension.compose.colorPrimary
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SimpleInfiniteBox(
+    modifier: Modifier = Modifier,
+    contentAlignment: Alignment = Alignment.TopStart,
+    propagateMinConstraints: Boolean = false,
     refreshing: Boolean = false,
     onRefresh: () -> Unit = {},
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     val state = rememberPullRefreshState(
         refreshing = refreshing,
         onRefresh = onRefresh
     )
-    Box(modifier = Modifier.fillMaxSize().pullRefresh(state)) {
+    Box(
+        modifier = modifier.pullRefresh(state).fillMaxSize(),
+        contentAlignment = Alignment.Center,
+        propagateMinConstraints = propagateMinConstraints
+    ) {
         content()
         PullRefreshIndicator(
             refreshing = refreshing,

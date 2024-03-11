@@ -1,5 +1,6 @@
 package androidx.core.extension.compose.widget
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -18,7 +19,9 @@ fun SimpleRadioButton(
     selected: String,
     onSelect: (String) -> Unit,
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.clickable { onSelect(text) }) {
         RadioButton(
             selected = text == selected,
             onClick = { onSelect(text) }
