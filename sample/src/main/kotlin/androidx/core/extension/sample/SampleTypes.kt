@@ -1,5 +1,6 @@
 package androidx.core.extension.sample
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -120,7 +121,7 @@ enum class SampleTypes {
             LazyColumn(modifier = Modifier.padding(5.dp)) {
                 item {
                     Text("CardColumn")
-                    SimpleCardColumn {
+                    SimpleCardColumn(modifier = Modifier.clickable { }.padding(10.dp)) {
                         Text("Card1")
                         Text("Card2")
                     }

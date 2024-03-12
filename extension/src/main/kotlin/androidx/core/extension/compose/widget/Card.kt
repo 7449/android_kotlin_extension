@@ -2,7 +2,11 @@ package androidx.core.extension.compose.widget
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +19,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
+fun SimpleCardRow(
+    modifier: Modifier = Modifier,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    verticalAlignment: Alignment.Vertical = Alignment.Top,
+    padding: Dp = 8.dp,
+    elevation: Dp = 8.dp,
+    bgColor: Color = Color.White,
+    shape: Dp = 8.dp,
+    content: @Composable RowScope.() -> Unit,
+) {
+    SimpleCard(padding, elevation, bgColor, shape) {
+        Row(modifier, horizontalArrangement, verticalAlignment) { content() }
+    }
+}
+
+@Composable
 fun SimpleCardColumn(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
@@ -23,7 +43,7 @@ fun SimpleCardColumn(
     elevation: Dp = 8.dp,
     bgColor: Color = Color.White,
     shape: Dp = 8.dp,
-    content: @Composable () -> Unit,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     SimpleCard(padding, elevation, bgColor, shape) {
         Column(modifier, verticalArrangement, horizontalAlignment) { content() }
@@ -39,7 +59,7 @@ fun SimpleCardBox(
     elevation: Dp = 8.dp,
     bgColor: Color = Color.White,
     shape: Dp = 8.dp,
-    content: @Composable () -> Unit,
+    content: @Composable BoxScope.() -> Unit,
 ) {
     SimpleCard(padding, elevation, bgColor, shape) {
         Box(modifier, contentAlignment, propagateMinConstraints) { content() }
