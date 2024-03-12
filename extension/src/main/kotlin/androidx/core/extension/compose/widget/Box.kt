@@ -16,7 +16,7 @@ import androidx.core.extension.compose.colorPrimary
 @Composable
 fun SimpleInfiniteBox(
     modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.TopStart,
+    contentAlignment: Alignment = Alignment.Center,
     propagateMinConstraints: Boolean = false,
     refreshing: Boolean = false,
     onRefresh: () -> Unit = {},
@@ -27,8 +27,10 @@ fun SimpleInfiniteBox(
         onRefresh = onRefresh
     )
     Box(
-        modifier = modifier.pullRefresh(state).fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .pullRefresh(state)
+            .fillMaxSize(),
+        contentAlignment = contentAlignment,
         propagateMinConstraints = propagateMinConstraints
     ) {
         content()

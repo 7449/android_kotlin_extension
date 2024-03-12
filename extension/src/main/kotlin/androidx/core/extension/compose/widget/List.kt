@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -22,14 +23,18 @@ fun <T> SimpleInfiniteList(
     refreshing: Boolean = false,
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
-    content: @Composable (T) -> Unit,
+    content: @Composable LazyItemScope.(T) -> Unit,
 ) {
     val listState = rememberLazyListState()
     val state = rememberPullRefreshState(
         refreshing = refreshing,
         onRefresh = onRefresh
     )
-    Box(modifier = Modifier.fillMaxSize().pullRefresh(state)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(state)
+    ) {
         LazyColumn(state = listState, modifier = Modifier.fillMaxHeight()) {
             itemsIndexed(items) { index, item ->
                 content(item)

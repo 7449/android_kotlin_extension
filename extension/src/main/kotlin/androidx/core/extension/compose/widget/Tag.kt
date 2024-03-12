@@ -23,21 +23,21 @@ import androidx.core.extension.util.tag.TagModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun <T> SimpleFlowRowTag(tags: List<TagModel<T>>, onTagClick: (TagModel<T>) -> Unit) {
+fun <T> SimpleFlowRowTag(tags: List<TagModel<T>>, onClick: (TagModel<T>) -> Unit) {
     FlowRow {
         tags.forEach { item ->
-            SimpleTag(item) { onTagClick(item) }
+            SimpleTag(item) { onClick(item) }
         }
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SimpleFlowRowTagContent(tags: List<TagItem>, onTagClick: (TagItem) -> Unit) {
+fun SimpleFlowRowTagContent(tags: List<TagItem>, onClick: (TagItem) -> Unit) {
     val vertScrollState = rememberScrollState()
     FlowRow(modifier = Modifier.verticalScroll(vertScrollState)) {
         tags.forEach { item ->
-            SimpleTag(item) { onTagClick(item) }
+            SimpleTag(item) { onClick(item) }
         }
     }
 }
@@ -47,13 +47,15 @@ fun SimpleTag(
     item: TagItem,
     color: Color = Color.White,
     fontSize: TextUnit = 8.sp,
-    onTagClick: () -> Unit,
+    onClick: () -> Unit,
 ) {
-    Box(modifier = Modifier
-        .padding(5.dp)
-        .clip(RoundedCornerShape(26.dp))
-        .background(colorPrimary)
-        .clickable { onTagClick() }) {
+    Box(
+        modifier = Modifier
+            .padding(5.dp)
+            .clip(RoundedCornerShape(26.dp))
+            .background(colorPrimary)
+            .clickable(onClick = onClick)
+    ) {
         Text(
             item.tagText,
             color = color,

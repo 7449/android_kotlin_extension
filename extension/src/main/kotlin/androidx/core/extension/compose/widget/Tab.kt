@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.ScrollableTabRow
 import androidx.compose.material.Tab
@@ -21,15 +22,15 @@ fun <T> SimpleTabLayout(
     items: List<T>,
     title: (T) -> String,
     lazy: Boolean = false,
-    content: @Composable (Int, T) -> Unit,
+    content: @Composable PagerScope.(Int, T) -> Unit,
 ) {
+    if (items.isEmpty()) return
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f,
         pageCount = { items.size }
     )
     val coroutineScope = rememberCoroutineScope()
-    if (items.isEmpty()) return
     Column {
         ScrollableTabRow(
             backgroundColor = colorPrimary,

@@ -53,7 +53,7 @@ fun <T> SimpleInfiniteVerticalGrid(
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
     header: @Composable LazyGridItemScope.() -> Unit = {},
-    content: @Composable (T) -> Unit,
+    content: @Composable LazyGridItemScope.(T) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
     val state = rememberPullRefreshState(
@@ -61,7 +61,9 @@ fun <T> SimpleInfiniteVerticalGrid(
         onRefresh = onRefresh
     )
     Box(
-        modifier = Modifier.fillMaxSize().pullRefresh(state),
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(state),
         contentAlignment,
         propagateMinConstraints
     ) {
