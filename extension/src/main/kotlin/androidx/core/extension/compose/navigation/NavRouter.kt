@@ -1,6 +1,7 @@
 package androidx.core.extension.compose.navigation
 
 import android.net.Uri
+import androidx.core.extension.util.navArgGson
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.navArgument
 
@@ -40,7 +41,7 @@ open class NavRouter(private val target: String) {
     }
 
     internal fun navigate(arg: List<NavRouterArgs> = listOf()): String {
-        val navArgs = arg.joinToString("/", "/") { Uri.encode(NavArgType.gson.toJson(it)) }
+        val navArgs = arg.joinToString("/", "/") { Uri.encode(navArgGson.toJson(it)) }
         return target.plus(navArgs)
     }
 
