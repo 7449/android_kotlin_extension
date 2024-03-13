@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.boolStateOf
 import androidx.core.extension.compose.navigation.NavRouter
 import androidx.core.extension.compose.navigation.navigate
-import androidx.core.extension.compose.noRippleClick
+import androidx.core.extension.compose.noRippleClickable
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.widget.SimpleCard
 import androidx.core.extension.compose.widget.SimpleCardBox
@@ -53,7 +53,7 @@ enum class SampleTypes {
                         SimpleCard {
                             Text(
                                 it.name,
-                                modifier = Modifier.noRippleClick { controller.navigate(it.router) },
+                                modifier = Modifier.noRippleClickable { controller.navigate(it.router) },
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -121,7 +121,9 @@ enum class SampleTypes {
             LazyColumn(modifier = Modifier.padding(5.dp)) {
                 item {
                     Text("CardColumn")
-                    SimpleCardColumn(modifier = Modifier.clickable { }.padding(10.dp)) {
+                    SimpleCardColumn(modifier = Modifier
+                        .clickable { }
+                        .padding(10.dp)) {
                         Text("Card1")
                         Text("Card2")
                     }
