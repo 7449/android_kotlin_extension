@@ -28,11 +28,10 @@ fun SimpleDialog(
                 stringResource(android.R.string.ok),
                 color = colorPrimary,
                 modifier = Modifier
-                    .padding(10.dp)
                     .clickable {
                         ok()
                         holder.hide()
-                    }
+                    }.padding(10.dp)
             )
         }
     )
@@ -49,9 +48,9 @@ fun SingleInputDialog(
             Column {
                 SimpleInput(
                     label = stringResource(android.R.string.search_go),
-                    value = holder.textFieldState.value,
+                    value = holder.mutableStateInput.value,
                     keyboardOptions = KeyboardOptions.Default,
-                    onValueChange = { holder.textFieldState.value = it },
+                    onValueChange = { holder.mutableStateInput.value = it },
                     keyboardAction = { }
                 )
             }
@@ -61,11 +60,10 @@ fun SingleInputDialog(
                 stringResource(android.R.string.search_go),
                 color = colorPrimary,
                 modifier = Modifier
-                    .padding(20.dp)
                     .clickable {
-                        input(holder.textFieldState.value.text)
+                        input(holder.mutableStateInput.value.text)
                         holder.hide()
-                    }
+                    }.padding(10.dp)
             )
         }
     )

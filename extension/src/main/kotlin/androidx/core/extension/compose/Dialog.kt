@@ -53,7 +53,7 @@ class DialogHolder internal constructor(
     private val input: MutableState<TextFieldValue>,
 ) {
 
-    val textFieldState get() = input
+    val mutableStateInput get() = input
     val show: () -> Unit = { show() }
     val hide: () -> Unit = { hide() }
 

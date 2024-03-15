@@ -10,6 +10,7 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.extension.compose.colorPrimary
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -18,8 +19,13 @@ fun SimpleInfiniteBox(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.Center,
     propagateMinConstraints: Boolean = false,
+
     refreshing: Boolean = false,
     onRefresh: () -> Unit = {},
+
+    indicatorContentColor: Color = colorPrimary,
+    indicatorScale: Boolean = false,
+
     content: @Composable BoxScope.() -> Unit,
 ) {
     val state = rememberPullRefreshState(
@@ -37,7 +43,8 @@ fun SimpleInfiniteBox(
         PullRefreshIndicator(
             refreshing = refreshing,
             state = state,
-            contentColor = colorPrimary,
+            contentColor = indicatorContentColor,
+            scale = indicatorScale,
             modifier = Modifier.align(Alignment.TopCenter),
         )
     }

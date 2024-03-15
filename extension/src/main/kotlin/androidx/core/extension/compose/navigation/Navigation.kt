@@ -1,9 +1,12 @@
 package androidx.core.extension.compose.navigation
 
 import androidx.compose.animation.AnimatedContentScope
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
-import androidx.core.extension.text.logE
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptions
@@ -12,10 +15,6 @@ import androidx.navigation.compose.composable
 
 inline fun <reified T : NavRouterArgs> NavBackStackEntry.args(): T {
     return requireNotNull(argsOrNull())
-}
-
-inline fun <reified T : NavRouterArgs> NavBackStackEntry.argsInstance(): T {
-    return argsOrNull() ?: T::class.java.getConstructor().newInstance()
 }
 
 inline fun <reified T : NavRouterArgs> NavBackStackEntry.argsOrNull(): T? {
@@ -32,11 +31,24 @@ inline fun <reified T : NavRouterArgs> NavBackStackEntry.argsOrNull(): T? {
 
 fun NavGraphBuilder.composable(
     router: NavRouter,
+    deepLinks: List<NavDeepLink> = emptyList(),
+    enterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = null,
+    exitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = null,
+    popEnterTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition?)? = enterTransition,
+    popExitTransition: (@JvmSuppressWildcards AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition?)? = exitTransition,
     content: @Composable AnimatedContentScope.(NavBackStackEntry) -> Unit,
 ) {
-    val pair = router.composable()
-    logE("Router->:${pair.first} Arg->:${pair.second}")
-    composable(pair.first, pair.second, content = content)
+    val pair = router.composable
+    composable(
+        route = pair.first,
+        arguments = pair.second,
+        deepLinks = deepLinks,
+        enterTransition = enterTransition,
+        exitTransition = exitTransition,
+        popEnterTransition = popEnterTransition,
+        popExitTransition = popExitTransition,
+        content = content
+    )
 }
 
 fun NavHostController.navigate(
@@ -46,6 +58,5 @@ fun NavHostController.navigate(
     navigatorExtras: Navigator.Extras? = null,
 ) {
     val router = route.navigate(args.toList())
-    logE("Navigation->:$router")
     navigate(router, navOptions, navigatorExtras)
 }

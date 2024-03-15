@@ -4,7 +4,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -24,15 +26,19 @@ import androidx.core.extension.compose.boolStateOf
 import androidx.core.extension.compose.navigation.NavRouter
 import androidx.core.extension.compose.navigation.navigate
 import androidx.core.extension.compose.noRippleClickable
+import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
+import androidx.core.extension.compose.widget.SimpleButton
 import androidx.core.extension.compose.widget.SimpleCard
 import androidx.core.extension.compose.widget.SimpleCardBox
 import androidx.core.extension.compose.widget.SimpleCardColumn
+import androidx.core.extension.compose.widget.SimpleDialog
 import androidx.core.extension.compose.widget.SimpleIconButton
 import androidx.core.extension.compose.widget.SimpleInfiniteBox
 import androidx.core.extension.compose.widget.SimpleInfiniteVerticalGrid
 import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleToolbar
+import androidx.core.extension.compose.widget.SingleInputDialog
 import androidx.core.extension.os.mainHandler
 import androidx.core.os.postDelayed
 import androidx.navigation.NavBackStackEntry
@@ -53,7 +59,8 @@ enum class SampleTypes {
                         SimpleCard {
                             Text(
                                 it.name,
-                                modifier = Modifier.noRippleClickable { controller.navigate(it.router) },
+                                modifier = Modifier.height(46.dp).wrapContentSize()
+                                    .noRippleClickable { controller.navigate(it.router) },
                                 textAlign = TextAlign.Center,
                             )
                         }
@@ -168,6 +175,27 @@ enum class SampleTypes {
                     }
                 }
             ) { Text(it) }
+        }
+    },
+    Dialog {
+        @Composable
+        override fun ScreenContent() {
+            Column {
+                val dialog = rememberDialog {
+                    SimpleDialog("Test", this, ok = hide)
+                }
+                val inputDialog = rememberDialog {
+                    SingleInputDialog(this) {
+
+                    }
+                }
+                SimpleButton("ShowDialog") {
+                    dialog.show()
+                }
+                SimpleButton("ShowInputDialog") {
+                    inputDialog.show()
+                }
+            }
         }
     },
     Input {

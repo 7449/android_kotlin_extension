@@ -1,6 +1,10 @@
 package androidx.core.extension.compose.widget
 
+import androidx.compose.foundation.gestures.FlingBehavior
+import androidx.compose.foundation.gestures.ScrollableDefaults
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -18,6 +22,8 @@ import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 
 fun LazyGridScope.header(
@@ -46,13 +52,26 @@ fun <T> LazyGridScope.fillWidthItem(
 @Composable
 fun <T> SimpleInfiniteVerticalGrid(
     items: List<T>,
+
     refreshing: Boolean = false,
     onRefresh: () -> Unit = {},
     onLoadMore: () -> Unit = {},
-    columns: GridCells = GridCells.Fixed(2),
+
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
+
+    columns: GridCells = GridCells.Fixed(2),
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    reverseLayout: Boolean = false,
+    verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
+    userScrollEnabled: Boolean = true,
     header: @Composable LazyGridItemScope.() -> Unit = {},
+
+    indicatorContentColor: Color = colorPrimary,
+    indicatorScale: Boolean = false,
+
     content: @Composable LazyGridItemScope.(T) -> Unit,
 ) {
     val gridState = rememberLazyGridState()
@@ -64,12 +83,18 @@ fun <T> SimpleInfiniteVerticalGrid(
         modifier = Modifier
             .fillMaxSize()
             .pullRefresh(state),
-        contentAlignment,
-        propagateMinConstraints
+        contentAlignment = contentAlignment,
+        propagateMinConstraints = propagateMinConstraints
     ) {
         LazyVerticalGrid(
             state = gridState,
             columns = columns,
+            contentPadding = contentPadding,
+            reverseLayout = reverseLayout,
+            verticalArrangement = verticalArrangement,
+            horizontalArrangement = horizontalArrangement,
+            flingBehavior = flingBehavior,
+            userScrollEnabled = userScrollEnabled,
             modifier = Modifier.fillMaxHeight()
         ) {
             header(header)
@@ -83,7 +108,8 @@ fun <T> SimpleInfiniteVerticalGrid(
         PullRefreshIndicator(
             refreshing = refreshing,
             state = state,
-            contentColor = colorPrimary,
+            contentColor = indicatorContentColor,
+            scale = indicatorScale,
             modifier = Modifier.align(Alignment.TopCenter),
         )
     }

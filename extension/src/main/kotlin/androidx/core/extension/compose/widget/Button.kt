@@ -2,6 +2,7 @@ package androidx.core.extension.compose.widget
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.RadioButton
@@ -13,6 +14,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 
 @Composable
+fun SimpleButton(text: String, onClick: () -> Unit) {
+    Button(onClick = onClick) {
+        Text(text = text)
+    }
+}
+
+@Composable
 fun SimpleRadioButton(
     modifier: Modifier = Modifier,
     text: String,
@@ -21,7 +29,8 @@ fun SimpleRadioButton(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable { onSelect(text) }) {
+        modifier = modifier.clickable { onSelect(text) }
+    ) {
         RadioButton(
             selected = text == selected,
             onClick = { onSelect(text) }

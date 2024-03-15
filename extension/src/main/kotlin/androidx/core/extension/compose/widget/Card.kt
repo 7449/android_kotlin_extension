@@ -23,13 +23,20 @@ fun SimpleCardRow(
     modifier: Modifier = Modifier,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
+
     padding: Dp = 8.dp,
+    roundedCorner: Dp = 8.dp,
+    backgroundColor: Color = Color.White,
     elevation: Dp = 8.dp,
-    bgColor: Color = Color.White,
-    shape: Dp = 8.dp,
+
     content: @Composable RowScope.() -> Unit,
 ) {
-    SimpleCard(padding, elevation, bgColor, shape) {
+    SimpleCard(
+        padding = padding,
+        roundedCorner = roundedCorner,
+        backgroundColor = backgroundColor,
+        elevation = elevation,
+    ) {
         Row(modifier, horizontalArrangement, verticalAlignment) { content() }
     }
 }
@@ -39,13 +46,20 @@ fun SimpleCardColumn(
     modifier: Modifier = Modifier,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+
     padding: Dp = 8.dp,
+    roundedCorner: Dp = 8.dp,
+    backgroundColor: Color = Color.White,
     elevation: Dp = 8.dp,
-    bgColor: Color = Color.White,
-    shape: Dp = 8.dp,
+
     content: @Composable ColumnScope.() -> Unit,
 ) {
-    SimpleCard(padding, elevation, bgColor, shape) {
+    SimpleCard(
+        padding = padding,
+        roundedCorner = roundedCorner,
+        backgroundColor = backgroundColor,
+        elevation = elevation,
+    ) {
         Column(modifier, verticalArrangement, horizontalAlignment) { content() }
     }
 }
@@ -55,13 +69,20 @@ fun SimpleCardBox(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
+
     padding: Dp = 8.dp,
+    roundedCorner: Dp = 8.dp,
+    backgroundColor: Color = Color.White,
     elevation: Dp = 8.dp,
-    bgColor: Color = Color.White,
-    shape: Dp = 8.dp,
+
     content: @Composable BoxScope.() -> Unit,
 ) {
-    SimpleCard(padding, elevation, bgColor, shape) {
+    SimpleCard(
+        padding = padding,
+        roundedCorner = roundedCorner,
+        backgroundColor = backgroundColor,
+        elevation = elevation,
+    ) {
         Box(modifier, contentAlignment, propagateMinConstraints) { content() }
     }
 }
@@ -69,9 +90,9 @@ fun SimpleCardBox(
 @Composable
 fun SimpleCard(
     padding: Dp = 8.dp,
+    roundedCorner: Dp = 8.dp,
+    backgroundColor: Color = Color.White,
     elevation: Dp = 8.dp,
-    bgColor: Color = Color.White,
-    shape: Dp = 8.dp,
     content: @Composable () -> Unit,
 ) {
     Card(
@@ -79,8 +100,8 @@ fun SimpleCard(
             .fillMaxWidth()
             .padding(padding),
         elevation = elevation,
-        backgroundColor = bgColor,
-        shape = RoundedCornerShape(shape),
+        backgroundColor = backgroundColor,
+        shape = RoundedCornerShape(roundedCorner),
         content = content
     )
 }

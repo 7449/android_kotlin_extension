@@ -60,7 +60,7 @@ fun SimpleTag(
             item.tagText,
             color = color,
             fontSize = fontSize,
-            modifier = Modifier.padding(10.dp, 5.dp, 10.dp, 5.dp),
+            modifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp),
         )
     }
 }
