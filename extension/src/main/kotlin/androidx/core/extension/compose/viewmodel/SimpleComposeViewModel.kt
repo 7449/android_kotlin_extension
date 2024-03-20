@@ -1,5 +1,6 @@
 package androidx.core.extension.compose.viewmodel
 
+import androidx.annotation.CallSuper
 import androidx.core.extension.compose.dataStateOf
 import androidx.core.extension.compose.error
 import androidx.core.extension.compose.isNormal
@@ -22,12 +23,14 @@ abstract class SimpleComposeViewModel : ViewModel() {
     open val firstRequestUrl: String = ""
     abstract suspend fun requestHttp(refresh: Boolean, url: String): String
 
-    fun onRefresh() {
+    @CallSuper
+    open fun onRefresh() {
         nextUrl = firstRequestUrl
         request(true, nextUrl)
     }
 
-    fun onLoadMore() {
+    @CallSuper
+    open fun onLoadMore() {
         if (isRefresh) return
         if (nextUrl == DEFAULT_REQUEST_END_MARK) return
         request(false, nextUrl)
