@@ -24,20 +24,20 @@ abstract class SimpleComposeViewModel : ViewModel() {
 
     fun onRefresh() {
         nextUrl = firstRequestUrl
-        request(true)
+        request(true, nextUrl)
     }
 
     fun onLoadMore() {
         if (isRefresh) return
         if (nextUrl == DEFAULT_REQUEST_END_MARK) return
-        request(false)
+        request(false, nextUrl)
     }
 
-    fun request(isRefresh: Boolean) {
-        logE("request $nextUrl")
+    fun request(isRefresh: Boolean, url: String) {
+        logE("request $url")
         model.refresh()
         launch(error = { model.error(it) }) {
-            val result = requestHttp(isRefresh, nextUrl)
+            val result = requestHttp(isRefresh, url)
             model.success(Unit)
             nextUrl = result.ifBlank { DEFAULT_REQUEST_END_MARK }
         }
