@@ -30,7 +30,7 @@ val RecyclerView.simpleAdapter: SimpleAdapter<*, *>?
 
 @Suppress("DeprecatedCallableAddReplaceWith")
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)
-val RecyclerView.simpleAdapterItems: List<Any>
+val RecyclerView.simpleAdapterItems: List<Any?>
     get() = simpleAdapter?.items.orEmpty()
 
 @Deprecated(DATABIND_ING_HIDE_MESSAGE)

@@ -8,10 +8,10 @@ minSdk = "23"
 jvmTarget = "17"
 
 android = "8.3.1"
-kotlin = "1.9.22"
+kotlin = "2.0.0-Beta5"
 
-composeBom = "2024.03.00"
-composeCompiler = "1.5.8"
+composeBom = "2024.04.00"
+composeCompiler = "1.5.11-dev-k2.0.0-Beta5-b5a216d0ac6"
 
 [plugins]
 
