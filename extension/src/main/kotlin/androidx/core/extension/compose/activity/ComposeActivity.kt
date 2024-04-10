@@ -1,5 +1,5 @@
 package androidx.core.extension.compose.activity
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 
-abstract class ComposeActivity : AppCompatActivity()
+abstract class ComposeActivity : ComponentActivity()
