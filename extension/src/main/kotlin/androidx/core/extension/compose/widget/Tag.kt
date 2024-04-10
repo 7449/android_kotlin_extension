@@ -1,23 +1,20 @@
 package androidx.core.extension.compose.widget
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Chip
+import androidx.compose.material.ChipDefaults
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.extension.compose.colorPrimary
+import androidx.core.extension.compose.horizontalPadding
 import androidx.core.extension.util.tag.TagItem
 import androidx.core.extension.util.tag.TagModel
 
@@ -42,25 +39,25 @@ fun SimpleFlowRowTagContent(tags: List<TagItem>, onClick: (TagItem) -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SimpleTag(
     item: TagItem,
     color: Color = Color.White,
-    fontSize: TextUnit = 8.sp,
     onClick: () -> Unit,
 ) {
-    Box(
-        modifier = Modifier
-            .padding(5.dp)
-            .clip(RoundedCornerShape(26.dp))
-            .background(colorPrimary)
-            .clickable(onClick = onClick)
+    Chip(
+        modifier = Modifier.horizontalPadding(3.dp),
+        onClick = onClick,
+        border = BorderStroke(1.dp, colorPrimary.copy(alpha = 0.9f)),
+        colors = ChipDefaults.chipColors(
+            backgroundColor = colorPrimary,
+            contentColor = Color.White
+        )
     ) {
         Text(
             item.tagText,
             color = color,
-            fontSize = fontSize,
-            modifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp),
         )
     }
 }

@@ -24,6 +24,7 @@ fun SimpleCardRow(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
 
+    cardModifier: Modifier = Modifier,
     padding: Dp = 8.dp,
     roundedCorner: Dp = 8.dp,
     backgroundColor: Color = Color.White,
@@ -32,6 +33,7 @@ fun SimpleCardRow(
     content: @Composable RowScope.() -> Unit,
 ) {
     SimpleCard(
+        modifier = cardModifier,
         padding = padding,
         roundedCorner = roundedCorner,
         backgroundColor = backgroundColor,
@@ -47,6 +49,7 @@ fun SimpleCardColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
 
+    cardModifier: Modifier = Modifier,
     padding: Dp = 8.dp,
     roundedCorner: Dp = 8.dp,
     backgroundColor: Color = Color.White,
@@ -55,6 +58,7 @@ fun SimpleCardColumn(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     SimpleCard(
+        modifier = cardModifier,
         padding = padding,
         roundedCorner = roundedCorner,
         backgroundColor = backgroundColor,
@@ -70,6 +74,7 @@ fun SimpleCardBox(
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
 
+    cardModifier: Modifier = Modifier,
     padding: Dp = 8.dp,
     roundedCorner: Dp = 8.dp,
     backgroundColor: Color = Color.White,
@@ -78,6 +83,7 @@ fun SimpleCardBox(
     content: @Composable BoxScope.() -> Unit,
 ) {
     SimpleCard(
+        modifier = cardModifier,
         padding = padding,
         roundedCorner = roundedCorner,
         backgroundColor = backgroundColor,
@@ -89,6 +95,7 @@ fun SimpleCardBox(
 
 @Composable
 fun SimpleCard(
+    modifier: Modifier = Modifier,
     padding: Dp = 8.dp,
     roundedCorner: Dp = 8.dp,
     backgroundColor: Color = Color.White,
@@ -98,7 +105,8 @@ fun SimpleCard(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(padding),
+            .padding(padding)
+            .then(modifier),
         elevation = elevation,
         backgroundColor = backgroundColor,
         shape = RoundedCornerShape(roundedCorner),

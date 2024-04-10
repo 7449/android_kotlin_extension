@@ -33,6 +33,7 @@ import androidx.core.extension.compose.widget.SimpleCard
 import androidx.core.extension.compose.widget.SimpleCardBox
 import androidx.core.extension.compose.widget.SimpleCardColumn
 import androidx.core.extension.compose.widget.SimpleDialog
+import androidx.core.extension.compose.widget.SimpleFlowRowTag
 import androidx.core.extension.compose.widget.SimpleIconButton
 import androidx.core.extension.compose.widget.SimpleInfiniteBox
 import androidx.core.extension.compose.widget.SimpleInfiniteVerticalGrid
@@ -40,6 +41,7 @@ import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleToolbar
 import androidx.core.extension.compose.widget.SingleInputDialog
 import androidx.core.extension.os.mainHandler
+import androidx.core.extension.util.tag.TagModel
 import androidx.core.os.postDelayed
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -221,6 +223,13 @@ enum class SampleTypes {
     Tag {
         @Composable
         override fun ScreenContent() {
+            val tag = arrayListOf<TagModel<String>>().apply {
+                add(TagModel("已完结", "已完结"))
+                add(TagModel("已完结", "已完结"))
+                add(TagModel("已完结", "已完结"))
+            }
+            SimpleFlowRowTag(tag) {
+            }
         }
     },
     Toolbar {
