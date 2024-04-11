@@ -2,7 +2,7 @@ package androidx.core.extension.text
 
 import android.os.Build
 import android.text.Html
-import androidx.core.extension.fromHtmlCompatible
+import androidx.core.extension.compatible.fromHtmlCompatible
 import androidx.core.extension.util.CHINESE2_REGEX
 import androidx.core.extension.util.CHINESE_REGEX
 import androidx.core.extension.util.DATE_REGEX

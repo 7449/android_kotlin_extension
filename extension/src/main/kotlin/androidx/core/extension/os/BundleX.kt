@@ -8,11 +8,11 @@ import android.util.Size
 import android.util.SizeF
 import android.util.SparseArray
 import androidx.annotation.RequiresApi
-import androidx.core.extension.getParcelableArrayCompatible
-import androidx.core.extension.getParcelableArrayListCompatible
-import androidx.core.extension.getParcelableCompatible
-import androidx.core.extension.getSerializableCompatible
-import androidx.core.extension.getSparseParcelableArrayCompatible
+import androidx.core.extension.compatible.getParcelableArrayCompatible
+import androidx.core.extension.compatible.getParcelableArrayListCompatible
+import androidx.core.extension.compatible.getParcelableCompatible
+import androidx.core.extension.compatible.getSerializableCompatible
+import androidx.core.extension.compatible.getSparseParcelableArrayCompatible
 import java.io.Serializable
 
 fun Bundle?.orEmpty(): Bundle = this ?: Bundle.EMPTY

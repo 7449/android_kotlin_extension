@@ -22,6 +22,7 @@ import android.net.ConnectivityManager
 import android.net.Uri
 import android.net.VpnService
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.os.PowerManager
 import android.provider.MediaStore
@@ -36,11 +37,11 @@ import androidx.annotation.FontRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.extension.R
-import androidx.core.extension.installTimeCompatible
+import androidx.core.extension.compatible.installTimeCompatible
 import androidx.core.extension.version.hasQ
+import androidx.core.os.bundleOf
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -374,8 +375,8 @@ inline fun <reified T> Context.service(name: String): T {
     }
 }
 
-fun Context.act(): AppCompatActivity {
-    return findActivity() as AppCompatActivity
+fun Context.act(): Activity {
+    return findActivity() as Activity
 }
 
 fun Context?.findActivity(): Activity? {
@@ -383,4 +384,13 @@ fun Context?.findActivity(): Activity? {
     if (this is Activity) return this
     if (this is ContextWrapper) return baseContext.findActivity()
     return null
+}
+
+inline fun <reified T : Activity> Context.startActivity(bundle: Bundle = bundleOf()) {
+    startActivity(Intent(this, T::class.java).apply {
+        putExtras(bundle)
+        if (this@startActivity !is Activity) {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    })
 }

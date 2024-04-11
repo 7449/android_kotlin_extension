@@ -14,4 +14,9 @@ dependencyResolutionManagement {
     }
 }
 include(":sample", ":extension")
-include(":recyclerview", ":flexbox", ":http", ":compose")
+include(
+    ":flexbox",
+    ":http",
+    ":compose",
+    ":component-ui",
+)

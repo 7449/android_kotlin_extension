@@ -35,9 +35,9 @@ data class ChipModel<T>(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun <T> SimpleFlowRowChip(tags: List<ChipModel<T>>, onClick: (ChipModel<T>) -> Unit) {
+fun <T> SimpleFlowRowChip(chip: List<ChipModel<T>>, onClick: (ChipModel<T>) -> Unit) {
     FlowRow {
-        tags.forEach { item ->
+        chip.forEach { item ->
             SimpleChip(item) { onClick(item) }
         }
     }
@@ -45,10 +45,10 @@ fun <T> SimpleFlowRowChip(tags: List<ChipModel<T>>, onClick: (ChipModel<T>) -> U
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SimpleFlowRowScrollChip(tags: List<ChipItem>, onClick: (ChipItem) -> Unit) {
+fun SimpleFlowRowScrollChip(chip: List<ChipItem>, onClick: (ChipItem) -> Unit) {
     val vertScrollState = rememberScrollState()
     FlowRow(modifier = Modifier.verticalScroll(vertScrollState)) {
-        tags.forEach { item ->
+        chip.forEach { item ->
             SimpleChip(item) { onClick(item) }
         }
     }

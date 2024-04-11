@@ -1,12 +1,16 @@
 package androidx.core.extension.widget
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
+import androidx.core.extension.content.startActivity
+import androidx.core.os.bundleOf
 
 fun View.addOnPreDrawListener(action: () -> Unit) {
     viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -53,6 +57,10 @@ fun View.closeKeyboard() {
     else
         context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     imm.hideSoftInputFromWindow(windowToken, 0)
+}
+
+inline fun <reified T : Activity> View.startActivity(bundle: Bundle = bundleOf()) {
+    context.startActivity<T>(bundle)
 }
 
 inline fun <reified T : View> View.parentView(): T? {

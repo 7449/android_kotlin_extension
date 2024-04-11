@@ -1,14 +1,15 @@
 package androidx.core.extension.widget.seekbar
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.SeekBar
-import androidx.appcompat.widget.AppCompatSeekBar
 import kotlin.math.roundToInt
 
+@SuppressLint("AppCompatCustomView")
 class FloatSeekBar @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
-) : AppCompatSeekBar(context, attrs, defStyleAttr), SeekBar.OnSeekBarChangeListener {
+) : SeekBar(context, attrs, defStyleAttr), SeekBar.OnSeekBarChangeListener {
 
     private var listener: OnFloatSeekBarChangeListener? = null
 

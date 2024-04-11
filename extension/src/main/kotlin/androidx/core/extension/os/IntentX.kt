@@ -4,10 +4,10 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.core.extension.getParcelableArrayCompatible
-import androidx.core.extension.getParcelableArrayListCompatible
-import androidx.core.extension.getParcelableCompatible
-import androidx.core.extension.getSerializableCompatible
+import androidx.core.extension.compatible.getParcelableArrayCompatible
+import androidx.core.extension.compatible.getParcelableArrayListCompatible
+import androidx.core.extension.compatible.getParcelableCompatible
+import androidx.core.extension.compatible.getSerializableCompatible
 import java.io.Serializable
 
 fun Intent?.orEmpty(): Intent = this ?: Intent()

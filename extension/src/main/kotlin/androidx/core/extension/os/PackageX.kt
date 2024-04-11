@@ -8,7 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import androidx.core.extension.appVersionCodeCompatible
+import androidx.core.extension.compatible.appVersionCodeCompatible
 
 val Context.isApkDebuggable: Boolean
     get() = isApkDebugAble(packageName)
