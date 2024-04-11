@@ -21,7 +21,7 @@ fun FloatSeekBar.setOnSeekBarChangeListener(
         override fun onProgressChanged(
             seekBar: FloatSeekBar,
             progress: Float,
-            fromUser: Boolean
+            fromUser: Boolean,
         ) = onProgressChanged.invoke(seekBar, progress, fromUser)
 
         override fun onStartTrackingTouch(seekBar: FloatSeekBar) =

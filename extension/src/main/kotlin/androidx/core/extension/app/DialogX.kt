@@ -16,7 +16,7 @@ private const val DEFAULT_LOADING_DIALOG_DELAYED = 1500L
 fun Activity.showProgressDialog(
     isDelayed: Boolean,
     transparent: Boolean,
-    action: (dialog: Dialog?) -> Unit
+    action: (dialog: Dialog?) -> Unit,
 ) {
     if (!isAlive()) return action.invoke(null)
     val dialog = Dialog(this, R.style.Theme_Sample_Dialog)

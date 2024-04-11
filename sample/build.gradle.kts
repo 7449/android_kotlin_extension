@@ -26,6 +26,10 @@ android {
 }
 dependencies {
     implementation(project(":extension"))
+    implementation(project(":flexbox"))
+    implementation(project(":recyclerview"))
+    implementation(project(":http"))
+    implementation(project(":compose"))
     implementation(libs.bundles.androidx)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)

@@ -2,7 +2,7 @@ package androidx.core.extension.compatible.fragment
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.extension.http.simpleHttp
+import androidx.core.extension.net.simpleHttp
 import androidx.fragment.app.Fragment
 
 @Deprecated("Use Compose")

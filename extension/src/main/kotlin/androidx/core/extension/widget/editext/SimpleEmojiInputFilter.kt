@@ -8,7 +8,7 @@ internal class SimpleEmojiInputFilter : InputFilter {
         source: CharSequence,
         start: Int, end: Int,
         dest: Spanned,
-        dstart: Int, dend: Int
+        dstart: Int, dend: Int,
     ): CharSequence? {
         for (i in start until end) {
             val type = Character.getType(source[i])

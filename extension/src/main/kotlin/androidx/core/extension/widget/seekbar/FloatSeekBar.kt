@@ -7,7 +7,7 @@ import androidx.appcompat.widget.AppCompatSeekBar
 import kotlin.math.roundToInt
 
 class FloatSeekBar @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0,
 ) : AppCompatSeekBar(context, attrs, defStyleAttr), SeekBar.OnSeekBarChangeListener {
 
     private var listener: OnFloatSeekBarChangeListener? = null

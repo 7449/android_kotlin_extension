@@ -28,12 +28,13 @@ import androidx.core.extension.compose.navigation.navigate
 import androidx.core.extension.compose.noRippleClickable
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
+import androidx.core.extension.compose.widget.ChipModel
 import androidx.core.extension.compose.widget.SimpleButton
 import androidx.core.extension.compose.widget.SimpleCard
 import androidx.core.extension.compose.widget.SimpleCardBox
 import androidx.core.extension.compose.widget.SimpleCardColumn
 import androidx.core.extension.compose.widget.SimpleDialog
-import androidx.core.extension.compose.widget.SimpleFlowRowTag
+import androidx.core.extension.compose.widget.SimpleFlowRowChip
 import androidx.core.extension.compose.widget.SimpleIconButton
 import androidx.core.extension.compose.widget.SimpleInfiniteBox
 import androidx.core.extension.compose.widget.SimpleInfiniteVerticalGrid
@@ -41,7 +42,6 @@ import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleToolbar
 import androidx.core.extension.compose.widget.SingleInputDialog
 import androidx.core.extension.os.mainHandler
-import androidx.core.extension.util.tag.TagModel
 import androidx.core.os.postDelayed
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -220,15 +220,15 @@ enum class SampleTypes {
         override fun ScreenContent() {
         }
     },
-    Tag {
+    Chip {
         @Composable
         override fun ScreenContent() {
-            val tag = arrayListOf<TagModel<String>>().apply {
-                add(TagModel("已完结", "已完结"))
-                add(TagModel("已完结", "已完结"))
-                add(TagModel("已完结", "已完结"))
+            val chip = arrayListOf<ChipModel<String>>().apply {
+                add(ChipModel("已完结", "已完结"))
+                add(ChipModel("已完结", "已完结"))
+                add(ChipModel("已完结", "已完结"))
             }
-            SimpleFlowRowTag(tag) {
+            SimpleFlowRowChip(chip) {
             }
         }
     },

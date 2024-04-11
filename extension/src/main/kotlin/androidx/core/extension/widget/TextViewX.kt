@@ -23,7 +23,7 @@ fun TextView.doOnEditorSendActionListener(action: (view: TextView, str: String) 
 
 fun TextView.doOnEditorActionListener(
     actionId: Int,
-    action: (view: TextView, str: String) -> Unit
+    action: (view: TextView, str: String) -> Unit,
 ) {
     setOnEditorActionListener { v, id, _ ->
         if (id == actionId) {

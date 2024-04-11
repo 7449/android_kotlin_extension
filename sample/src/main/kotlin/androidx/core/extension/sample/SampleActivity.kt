@@ -10,7 +10,7 @@ import androidx.core.extension.compose.widget.SimpleNavHost
 class SampleActivity : ComposeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        onBackPressedDispatcher.addCallback(this,true){
+        onBackPressedDispatcher.addCallback(this, true) {
 
         }
         setThemeContent {

@@ -1,7 +1,7 @@
 package androidx.core.extension.compatible.activity
 
 import android.os.Bundle
-import androidx.core.extension.http.simpleHttp
+import androidx.core.extension.net.simpleHttp
 
 @Deprecated("Use Compose")
 abstract class SimpleHttpActivity(layoutId: Int) : SimpleKernelActivity(layoutId) {

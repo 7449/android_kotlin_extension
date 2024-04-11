@@ -15,7 +15,7 @@ val matchViewGroupParams: ViewGroup.LayoutParams
 
 fun groupParams(
     width: Int = LinearLayout.LayoutParams.MATCH_PARENT,
-    height: Int = LinearLayout.LayoutParams.WRAP_CONTENT
+    height: Int = LinearLayout.LayoutParams.WRAP_CONTENT,
 ): ViewGroup.LayoutParams {
     return ViewGroup.LayoutParams(width, height)
 }
@@ -25,7 +25,7 @@ val matchLinearParams: LinearLayout.LayoutParams
 
 fun linearParams(
     width: Int = LinearLayout.LayoutParams.MATCH_PARENT,
-    height: Int = LinearLayout.LayoutParams.WRAP_CONTENT
+    height: Int = LinearLayout.LayoutParams.WRAP_CONTENT,
 ): LinearLayout.LayoutParams {
     return LinearLayout.LayoutParams(width, height)
 }
@@ -35,7 +35,7 @@ val matchFrameParams: FrameLayout.LayoutParams
 
 fun frameParams(
     width: Int = FrameLayout.LayoutParams.MATCH_PARENT,
-    height: Int = FrameLayout.LayoutParams.WRAP_CONTENT
+    height: Int = FrameLayout.LayoutParams.WRAP_CONTENT,
 ): FrameLayout.LayoutParams {
     return FrameLayout.LayoutParams(width, height)
 }

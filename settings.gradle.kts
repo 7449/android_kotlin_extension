@@ -14,3 +14,4 @@ dependencyResolutionManagement {
     }
 }
 include(":sample", ":extension")
+include(":recyclerview", ":flexbox", ":http", ":compose")

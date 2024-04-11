@@ -15,11 +15,11 @@ fun Intent?.orEmpty(): Intent = this ?: Intent()
 //getParcelableArrayExtra
 
 inline fun <reified T : Parcelable> Intent.getParcelableArray(
-    key: String
+    key: String,
 ): Array<T> = getParcelableArray(key) { throw NullPointerException() }
 
 inline fun <reified T : Parcelable> Intent.getParcelableArray(
-    key: String, defaultValue: Array<T>
+    key: String, defaultValue: Array<T>,
 ): Array<T> = getParcelableArray(key) { defaultValue }
 
 @Suppress("UNCHECKED_CAST")
@@ -34,11 +34,11 @@ inline fun <reified T : Parcelable> Intent.getParcelableArray(
 //getParcelableArrayListExtra
 
 inline fun <reified T : Parcelable> Intent.getParcelableArrayList(
-    key: String
+    key: String,
 ): ArrayList<T> = getParcelableArrayList(key) { throw NullPointerException() }
 
 inline fun <reified T : Parcelable> Intent.getParcelableArrayList(
-    key: String, defaultValue: ArrayList<T>
+    key: String, defaultValue: ArrayList<T>,
 ): ArrayList<T> = getParcelableArrayList(key) { defaultValue }
 
 inline fun <reified T : Parcelable> Intent.getParcelableArrayList(
@@ -52,15 +52,15 @@ inline fun <reified T : Parcelable> Intent.getParcelableArrayList(
 //getParcelableExtra
 
 inline fun <reified T : Parcelable> Intent.getParcelable(
-    key: String
+    key: String,
 ): T = getParcelable<T>(key) { throw NullPointerException() }
 
 inline fun <reified T : Parcelable> Intent.getParcelable(
-    key: String, defaultValue: T
+    key: String, defaultValue: T,
 ): T = getParcelable<T>(key) { defaultValue }
 
 inline fun <reified T : Parcelable> Intent.getParcelable(
-    key: String, ifNone: () -> T
+    key: String, ifNone: () -> T,
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelableExtra(key, T::class.java)
 } else {
@@ -70,15 +70,15 @@ inline fun <reified T : Parcelable> Intent.getParcelable(
 //getSerializableExtra
 
 inline fun <reified T : Serializable> Intent.getSerializable(
-    key: String
+    key: String,
 ): T = getSerializable<T>(key) { throw NullPointerException() }
 
 inline fun <reified T : Serializable> Intent.getSerializable(
-    key: String, defaultValue: T
+    key: String, defaultValue: T,
 ): T = getSerializable<T>(key) { defaultValue }
 
 inline fun <reified T : Serializable> Intent.getSerializable(
-    key: String, ifNone: () -> T
+    key: String, ifNone: () -> T,
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getSerializableExtra(key, T::class.java)
 } else {
@@ -88,17 +88,17 @@ inline fun <reified T : Serializable> Intent.getSerializable(
 //getBooleanExtra
 
 fun Intent.getBoolean(
-    key: String
+    key: String,
 ): Boolean = getBoolean(key) { throw NullPointerException() }
 
 fun Intent.getBoolean(
-    key: String, ifNone: () -> Boolean
+    key: String, ifNone: () -> Boolean,
 ): Boolean = getBooleanExtra(key, ifNone.invoke())
 
 //getByteExtra
 
 fun Intent.getByte(
-    key: String
+    key: String,
 ): Byte = getByte(key) { throw NullPointerException() }
 
 fun Intent.getByte(
@@ -108,113 +108,113 @@ fun Intent.getByte(
 //getShortExtra
 
 fun Intent.getShort(
-    key: String
+    key: String,
 ): Short = getShort(key) { throw NullPointerException() }
 
 fun Intent.getShort(
-    key: String, ifNone: () -> Short
+    key: String, ifNone: () -> Short,
 ): Short = getShortExtra(key, ifNone.invoke())
 
 //getCharExtra
 
 fun Intent.getChar(
-    key: String
+    key: String,
 ): Char = getChar(key) { throw NullPointerException() }
 
 fun Intent.getChar(
-    key: String, ifNone: () -> Char
+    key: String, ifNone: () -> Char,
 ): Char = getCharExtra(key, ifNone.invoke())
 
 //getIntExtra
 
 fun Intent.getInt(
-    key: String
+    key: String,
 ): Int = getInt(key) { throw NullPointerException() }
 
 fun Intent.getInt(
-    key: String, ifNone: () -> Int
+    key: String, ifNone: () -> Int,
 ): Int = getIntExtra(key, ifNone.invoke())
 
 //getLongExtra
 
 fun Intent.getLong(
-    key: String
+    key: String,
 ): Long = getLong(key) { throw NullPointerException() }
 
 fun Intent.getLong(
-    key: String, ifNone: () -> Long
+    key: String, ifNone: () -> Long,
 ): Long = getLongExtra(key, ifNone.invoke())
 
 //getFloatExtra
 
 fun Intent.getFloat(
-    key: String
+    key: String,
 ): Float = getFloat(key) { throw NullPointerException() }
 
 fun Intent.getFloat(
-    key: String, ifNone: () -> Float
+    key: String, ifNone: () -> Float,
 ): Float = getFloatExtra(key, ifNone.invoke())
 
 //getDoubleExtra
 
 fun Intent.getDouble(
-    key: String
+    key: String,
 ): Double = getDouble(key) { throw NullPointerException() }
 
 fun Intent.getDouble(
-    key: String, ifNone: () -> Double
+    key: String, ifNone: () -> Double,
 ): Double = getDoubleExtra(key, ifNone.invoke())
 
 //getStringExtra
 
 fun Intent.getString(
-    key: String
+    key: String,
 ): String = checkNotNull(getStringExtra(key))
 
 fun Intent.getString(
-    key: String, defaultValue: String
+    key: String, defaultValue: String,
 ): String = getStringExtra(key) ?: defaultValue
 
 fun Intent.getString(
-    key: String, ifNone: () -> String
+    key: String, ifNone: () -> String,
 ): String = getStringExtra(key) ?: ifNone.invoke()
 
 //getCharSequenceExtra
 
 fun Intent.getCharSequence(
-    key: String
+    key: String,
 ): CharSequence = checkNotNull(getCharSequenceExtra(key))
 
 fun Intent.getCharSequence(
-    key: String, defaultValue: CharSequence
+    key: String, defaultValue: CharSequence,
 ): CharSequence = getCharSequenceExtra(key) ?: defaultValue
 
 fun Intent.getCharSequence(
-    key: String, ifNone: () -> CharSequence
+    key: String, ifNone: () -> CharSequence,
 ): CharSequence = getCharSequenceExtra(key) ?: ifNone.invoke()
 
 //getIntegerArrayListExtra
 
 fun Intent.getIntArrayList(
-    key: String
+    key: String,
 ): ArrayList<Int> = checkNotNull(getIntegerArrayListExtra(key))
 
 fun Intent.getIntArrayList(
-    key: String, defaultValue: ArrayList<Int>
+    key: String, defaultValue: ArrayList<Int>,
 ): ArrayList<Int> = getIntegerArrayListExtra(key) ?: defaultValue
 
 fun Intent.getIntArrayList(
-    key: String, ifNone: () -> ArrayList<Int>
+    key: String, ifNone: () -> ArrayList<Int>,
 ): ArrayList<Int> = getIntegerArrayListExtra(key) ?: ifNone.invoke()
 
 //getStringArrayListExtra
 
 fun Intent.getStringArrayList(
-    key: String
+    key: String,
 ): ArrayList<String> = checkNotNull(getStringArrayListExtra(key))
 
 fun Intent.getStringArrayList(
-    key: String, defaultValue: ArrayList<String>
+    key: String, defaultValue: ArrayList<String>,
 ): ArrayList<String> = getStringArrayListExtra(key) ?: defaultValue
 
 fun Intent.getStringArrayList(
@@ -224,167 +224,167 @@ fun Intent.getStringArrayList(
 //getCharSequenceArrayListExtra
 
 fun Intent.getCharSequenceArrayList(
-    key: String
+    key: String,
 ): ArrayList<CharSequence> = checkNotNull(getCharSequenceArrayListExtra(key))
 
 fun Intent.getCharSequenceArrayList(
-    key: String, defaultValue: ArrayList<CharSequence>
+    key: String, defaultValue: ArrayList<CharSequence>,
 ): ArrayList<CharSequence> = getCharSequenceArrayListExtra(key) ?: defaultValue
 
 fun Intent.getCharSequenceArrayList(
-    key: String, ifNone: () -> ArrayList<CharSequence>
+    key: String, ifNone: () -> ArrayList<CharSequence>,
 ): ArrayList<CharSequence> = getCharSequenceArrayListExtra(key) ?: ifNone.invoke()
 
 //getBooleanArrayExtra
 
 fun Intent.getBooleanArray(
-    key: String
+    key: String,
 ): BooleanArray = checkNotNull(getBooleanArrayExtra(key))
 
 fun Intent.getBooleanArray(
-    key: String, defaultValue: BooleanArray
+    key: String, defaultValue: BooleanArray,
 ): BooleanArray = getBooleanArrayExtra(key) ?: defaultValue
 
 fun Intent.getBooleanArray(
-    key: String, ifNone: () -> BooleanArray
+    key: String, ifNone: () -> BooleanArray,
 ): BooleanArray = getBooleanArrayExtra(key) ?: ifNone.invoke()
 
 //getByteArrayExtra
 
 fun Intent.getByteArray(
-    key: String
+    key: String,
 ): ByteArray = checkNotNull(getByteArrayExtra(key))
 
 fun Intent.getByteArray(
-    key: String, defaultValue: ByteArray
+    key: String, defaultValue: ByteArray,
 ): ByteArray = getByteArrayExtra(key) ?: defaultValue
 
 fun Intent.getByteArray(
-    key: String, ifNone: () -> ByteArray
+    key: String, ifNone: () -> ByteArray,
 ): ByteArray = getByteArrayExtra(key) ?: ifNone.invoke()
 
 //getShortArrayExtra
 
 fun Intent.getShortArray(
-    key: String
+    key: String,
 ): ShortArray = checkNotNull(getShortArrayExtra(key))
 
 fun Intent.getShortArray(
-    key: String, defaultValue: ShortArray
+    key: String, defaultValue: ShortArray,
 ): ShortArray = getShortArrayExtra(key) ?: defaultValue
 
 fun Intent.getShortArray(
-    key: String, ifNone: () -> ShortArray
+    key: String, ifNone: () -> ShortArray,
 ): ShortArray = getShortArrayExtra(key) ?: ifNone.invoke()
 
 //getCharArrayExtra
 
 fun Intent.getCharArray(
-    key: String
+    key: String,
 ): CharArray = checkNotNull(getCharArrayExtra(key))
 
 fun Intent.getCharArray(
-    key: String, defaultValue: CharArray
+    key: String, defaultValue: CharArray,
 ): CharArray = getCharArrayExtra(key) ?: defaultValue
 
 fun Intent.getCharArray(
-    key: String, ifNone: () -> CharArray
+    key: String, ifNone: () -> CharArray,
 ): CharArray = getCharArrayExtra(key) ?: ifNone.invoke()
 
 //getIntArrayExtra
 
 fun Intent.getIntArray(
-    key: String
+    key: String,
 ): IntArray = checkNotNull(getIntArrayExtra(key))
 
 fun Intent.getIntArray(
-    key: String, defaultValue: IntArray
+    key: String, defaultValue: IntArray,
 ): IntArray = getIntArrayExtra(key) ?: defaultValue
 
 fun Intent.getIntArray(
-    key: String, ifNone: () -> IntArray
+    key: String, ifNone: () -> IntArray,
 ): IntArray = getIntArrayExtra(key) ?: ifNone.invoke()
 
 //getLongArrayExtra
 
 fun Intent.getLongArray(
-    key: String
+    key: String,
 ): LongArray = checkNotNull(getLongArrayExtra(key))
 
 fun Intent.getLongArray(
-    key: String, defaultValue: LongArray
+    key: String, defaultValue: LongArray,
 ): LongArray = getLongArrayExtra(key) ?: defaultValue
 
 fun Intent.getLongArray(
-    key: String, ifNone: () -> LongArray
+    key: String, ifNone: () -> LongArray,
 ): LongArray = getLongArrayExtra(key) ?: ifNone.invoke()
 
 //getFloatArrayExtra
 
 fun Intent.getFloatArray(
-    key: String
+    key: String,
 ): FloatArray = checkNotNull(getFloatArrayExtra(key))
 
 fun Intent.getFloatArray(
-    key: String, defaultValue: FloatArray
+    key: String, defaultValue: FloatArray,
 ): FloatArray = getFloatArrayExtra(key) ?: defaultValue
 
 fun Intent.getFloatArray(
-    key: String, ifNone: () -> FloatArray
+    key: String, ifNone: () -> FloatArray,
 ): FloatArray = getFloatArrayExtra(key) ?: ifNone.invoke()
 
 //getDoubleArrayExtra
 
 fun Intent.getDoubleArray(
-    key: String
+    key: String,
 ): DoubleArray = checkNotNull(getDoubleArrayExtra(key))
 
 fun Intent.getDoubleArray(
-    key: String, defaultValue: DoubleArray
+    key: String, defaultValue: DoubleArray,
 ): DoubleArray = getDoubleArrayExtra(key) ?: defaultValue
 
 fun Intent.getDoubleArray(
-    key: String, ifNone: () -> DoubleArray
+    key: String, ifNone: () -> DoubleArray,
 ): DoubleArray = getDoubleArrayExtra(key) ?: ifNone.invoke()
 
 //getStringArrayExtra
 
 fun Intent.getStringArray(
-    key: String
+    key: String,
 ): Array<String> = checkNotNull(getStringArrayExtra(key))
 
 fun Intent.getStringArray(
-    key: String, defaultValue: Array<String>
+    key: String, defaultValue: Array<String>,
 ): Array<String> = getStringArrayExtra(key) ?: defaultValue
 
 fun Intent.getStringArray(
-    key: String, ifNone: () -> Array<String>
+    key: String, ifNone: () -> Array<String>,
 ): Array<String> = getStringArrayExtra(key) ?: ifNone.invoke()
 
 //getCharSequenceArrayExtra
 
 fun Intent.getCharSequenceArray(
-    key: String
+    key: String,
 ): Array<CharSequence> = checkNotNull(getCharSequenceArrayExtra(key))
 
 fun Intent.getCharSequenceArray(
-    key: String, defaultValue: Array<CharSequence>
+    key: String, defaultValue: Array<CharSequence>,
 ): Array<CharSequence> = getCharSequenceArrayExtra(key) ?: defaultValue
 
 fun Intent.getCharSequenceArray(
-    key: String, ifNone: () -> Array<CharSequence>
+    key: String, ifNone: () -> Array<CharSequence>,
 ): Array<CharSequence> = getCharSequenceArrayExtra(key) ?: ifNone.invoke()
 
 //getBundleExtra
 
 fun Intent.getBundle(
-    key: String
+    key: String,
 ): Bundle = checkNotNull(getBundleExtra(key))
 
 fun Intent.getBundle(
-    key: String, defaultValue: Bundle
+    key: String, defaultValue: Bundle,
 ): Bundle = getBundleExtra(key) ?: defaultValue
 
 fun Intent.getBundle(
-    key: String, ifNone: () -> Bundle
+    key: String, ifNone: () -> Bundle,
 ): Bundle = getBundleExtra(key) ?: ifNone.invoke()

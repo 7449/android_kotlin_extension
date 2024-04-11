@@ -81,7 +81,7 @@ inline fun <reified T : Fragment> AppCompatActivity.findFragmentByTag(): T? {
 
 inline fun <reified T : Fragment> AppCompatActivity.findFragmentByTag(
     tag: String,
-    ifNone: (String) -> T
+    ifNone: (String) -> T,
 ): T = findFragmentByTag(tag) ?: ifNone(tag)
 
 fun Activity?.isAlive(): Boolean {
