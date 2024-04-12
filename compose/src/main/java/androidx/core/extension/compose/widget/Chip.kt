@@ -1,6 +1,7 @@
 package androidx.core.extension.compose.widget
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.rememberScrollState
@@ -45,7 +46,18 @@ fun <T> SimpleFlowRowChip(chip: List<ChipModel<T>>, onClick: (ChipModel<T>) -> U
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SimpleFlowRowScrollChip(chip: List<ChipItem>, onClick: (ChipItem) -> Unit) {
+fun SimpleFlowRowHorizontalScrollChip(chip: List<ChipItem>, onClick: (ChipItem) -> Unit) {
+    val vertScrollState = rememberScrollState()
+    FlowRow(modifier = Modifier.horizontalScroll(vertScrollState)) {
+        chip.forEach { item ->
+            SimpleChip(item) { onClick(item) }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SimpleFlowRowVerticalScrollChip(chip: List<ChipItem>, onClick: (ChipItem) -> Unit) {
     val vertScrollState = rememberScrollState()
     FlowRow(modifier = Modifier.verticalScroll(vertScrollState)) {
         chip.forEach { item ->
