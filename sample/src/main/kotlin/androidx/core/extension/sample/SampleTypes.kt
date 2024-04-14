@@ -28,12 +28,12 @@ import androidx.core.extension.compose.navigation.navigate
 import androidx.core.extension.compose.noRippleClickable
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
-import androidx.core.extension.compose.widget.ChipModel
 import androidx.core.extension.compose.widget.SimpleButton
 import androidx.core.extension.compose.widget.SimpleCard
 import androidx.core.extension.compose.widget.SimpleCardBox
 import androidx.core.extension.compose.widget.SimpleCardColumn
 import androidx.core.extension.compose.widget.SimpleDialog
+import androidx.core.extension.compose.widget.SimpleFilterChip
 import androidx.core.extension.compose.widget.SimpleFlowRowChip
 import androidx.core.extension.compose.widget.SimpleIconButton
 import androidx.core.extension.compose.widget.SimpleInfiniteBox
@@ -61,7 +61,9 @@ enum class SampleTypes {
                         SimpleCard {
                             Text(
                                 it.name,
-                                modifier = Modifier.height(46.dp).wrapContentSize()
+                                modifier = Modifier
+                                    .height(46.dp)
+                                    .wrapContentSize()
                                     .noRippleClickable { controller.navigate(it.router) },
                                 textAlign = TextAlign.Center,
                             )
@@ -223,12 +225,17 @@ enum class SampleTypes {
     Chip {
         @Composable
         override fun ScreenContent() {
-            val chip = arrayListOf<ChipModel<String>>().apply {
-                add(ChipModel("已完结", "已完结"))
-                add(ChipModel("已完结", "已完结"))
-                add(ChipModel("已完结", "已完结"))
+            val chip = arrayListOf<String>().apply {
+                add("已完结")
+                add("已完结")
+                add("已完结")
+                add("已完结")
+                add("已完结")
             }
-            SimpleFlowRowChip(chip) {
+            Column {
+                SimpleFlowRowChip(chip, onText = { it }) {
+                }
+                SimpleFilterChip(item = "Filter", onText = { it }, selected = true) {}
             }
         }
     },
