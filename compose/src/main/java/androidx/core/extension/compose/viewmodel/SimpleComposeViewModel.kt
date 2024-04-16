@@ -12,11 +12,12 @@ import androidx.lifecycle.ViewModel
 
 abstract class SimpleComposeViewModel : ViewModel() {
 
-    private val model = dataStateOf<Unit>()
+    private val _model = dataStateOf<Unit>()
     private var nextUrl = ""
 
-    val isRefresh get() = model.refreshing()
-    val isNormal get() = model.isNormal()
+    val isRefresh get() = _model.refreshing()
+    val isNormal get() = _model.isNormal()
+    val model get() = _model.value
 
     open val firstRequestUrl: String = ""
     abstract suspend fun requestHttp(refresh: Boolean, url: String): String
@@ -36,10 +37,10 @@ abstract class SimpleComposeViewModel : ViewModel() {
 
     fun request(isRefresh: Boolean, url: String) {
         Log.e("Print", "compose request http : $url")
-        model.refresh()
-        composeLaunch(error = { model.error(it) }) {
+        _model.refresh()
+        composeLaunch(error = { _model.error(it) }) {
             val result = requestHttp(isRefresh, url)
-            model.success(Unit)
+            _model.success(Unit)
             nextUrl = result.ifBlank { DEFAULT_REQUEST_END_MARK }
         }
     }

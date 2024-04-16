@@ -19,7 +19,7 @@ import androidx.core.extension.compose.horizontalPadding
 fun <T> SimpleFlowRowChip(
     chip: List<T>,
     onText: (T) -> String,
-    onClick: (T) -> Unit
+    onClick: (T) -> Unit,
 ) {
     FlowRow {
         chip.forEach { item ->
@@ -33,7 +33,7 @@ fun <T> SimpleFlowRowChip(
 fun <T> SimpleFlowRowHorizontalScrollChip(
     chip: List<T>,
     onText: (T) -> String,
-    onClick: (T) -> Unit
+    onClick: (T) -> Unit,
 ) {
     FlowRow(modifier = Modifier.horizontalScroll(rememberScrollState())) {
         chip.forEach { item ->
@@ -47,7 +47,7 @@ fun <T> SimpleFlowRowHorizontalScrollChip(
 fun <T> SimpleFlowRowVerticalScrollChip(
     chip: List<T>,
     onText: (T) -> String,
-    onClick: (T) -> Unit
+    onClick: (T) -> Unit,
 ) {
     FlowRow(modifier = Modifier.verticalScroll(rememberScrollState())) {
         chip.forEach { item ->
@@ -67,6 +67,25 @@ fun <T> SimpleChip(
         modifier = Modifier.horizontalPadding(3.dp),
         onClick = onClick,
     ) { Text(onText(item)) }
+}
+
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
+@Composable
+fun <T> SimpleFlowRowHorizontalScrollFilterChip(
+    item: List<T>,
+    onText: (T) -> String,
+    onSelect: (T) -> Boolean,
+    onClick: (T) -> Unit,
+) {
+    FlowRow(modifier = Modifier.horizontalScroll(rememberScrollState())) {
+        item.forEach {
+            FilterChip(
+                selected = onSelect(it),
+                onClick = { onClick(it) },
+                modifier = Modifier.horizontalPadding(3.dp)
+            ) { Text(onText(it)) }
+        }
+    }
 }
 
 @OptIn(ExperimentalMaterialApi::class)

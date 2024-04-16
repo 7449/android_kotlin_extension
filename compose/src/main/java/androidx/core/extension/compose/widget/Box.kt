@@ -17,7 +17,7 @@ import androidx.core.extension.compose.colorPrimary
 @Composable
 fun SimpleInfiniteBox(
     modifier: Modifier = Modifier,
-    contentAlignment: Alignment = Alignment.Center,
+    contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
 
     refreshing: Boolean = false,
