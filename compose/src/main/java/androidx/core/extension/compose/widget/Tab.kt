@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.ScrollableTabRow
@@ -23,7 +24,7 @@ import kotlinx.coroutines.launch
 fun <T> SimpleTabLayout(
     items: List<T>,
     title: (T) -> String,
-    lazy: Boolean = false,
+    beyondBoundsPageCount: Int = PagerDefaults.BeyondBoundsPageCount,
     content: @Composable PagerScope.(Int, T) -> Unit,
 ) {
     if (items.isEmpty()) return
@@ -50,17 +51,11 @@ fun <T> SimpleTabLayout(
         }
         HorizontalPager(
             pageSpacing = 0.dp,
-            beyondBoundsPageCount = 2,
+            beyondBoundsPageCount = beyondBoundsPageCount,
             pageSize = PageSize.Fill,
             state = pagerState
         ) { index ->
-            if (lazy) {
-                if (index == pagerState.currentPage) {
-                    content(index, items[index])
-                }
-            } else {
-                content(index, items[index])
-            }
+            content(index, items[index])
         }
     }
 }
