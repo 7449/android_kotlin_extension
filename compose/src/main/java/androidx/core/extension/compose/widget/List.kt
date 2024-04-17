@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -44,7 +45,8 @@ fun <T> SimpleInfiniteList(
     indicatorContentColor: Color = colorPrimary,
     indicatorScale: Boolean = false,
 
-    content: @Composable LazyItemScope.(T) -> Unit,
+    header: LazyListScope.() -> Unit = {},
+    item: @Composable LazyItemScope.(T) -> Unit,
 ) {
     val listState = rememberLazyListState()
     val state = rememberPullRefreshState(
@@ -68,8 +70,9 @@ fun <T> SimpleInfiniteList(
             flingBehavior = flingBehavior,
             userScrollEnabled = userScrollEnabled
         ) {
+            header()
             itemsIndexed(items) { index, item ->
-                content(item)
+                item(item)
                 if (index == items.size - 1 && !refreshing) {
                     onLoadMore()
                 }

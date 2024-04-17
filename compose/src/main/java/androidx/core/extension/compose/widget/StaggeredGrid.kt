@@ -7,14 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridItemScope
-import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemScope
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScope
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan.Companion.FullLine
+import androidx.compose.foundation.lazy.staggeredgrid.items
+import androidx.compose.foundation.lazy.staggeredgrid.itemsIndexed
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
@@ -23,28 +23,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 
-fun <T> LazyGridScope.fillWidthItems(
+fun <T> LazyStaggeredGridScope.fillWidthItems(
     item: List<T>?,
-    content: @Composable LazyGridItemScope.(T) -> Unit,
+    content: @Composable LazyStaggeredGridItemScope.(T) -> Unit,
 ) {
     if (item == null) return
-    items(item, span = { GridItemSpan(maxLineSpan) }) { content(it) }
+    items(item, span = { FullLine }) { content(it) }
 }
 
-fun <T> LazyGridScope.fillWidthItem(
+fun <T> LazyStaggeredGridScope.fillWidthItem(
     item: T?,
-    content: @Composable LazyGridItemScope.(T) -> Unit,
+    content: @Composable LazyStaggeredGridItemScope.(T) -> Unit,
 ) {
     if (item == null) return
-    item(span = { GridItemSpan(maxLineSpan) }, content = { content(item) })
+    item(span = FullLine, content = { content(item) })
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun <T> SimpleInfiniteVerticalGrid(
+fun <T> SimpleInfiniteVerticalStaggeredGrid(
     items: List<T>,
 
     refreshing: Boolean = false,
@@ -54,10 +55,10 @@ fun <T> SimpleInfiniteVerticalGrid(
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
 
-    columns: GridCells = GridCells.Fixed(2),
+    columns: StaggeredGridCells = StaggeredGridCells.Fixed(2),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
-    verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
+    verticalItemSpacing: Dp = 0.dp,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     userScrollEnabled: Boolean = true,
@@ -65,11 +66,10 @@ fun <T> SimpleInfiniteVerticalGrid(
     indicatorContentColor: Color = colorPrimary,
     indicatorScale: Boolean = false,
 
-
-    header: LazyGridScope.() -> Unit = {},
-    item: @Composable LazyGridItemScope.(T) -> Unit,
+    header: LazyStaggeredGridScope.() -> Unit = {},
+    item: @Composable LazyStaggeredGridItemScope.(T) -> Unit,
 ) {
-    val gridState = rememberLazyGridState()
+    val staggeredGridState = rememberLazyStaggeredGridState()
     val state = rememberPullRefreshState(
         refreshing = refreshing,
         onRefresh = onRefresh
@@ -81,12 +81,12 @@ fun <T> SimpleInfiniteVerticalGrid(
         contentAlignment = contentAlignment,
         propagateMinConstraints = propagateMinConstraints
     ) {
-        LazyVerticalGrid(
-            state = gridState,
+        LazyVerticalStaggeredGrid(
             columns = columns,
+            state = staggeredGridState,
             contentPadding = contentPadding,
             reverseLayout = reverseLayout,
-            verticalArrangement = verticalArrangement,
+            verticalItemSpacing = verticalItemSpacing,
             horizontalArrangement = horizontalArrangement,
             flingBehavior = flingBehavior,
             userScrollEnabled = userScrollEnabled,

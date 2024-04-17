@@ -3,6 +3,8 @@ package androidx.core.extension.compose.widget
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Chip
@@ -12,7 +14,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.core.extension.compose.horizontalPadding
+import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -64,12 +66,12 @@ fun <T> SimpleChip(
     onClick: () -> Unit,
 ) {
     Chip(
-        modifier = Modifier.horizontalPadding(3.dp),
+        modifier = Modifier.height(30.dp).padding(3.dp),
         onClick = onClick,
-    ) { Text(onText(item)) }
+    ) { Text(onText(item), fontSize = 13.sp) }
 }
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterialApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     item: List<T>,
@@ -79,11 +81,32 @@ fun <T> SimpleFlowRowHorizontalScrollFilterChip(
 ) {
     FlowRow(modifier = Modifier.horizontalScroll(rememberScrollState())) {
         item.forEach {
-            FilterChip(
+            SimpleFilterChip(
+                item = it,
                 selected = onSelect(it),
-                onClick = { onClick(it) },
-                modifier = Modifier.horizontalPadding(3.dp)
-            ) { Text(onText(it)) }
+                onText = onText,
+                onClick = { onClick(it) }
+            )
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun <T> SimpleFlowRowVerticalScrollFilterChip(
+    item: List<T>,
+    onText: (T) -> String,
+    onSelect: (T) -> Boolean,
+    onClick: (T) -> Unit,
+) {
+    FlowRow(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        item.forEach {
+            SimpleFilterChip(
+                item = it,
+                selected = onSelect(it),
+                onText = onText,
+                onClick = { onClick(it) }
+            )
         }
     }
 }
@@ -98,7 +121,7 @@ fun <T> SimpleFilterChip(
 ) {
     FilterChip(
         selected = selected,
-        modifier = Modifier.horizontalPadding(3.dp),
+        modifier = Modifier.height(30.dp).padding(3.dp),
         onClick = onClick,
-    ) { Text(onText(item)) }
+    ) { Text(onText(item), fontSize = 13.sp) }
 }
