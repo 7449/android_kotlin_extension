@@ -19,12 +19,12 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowChip(
-    chip: List<T>,
+    item: List<T>,
     onText: (T) -> String,
-    onClick: (T) -> Unit,
+    onClick: (T) -> Unit = {},
 ) {
     FlowRow {
-        chip.forEach { item ->
+        item.forEach { item ->
             SimpleChip(item, onText = onText) { onClick(item) }
         }
     }
@@ -33,12 +33,12 @@ fun <T> SimpleFlowRowChip(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowHorizontalScrollChip(
-    chip: List<T>,
+    item: List<T>,
     onText: (T) -> String,
-    onClick: (T) -> Unit,
+    onClick: (T) -> Unit = {},
 ) {
     FlowRow(modifier = Modifier.horizontalScroll(rememberScrollState())) {
-        chip.forEach { item ->
+        item.forEach { item ->
             SimpleChip(item, onText = onText) { onClick(item) }
         }
     }
@@ -47,12 +47,12 @@ fun <T> SimpleFlowRowHorizontalScrollChip(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowVerticalScrollChip(
-    chip: List<T>,
+    item: List<T>,
     onText: (T) -> String,
-    onClick: (T) -> Unit,
+    onClick: (T) -> Unit = {},
 ) {
     FlowRow(modifier = Modifier.verticalScroll(rememberScrollState())) {
-        chip.forEach { item ->
+        item.forEach { item ->
             SimpleChip(item, onText = onText) { onClick(item) }
         }
     }
@@ -63,7 +63,7 @@ fun <T> SimpleFlowRowVerticalScrollChip(
 fun <T> SimpleChip(
     item: T,
     onText: (T) -> String,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
 ) {
     Chip(
         modifier = Modifier.height(30.dp).padding(3.dp),
@@ -77,7 +77,7 @@ fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     item: List<T>,
     onText: (T) -> String,
     onSelect: (T) -> Boolean,
-    onClick: (T) -> Unit,
+    onClick: (T) -> Unit = {},
 ) {
     FlowRow(modifier = Modifier.horizontalScroll(rememberScrollState())) {
         item.forEach {
@@ -97,7 +97,7 @@ fun <T> SimpleFlowRowVerticalScrollFilterChip(
     item: List<T>,
     onText: (T) -> String,
     onSelect: (T) -> Boolean,
-    onClick: (T) -> Unit,
+    onClick: (T) -> Unit = {},
 ) {
     FlowRow(modifier = Modifier.verticalScroll(rememberScrollState())) {
         item.forEach {
@@ -117,7 +117,7 @@ fun <T> SimpleFilterChip(
     item: T,
     selected: Boolean = false,
     onText: (T) -> String,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
 ) {
     FilterChip(
         selected = selected,

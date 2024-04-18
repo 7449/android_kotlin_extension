@@ -1,48 +1,24 @@
 package androidx.core.extension.sample
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.extension.compose.boolStateOf
 import androidx.core.extension.compose.navigation.NavRouter
 import androidx.core.extension.compose.navigation.navigate
-import androidx.core.extension.compose.noRippleClickable
-import androidx.core.extension.compose.rememberDialog
-import androidx.core.extension.compose.stringStateOf
-import androidx.core.extension.compose.widget.SimpleButton
+import androidx.core.extension.compose.widget.SimpleBackToolbar
 import androidx.core.extension.compose.widget.SimpleCard
-import androidx.core.extension.compose.widget.SimpleCardBox
-import androidx.core.extension.compose.widget.SimpleCardColumn
-import androidx.core.extension.compose.widget.SimpleDialog
-import androidx.core.extension.compose.widget.SimpleFilterChip
-import androidx.core.extension.compose.widget.SimpleFlowRowChip
-import androidx.core.extension.compose.widget.SimpleIconButton
-import androidx.core.extension.compose.widget.SimpleInfiniteBox
-import androidx.core.extension.compose.widget.SimpleInfiniteVerticalGrid
-import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleToolbar
-import androidx.core.extension.compose.widget.SingleInputDialog
-import androidx.core.extension.os.mainHandler
-import androidx.core.os.postDelayed
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 
@@ -52,7 +28,7 @@ enum class SampleTypes {
         @Composable
         override fun Screen(controller: NavHostController, stack: NavBackStackEntry) {
             Column {
-                SimpleToolbar("ComposeSample")
+                SimpleToolbar(stringResource(R.string.app_name))
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.fillMaxHeight()
@@ -60,12 +36,11 @@ enum class SampleTypes {
                     items(SampleTypes.entries.filter { it != Entry }) {
                         SimpleCard {
                             Text(
-                                it.name,
-                                modifier = Modifier
-                                    .height(46.dp)
-                                    .wrapContentSize()
-                                    .noRippleClickable { controller.navigate(it.router) },
+                                text = it.name,
                                 textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .clickable { controller.navigate(it.router) }
+                                    .padding(6.dp),
                             )
                         }
                     }
@@ -77,181 +52,88 @@ enum class SampleTypes {
     Box {
         @Composable
         override fun ScreenContent() {
-            val refresh = remember { boolStateOf(false) }
-            val items = remember { DefaultItems().toMutableStateList() }
-            SimpleInfiniteBox(
-                refreshing = refresh.value,
-                contentAlignment = Alignment.Center,
-                onRefresh = {
-                    refresh.value = true
-                    mainHandler.postDelayed(1000) {
-                        refresh.value = false
-                        items.add(0, RandomString())
-                    }
-                }
-            ) { SampleLazyColumn(items) }
+            PreviewBox()
         }
     },
     Button {
         @Composable
         override fun ScreenContent() {
-            Column(modifier = Modifier.padding(5.dp)) {
-
-                val select1 = "select1"
-                val select2 = "select2"
-                val select3 = "select3"
-                val currentSelect = remember { stringStateOf(select1) }
-                Text("RadioButton")
-                Row {
-                    SimpleRadioButton(
-                        text = select1,
-                        selected = currentSelect.value,
-                        modifier = Modifier.weight(1f)
-                    ) { currentSelect.value = it }
-                    SimpleRadioButton(
-                        text = select2,
-                        selected = currentSelect.value,
-                        modifier = Modifier.weight(1f)
-                    ) { currentSelect.value = it }
-                    SimpleRadioButton(
-                        text = select3,
-                        selected = currentSelect.value,
-                        modifier = Modifier.weight(1f)
-                    ) { currentSelect.value = it }
-                }
-
-                Text("IconButton")
-                SimpleIconButton(imageVector = Icons.Default.Add, tint = Color.Black)
-
-            }
+            PreviewButton()
         }
     },
     Card {
         @Composable
         override fun ScreenContent() {
-            LazyColumn(modifier = Modifier.padding(5.dp)) {
-                item {
-                    Text("CardColumn")
-                    SimpleCardColumn(modifier = Modifier
-                        .clickable { }
-                        .padding(10.dp)) {
-                        Text("Card1")
-                        Text("Card2")
-                    }
-                }
-                item {
-                    Text("CardBox")
-                    SimpleCardBox {
-                        Text("Card1")
-                        Text("Card2")
-                    }
-                }
-                item {
-                    Text("Card")
-                    SimpleCard {
-                        Text("Card1")
-                        Text("Card2")
-                    }
-                }
-            }
-        }
-    },
-    Grid {
-        @Composable
-        override fun ScreenContent() {
-            val refresh = remember { boolStateOf(false) }
-            val items = remember { DefaultItems().toMutableStateList() }
-            SimpleInfiniteVerticalGrid(
-                items,
-                refreshing = refresh.value,
-                onRefresh = {
-                    refresh.value = true
-                    mainHandler.postDelayed(1000) {
-                        refresh.value = false
-                        items.add(0, RandomString())
-                    }
-                },
-                onLoadMore = {
-                    refresh.value = true
-                    mainHandler.postDelayed(1000) {
-                        refresh.value = false
-                        items.add(RandomString())
-                    }
-                }
-            ) { Text(it) }
-        }
-    },
-    Dialog {
-        @Composable
-        override fun ScreenContent() {
-            Column {
-                val dialog = rememberDialog {
-                    SimpleDialog("Test", this, ok = hide)
-                }
-                val inputDialog = rememberDialog {
-                    SingleInputDialog(this) {
-
-                    }
-                }
-                SimpleButton("ShowDialog") {
-                    dialog.show()
-                }
-                SimpleButton("ShowInputDialog") {
-                    inputDialog.show()
-                }
-            }
-        }
-    },
-    Input {
-        @Composable
-        override fun ScreenContent() {
-        }
-    },
-    List {
-        @Composable
-        override fun ScreenContent() {
-        }
-    },
-    Nav {
-        @Composable
-        override fun ScreenContent() {
-        }
-    },
-    Tab {
-        @Composable
-        override fun ScreenContent() {
+            PreviewCard()
         }
     },
     Chip {
         @Composable
         override fun ScreenContent() {
-            val chip = arrayListOf<String>().apply {
-                add("已完结")
-                add("已完结")
-                add("已完结")
-                add("已完结")
-                add("已完结")
-            }
-            Column {
-                SimpleFlowRowChip(chip, onText = { it }) {
-                }
-                SimpleFilterChip(item = "Filter", onText = { it }, selected = true) {}
-            }
+            PreviewChip()
+        }
+    },
+    Dialog {
+        @Composable
+        override fun ScreenContent() {
+            PreviewDialog()
+        }
+    },
+    Grid {
+        @Composable
+        override fun ScreenContent() {
+            PreviewGrid()
+        }
+    },
+    Input {
+        @Composable
+        override fun ScreenContent() {
+            PreviewInput()
+        }
+    },
+    List {
+        @Composable
+        override fun ScreenContent() {
+            PreviewList()
+        }
+    },
+    Row {
+        @Composable
+        override fun ScreenContent() {
+            PreviewRow()
+        }
+    },
+    StaggeredGrid {
+        @Composable
+        override fun ScreenContent() {
+            PreviewStaggeredGrid()
+        }
+    },
+    Tab {
+        @Composable
+        override fun ScreenContent() {
+            PreviewTab()
         }
     },
     Toolbar {
         @Composable
         override fun ScreenContent() {
+            PreviewToolbar()
         }
     },
 
     ;
 
-    open val router: NavRouter = object : NavRouter(name) {}
+    val router: NavRouter = object : NavRouter(name) {}
 
     @Composable
     open fun Screen(controller: NavHostController, stack: NavBackStackEntry) {
-        SampleContent(name, { controller.popBackStack() }) { ScreenContent() }
+        Column {
+            SimpleBackToolbar(name) { controller.popBackStack() }
+            Box(modifier = Modifier.padding(5.dp)) {
+                ScreenContent()
+            }
+        }
     }
 
     @Composable
