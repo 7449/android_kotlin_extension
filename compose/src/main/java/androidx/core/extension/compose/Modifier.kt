@@ -19,12 +19,10 @@ import androidx.compose.ui.unit.dp
 @Stable
 fun Modifier.noRippleClickable(
     onClick: () -> Unit,
-) = then(
-    clickable(
-        interactionSource = remember { MutableInteractionSource() },
-        indication = null,
-        onClick = onClick
-    )
+) = this then clickable(
+    interactionSource = remember { MutableInteractionSource() },
+    indication = null,
+    onClick = onClick
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -34,49 +32,36 @@ fun Modifier.noRippleCombinedClickable(
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
-) = then(
-    combinedClickable(
-        interactionSource = remember { MutableInteractionSource() },
-        indication = null,
-        onClick = onClick,
-        onLongClick = onLongClick,
-        onDoubleClick = onDoubleClick
-    )
+) = this then combinedClickable(
+    interactionSource = remember { MutableInteractionSource() },
+    indication = null,
+    onClick = onClick,
+    onLongClick = onLongClick,
+    onDoubleClick = onDoubleClick
 )
 
 @Stable
 fun Modifier.horizontalPadding(
     padding: Dp,
-) = then(
-    padding(horizontal = padding)
-)
+) = this then padding(horizontal = padding)
 
 @Stable
 fun Modifier.verticalPadding(
     padding: Dp,
-) = then(
-    padding(vertical = padding)
-)
+) = this then padding(vertical = padding)
 
 @Stable
 fun Modifier.paddingFillMaxWidth(
     padding: Int = 2,
-) = then(
-    padding(padding.dp).fillMaxWidth()
-)
+) = this then padding(padding.dp).fillMaxWidth()
 
 @Stable
 fun Modifier.paddingFillMaxHeight(
     padding: Int = 2,
-) = then(
-    padding(padding.dp).fillMaxHeight()
-)
+) = this then padding(padding.dp).fillMaxHeight()
 
 @Stable
 fun Modifier.paddingSquare(
     padding: Int = 2,
     square: Dp,
-) = then(
-    padding(padding.dp).size(square)
-)
-
+) = this then padding(padding.dp).size(square)
