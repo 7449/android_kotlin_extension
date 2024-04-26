@@ -6,7 +6,7 @@ apply("$rootDir/build.maven.gradle")
 android {
     namespace = "androidx.core.extension.flexbox"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    defaultConfig { minSdk = 21 }
+    defaultConfig { minSdk = libs.versions.minSdk.get().toInt() }
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

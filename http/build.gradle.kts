@@ -7,7 +7,7 @@ android {
     namespace = "androidx.core.extension.http"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 21
+        minSdk = libs.versions.minSdk.get().toInt()
         consumerProguardFile(file("proguard-rules.pro"))
     }
     buildTypes { release { isMinifyEnabled = false } }

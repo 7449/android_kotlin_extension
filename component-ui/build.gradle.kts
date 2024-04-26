@@ -7,7 +7,7 @@ apply("$rootDir/build.maven.gradle")
 android {
     namespace = "androidx.core.extension.component.ui"
     compileSdk = libs.versions.compileSdk.get().toInt()
-    defaultConfig { minSdk = 21 }
+    defaultConfig { minSdk = libs.versions.minSdk.get().toInt() }
     buildTypes { release { isMinifyEnabled = false } }
     buildFeatures.viewBinding = true
     buildFeatures.dataBinding = true
