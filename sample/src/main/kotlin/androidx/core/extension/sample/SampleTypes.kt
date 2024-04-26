@@ -73,6 +73,12 @@ enum class SampleTypes {
             PreviewChip()
         }
     },
+    Column {
+        @Composable
+        override fun ScreenContent() {
+            PreviewColumn()
+        }
+    },
     Dialog {
         @Composable
         override fun ScreenContent() {

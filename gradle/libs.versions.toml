@@ -10,7 +10,7 @@ jvmTarget = "17"
 android = "8.3.2"
 kotlin = "2.0.0-Beta5"
 
-composeBom = "2024.04.00"
+composeBom = "2024.04.01"
 composeCompiler = "1.5.11-dev-k2.0.0-Beta5-b5a216d0ac6"
 
 [plugins]
@@ -27,7 +27,7 @@ refresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 material = "com.google.android.material:material:1.11.0"
 annotation = "androidx.annotation:annotation:1.7.1"
-core = "androidx.core:core-ktx:1.12.0"
+core = "androidx.core:core-ktx:1.13.0"
 lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0"
 
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }

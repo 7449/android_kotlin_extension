@@ -27,6 +27,7 @@ import androidx.core.extension.compose.boolStateOf
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
+import androidx.core.extension.compose.widget.ColumnSmallText
 import androidx.core.extension.compose.widget.SimpleBackSearchToolbar
 import androidx.core.extension.compose.widget.SimpleBackToolbar
 import androidx.core.extension.compose.widget.SimpleButton
@@ -99,13 +100,14 @@ private val tagList
 
 @Preview(showBackground = true)
 @Composable
-fun SampleComposePreview(type: SampleTypes = SampleTypes.Toolbar) {
+fun SampleComposePreview(type: SampleTypes = SampleTypes.Column) {
     when (type) {
         SampleTypes.Entry -> TODO()
         SampleTypes.Box -> PreviewBox()
         SampleTypes.Button -> PreviewButton()
         SampleTypes.Card -> PreviewCard()
         SampleTypes.Chip -> PreviewChip()
+        SampleTypes.Column -> PreviewColumn()
         SampleTypes.Dialog -> PreviewDialog()
         SampleTypes.Grid -> PreviewGrid()
         SampleTypes.Input -> PreviewInput()
@@ -274,6 +276,15 @@ fun PreviewChip() {
             onText = { it },
         )
         SimpleFlowRowChip(tagList, onText = { it })
+    }
+}
+
+@Composable
+fun PreviewColumn() {
+    Box {
+        ColumnSmallText(
+            item = tagList
+        )
     }
 }
 
