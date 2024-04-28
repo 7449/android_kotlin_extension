@@ -24,14 +24,10 @@ fun SimpleNavHost(
     contentAlignment: Alignment = Alignment.Center,
     route: String? = null,
     enterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition) = {
-        fadeIn(
-            animationSpec = tween(700)
-        )
+        fadeIn(animationSpec = tween(700))
     },
     exitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition) = {
-        fadeOut(
-            animationSpec = tween(700)
-        )
+        fadeOut(animationSpec = tween(700))
     },
     popEnterTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> EnterTransition) = enterTransition,
     popExitTransition: (AnimatedContentTransitionScope<NavBackStackEntry>.() -> ExitTransition) = exitTransition,

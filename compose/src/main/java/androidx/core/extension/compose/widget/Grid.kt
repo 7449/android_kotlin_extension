@@ -45,6 +45,8 @@ fun <T> LazyGridScope.fillWidthItem(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T> SimpleInfiniteVerticalGrid(
+    modifier: Modifier = Modifier,
+
     items: List<T>,
 
     refreshing: Boolean = false,
@@ -90,7 +92,7 @@ fun <T> SimpleInfiniteVerticalGrid(
             horizontalArrangement = horizontalArrangement,
             flingBehavior = flingBehavior,
             userScrollEnabled = userScrollEnabled,
-            modifier = Modifier.fillMaxHeight()
+            modifier = modifier.then(Modifier.fillMaxHeight())
         ) {
             header()
             itemsIndexed(items) { index, item ->

@@ -28,6 +28,7 @@ import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
 import androidx.core.extension.compose.widget.ColumnSmallText
+import androidx.core.extension.compose.widget.FlowChipSize
 import androidx.core.extension.compose.widget.SimpleBackSearchToolbar
 import androidx.core.extension.compose.widget.SimpleBackToolbar
 import androidx.core.extension.compose.widget.SimpleButton
@@ -146,7 +147,7 @@ fun PreviewStaggeredGrid() {
     val refresh = remember { boolStateOf(false) }
     val items = remember { mutableStateList }
     SimpleInfiniteVerticalStaggeredGrid(
-        items,
+        items = items,
         refreshing = refresh.value,
         onRefresh = {
             refresh.value = true
@@ -179,7 +180,7 @@ fun PreviewList() {
     val refresh = remember { boolStateOf(false) }
     val items = remember { mutableStateList }
     SimpleInfiniteList(
-        items,
+        items = items,
         refreshing = refresh.value,
         onRefresh = {
             refresh.value = true
@@ -215,7 +216,7 @@ fun PreviewGrid() {
     val refresh = remember { boolStateOf(false) }
     val items = remember { mutableStateList }
     SimpleInfiniteVerticalGrid(
-        items,
+        items = items,
         refreshing = refresh.value,
         onRefresh = {
             refresh.value = true
@@ -267,6 +268,7 @@ fun PreviewChip() {
             SimpleFlowRowVerticalScrollFilterChip(
                 item = tagList,
                 onText = { it },
+                size = FlowChipSize.Small,
                 onSelect = { it.contains("2") }
             )
         }

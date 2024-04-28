@@ -26,6 +26,8 @@ import androidx.core.extension.compose.colorPrimary
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T> SimpleInfiniteList(
+    modifier: Modifier = Modifier,
+
     items: List<T>,
 
     refreshing: Boolean = false,
@@ -62,7 +64,7 @@ fun <T> SimpleInfiniteList(
     ) {
         LazyColumn(
             state = listState,
-            modifier = Modifier.fillMaxHeight(),
+            modifier = modifier.then(Modifier.fillMaxHeight()),
             contentPadding = contentPadding,
             reverseLayout = reverseLayout,
             verticalArrangement = verticalArrangement,
