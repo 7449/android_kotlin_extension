@@ -99,6 +99,27 @@ fun <T> SimpleChip(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
+fun <T> SimpleFlowRowFilterChip(
+    item: List<T>,
+    onText: (T) -> String,
+    onSelect: (T) -> Boolean,
+    size: FlowChipSize = FlowChipSize.Default,
+    onClick: (T) -> Unit = {},
+) {
+    FlowRow {
+        item.forEach { item ->
+            SimpleFilterChip(
+                item = item,
+                selected = onSelect(item),
+                size = size,
+                onText = onText
+            ) { onClick(item) }
+        }
+    }
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
 fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     item: List<T>,
     onText: (T) -> String,
