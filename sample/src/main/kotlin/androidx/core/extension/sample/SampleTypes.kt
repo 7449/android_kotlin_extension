@@ -127,6 +127,18 @@ enum class SampleTypes {
             PreviewToolbar()
         }
     },
+    Text {
+        @Composable
+        override fun ScreenContent() {
+            PreviewText()
+        }
+    },
+    Web {
+        @Composable
+        override fun ScreenContent() {
+            PreviewWeb()
+        }
+    }
 
     ;
 

@@ -28,7 +28,9 @@ import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
 import androidx.core.extension.compose.widget.ColumnSmallText
+import androidx.core.extension.compose.widget.CopyOrDownloadDialog
 import androidx.core.extension.compose.widget.FlowChipSize
+import androidx.core.extension.compose.widget.LabelText
 import androidx.core.extension.compose.widget.SimpleBackSearchToolbar
 import androidx.core.extension.compose.widget.SimpleBackToolbar
 import androidx.core.extension.compose.widget.SimpleButton
@@ -49,6 +51,7 @@ import androidx.core.extension.compose.widget.SimpleInfiniteList
 import androidx.core.extension.compose.widget.SimpleInfiniteVerticalGrid
 import androidx.core.extension.compose.widget.SimpleInfiniteVerticalStaggeredGrid
 import androidx.core.extension.compose.widget.SimpleInput
+import androidx.core.extension.compose.widget.SimpleInterceptWebView
 import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleTabLayout
 import androidx.core.extension.compose.widget.SimpleTextButton
@@ -117,7 +120,27 @@ fun SampleComposePreview(type: SampleTypes = SampleTypes.Column) {
         SampleTypes.StaggeredGrid -> PreviewStaggeredGrid()
         SampleTypes.Tab -> PreviewTab()
         SampleTypes.Toolbar -> PreviewToolbar()
+        SampleTypes.Text -> PreviewText()
+        SampleTypes.Web -> PreviewWeb()
     }
+}
+
+@Composable
+fun PreviewWeb() {
+    SimpleInterceptWebView(
+        url = "https://www.baidu.com",
+        onClick = {}
+    )
+}
+
+@Composable
+fun PreviewText() {
+    LabelText(
+        prefix = "前缀",
+        label = tagList,
+        onTextValue = { it },
+        onClick = {}
+    )
 }
 
 @Composable
@@ -239,18 +262,27 @@ fun PreviewGrid() {
 fun PreviewDialog() {
     Column {
         val dialog = rememberDialog {
-            SimpleDialog("Test", this, ok = hide)
+            SimpleDialog("Test", ok = hide)
         }
         val inputDialog = rememberDialog {
-            SingleInputDialog(this) {
-
+            SingleInputDialog {
             }
+        }
+        val copyOrDownload = rememberDialog {
+            CopyOrDownloadDialog(
+                "Test",
+                onClickCopy = {},
+                onClickDownload = {}
+            )
         }
         SimpleButton("ShowDialog") {
             dialog.show()
         }
         SimpleButton("ShowInputDialog") {
             inputDialog.show()
+        }
+        SimpleButton("ShowCopyOrDownloadDialog") {
+            copyOrDownload.show()
         }
     }
 }
