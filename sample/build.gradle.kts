@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.compose.compiler)
 }
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -12,10 +13,6 @@ android {
         versionName = libs.versions.versionName.get()
     }
     buildFeatures.viewBinding = true
-    buildFeatures.compose = true
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

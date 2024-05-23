@@ -1,20 +1,17 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.compose.compiler)
 }
 apply("$rootDir/build.maven.gradle")
 android {
     namespace = "androidx.core.extension.compose"
     compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig { minSdk = libs.versions.minSdk.get().toInt() }
-    buildFeatures.compose = true
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
