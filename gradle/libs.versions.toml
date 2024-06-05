@@ -21,14 +21,14 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 
 [libraries]
 
-appcompat = "androidx.appcompat:appcompat:1.6.1"
+appcompat = "androidx.appcompat:appcompat:1.7.0"
 refresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
 flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 material = "com.google.android.material:material:1.12.0"
 annotation = "androidx.annotation:annotation:1.8.0"
 core = "androidx.core:core-ktx:1.13.1"
-lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0"
+lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1"
 
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-material = { group = "androidx.compose.material", name = "material" }
