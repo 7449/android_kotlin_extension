@@ -42,6 +42,7 @@ abstract class SimpleComposeViewModel<T>(
 
     @CallSuper
     open fun onRefresh() {
+        if (value is DataWrapper.Loading) return
         nextUrl = firstRequestUrl
         request(true, nextUrl)
     }
