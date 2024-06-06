@@ -2,7 +2,7 @@ package androidx.core.extension.compose.viewmodel
 
 import android.util.Log
 import androidx.annotation.CallSuper
-import androidx.core.extension.compose.dataStateOf
+import androidx.core.extension.compose.dataWrapperStateOf
 import androidx.core.extension.compose.error
 import androidx.core.extension.compose.isNormal
 import androidx.core.extension.compose.refresh
@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 
 abstract class SimpleComposeViewModel : ViewModel() {
 
-    private val _model = dataStateOf<Unit>()
+    private val _model = dataWrapperStateOf<Unit>()
     private var nextUrl = ""
 
     val isRefresh get() = _model.refreshing()

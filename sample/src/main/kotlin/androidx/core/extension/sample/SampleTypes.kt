@@ -138,6 +138,12 @@ enum class SampleTypes {
         override fun ScreenContent() {
             PreviewWeb()
         }
+    },
+    Status{
+        @Composable
+        override fun ScreenContent() {
+            PreviewStatus()
+        }
     }
 
     ;

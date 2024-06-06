@@ -6,9 +6,9 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.extension.http.DataWrapper
 
-fun <T> dataStateOf(
-    value: DataWrapper<T> = DataWrapper.Normal(),
-): MutableState<DataWrapper<T>> {
+fun <T> dataWrapperStateOf(
+    value: DataWrapper<T> = DataWrapper.Normal,
+): MutableState<DataWrapper<T?>> {
     return mutableStateOf(value)
 }
 
