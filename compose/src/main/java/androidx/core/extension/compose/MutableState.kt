@@ -5,11 +5,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.core.extension.http.DataWrapper
+import kotlinx.coroutines.flow.MutableStateFlow
 
 fun <T> dataWrapperStateOf(
     value: DataWrapper<T> = DataWrapper.Normal,
-): MutableState<DataWrapper<T?>> {
+): MutableState<DataWrapper<T>> {
     return mutableStateOf(value)
+}
+
+fun <T> dataWrapperStateFlowOf(
+    value: DataWrapper<T> = DataWrapper.Normal,
+): MutableStateFlow<DataWrapper<T>> {
+    return MutableStateFlow(value)
 }
 
 fun stringStateOf(

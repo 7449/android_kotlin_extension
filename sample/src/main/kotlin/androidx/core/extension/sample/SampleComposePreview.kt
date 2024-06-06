@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,10 +24,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.boolStateOf
-import androidx.core.extension.compose.dataWrapperStateOf
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
+import androidx.core.extension.compose.viewmodel.SimpleComposeViewModel
+import androidx.core.extension.compose.viewmodel.viewModel
 import androidx.core.extension.compose.widget.ColumnSmallText
 import androidx.core.extension.compose.widget.CopyOrDownloadDialog
 import androidx.core.extension.compose.widget.FlowChipSize
@@ -60,13 +60,10 @@ import androidx.core.extension.compose.widget.SimpleTabLayout
 import androidx.core.extension.compose.widget.SimpleTextButton
 import androidx.core.extension.compose.widget.SingleInputDialog
 import androidx.core.extension.compose.widget.WeightButton
-import androidx.core.extension.http.DataWrapper
 import androidx.core.extension.http.onSuccessNotNull
 import androidx.core.extension.os.mainHandler
-import androidx.core.extension.text.logE
 import androidx.core.os.postDelayed
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import java.util.UUID
 
 @Composable
@@ -134,40 +131,22 @@ fun SampleComposePreview(type: SampleTypes = SampleTypes.Column) {
     }
 }
 
+class SimplePreviewStatusBoxViewModel : SimpleComposeViewModel<String>(
+    initializeUrl = "https://www.baidu.com"
+) {
+    override suspend fun requestHttp(refresh: Boolean, url: String): Pair<String?, String> {
+        delay(1000)
+//        throw NullPointerException()
+        return null to ""
+    }
+}
+
 @Composable
-fun PreviewStatus() {
-    val coroutineScope = rememberCoroutineScope()
-    val dataWrapper = remember { dataWrapperStateOf<String>(DataWrapper.Normal) }
+fun PreviewStatus(
+    viewModel: SimplePreviewStatusBoxViewModel = viewModel()
+) {
     Column {
-        Row {
-            SimpleTextButton(
-                text = "Success",
-                onClick = { dataWrapper.value = DataWrapper.Success("网络请求成功") }
-            )
-            SimpleTextButton(
-                text = "Failure",
-                onClick = { dataWrapper.value = DataWrapper.Failure(KotlinNullPointerException()) }
-            )
-            SimpleTextButton(
-                text = "Empty",
-                onClick = { dataWrapper.value = DataWrapper.Empty.Default }
-            )
-            SimpleTextButton(
-                text = "Loading",
-                onClick = { dataWrapper.value = DataWrapper.Loading.Default }
-            )
-        }
-        SimpleStatusBox(
-            dataWrapper = dataWrapper.value,
-            retry = {
-                logE("retry")
-                dataWrapper.value = DataWrapper.Loading.Default
-                coroutineScope.launch {
-                    delay(1000)
-                    dataWrapper.value = DataWrapper.Empty.Default
-                }
-            }
-        ) {
+        SimpleStatusBox(viewModel = viewModel) {
             it.onSuccessNotNull { value ->
                 Text(text = value, modifier = Modifier.align(Alignment.Center))
             }

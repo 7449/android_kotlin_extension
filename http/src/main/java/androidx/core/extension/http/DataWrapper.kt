@@ -12,7 +12,6 @@ sealed class DataWrapper<out R> {
      */
     sealed class Loading : DataWrapper<Nothing>() {
         data object Default : Loading()
-        data object Refresh : Loading()
         data object More : Loading()
     }
 
@@ -21,7 +20,15 @@ sealed class DataWrapper<out R> {
      */
     sealed class Empty : DataWrapper<Nothing>() {
         data object Default : Empty()
-        data object Load : Empty()
+        data object More : Empty()
+    }
+
+    /**
+     * 数据请求出错
+     */
+    sealed class Failure(val exception: Throwable) : DataWrapper<Nothing>() {
+        data class Default(val ex: Throwable) : Failure(ex)
+        data class More(val ex: Throwable) : Failure(ex)
     }
 
     /**
@@ -29,15 +36,10 @@ sealed class DataWrapper<out R> {
      */
     data class Success<out T>(val data: T?) : DataWrapper<T>()
 
-    /**
-     * 数据请求出错
-     */
-    data class Failure(val exception: Throwable) : DataWrapper<Nothing>()
-
     override fun toString(): String {
         return when (this) {
             is Success<*> -> "Success[data=$data]"
-            is Failure -> "Failure[message=${exception.message}]"
+            is Failure -> "Failure[type=$this,message=${exception.message}]"
             is Normal -> "Normal"
             is Empty -> "Empty[$this]"
             is Loading -> "Loading[$this]"
