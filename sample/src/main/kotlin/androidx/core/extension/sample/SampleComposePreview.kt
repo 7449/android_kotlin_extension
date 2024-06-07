@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -20,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,7 @@ import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
 import androidx.core.extension.compose.viewmodel.SimpleComposeViewModel
+import androidx.core.extension.compose.viewmodel.SimpleListComposeViewModel
 import androidx.core.extension.compose.viewmodel.viewModel
 import androidx.core.extension.compose.widget.ColumnSmallText
 import androidx.core.extension.compose.widget.CopyOrDownloadDialog
@@ -56,15 +59,16 @@ import androidx.core.extension.compose.widget.SimpleInput
 import androidx.core.extension.compose.widget.SimpleInterceptWebView
 import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleStatusBox
+import androidx.core.extension.compose.widget.SimpleStatusVerticalStaggeredGrid
 import androidx.core.extension.compose.widget.SimpleTabLayout
 import androidx.core.extension.compose.widget.SimpleTextButton
 import androidx.core.extension.compose.widget.SingleInputDialog
 import androidx.core.extension.compose.widget.WeightButton
-import androidx.core.extension.http.onSuccessNotNull
 import androidx.core.extension.os.mainHandler
 import androidx.core.os.postDelayed
 import kotlinx.coroutines.delay
 import java.util.UUID
+import kotlin.random.Random
 
 @Composable
 private fun SampleLazyColumn(item: List<String>) {
@@ -127,28 +131,68 @@ fun SampleComposePreview(type: SampleTypes = SampleTypes.Column) {
         SampleTypes.Toolbar -> PreviewToolbar()
         SampleTypes.Text -> PreviewText()
         SampleTypes.Web -> PreviewWeb()
-        SampleTypes.Status -> PreviewStatus()
+        SampleTypes.StatusBox -> PreviewStatusBox()
+        SampleTypes.StatusList -> PreviewStatusList()
     }
 }
 
-class SimplePreviewStatusBoxViewModel : SimpleComposeViewModel<String>(
+class SimplePreviewStatusBoxViewModel : SimpleComposeViewModel<List<String>>(
     initializeUrl = "https://www.baidu.com"
 ) {
-    override suspend fun requestHttp(refresh: Boolean, url: String): Pair<String?, String> {
+    private val _requestUrl = stringStateOf("https://www.baidu.com${Random.nextInt()}")
+    override val requestUrl: String get() = _requestUrl.value.ifBlank { super.requestUrl }
+
+    override suspend fun http(url: String): List<String> {
         delay(1000)
-//        throw NullPointerException()
-        return null to ""
+        return mutableStateList
+    }
+
+    fun onClickMore() {
+        onRefresh()
+    }
+}
+
+class SimplePreviewStatusListViewModel : SimpleListComposeViewModel<String>(
+    initializeUrl = "https://www.baidu.com"
+) {
+    private var maxCount = 0
+    override suspend fun http(url: String, isRefresh: Boolean): Pair<MutableList<String>, String> {
+        delay(1000)
+        return arrayListOf<String>().apply {
+            if (maxCount < 3) {
+                for (i in 0 until 20) {
+                    add(i.toString())
+                }
+                maxCount++
+            } else {
+                throw KotlinNullPointerException()
+            }
+        } to "https://www.baidu.com"
     }
 }
 
 @Composable
-fun PreviewStatus(
-    viewModel: SimplePreviewStatusBoxViewModel = viewModel()
-) {
-    Column {
-        SimpleStatusBox(viewModel = viewModel) {
-            it.onSuccessNotNull { value ->
-                Text(text = value, modifier = Modifier.align(Alignment.Center))
+fun PreviewStatusList(viewModel: SimplePreviewStatusListViewModel = viewModel()) {
+//    SimpleStatusList(model = viewModel) {
+//        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+//    }
+//    SimpleStatusVerticalGrid(model = viewModel) {
+//        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+//    }
+    SimpleStatusVerticalStaggeredGrid(model = viewModel) {
+        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+    }
+}
+
+@Composable
+fun PreviewStatusBox(viewModel: SimplePreviewStatusBoxViewModel = viewModel()) {
+    SimpleStatusBox(model = viewModel) {
+        LazyColumn {
+            items(it.notNullData) {
+                Text(text = it, modifier = Modifier.align(Alignment.Center))
+            }
+            item {
+                SimpleTextButton("点击加载更多数据", onClick = viewModel::onClickMore)
             }
         }
     }

@@ -13,10 +13,16 @@ fun <T> dataWrapperStateOf(
     return mutableStateOf(value)
 }
 
-fun <T> dataWrapperStateFlowOf(
+fun <T> dataWrapperStateFlow(
     value: DataWrapper<T> = DataWrapper.Normal,
 ): MutableStateFlow<DataWrapper<T>> {
     return MutableStateFlow(value)
+}
+
+fun <T> mutableStateListFlow(
+    item: MutableList<T>,
+): MutableStateFlow<MutableList<T>> {
+    return MutableStateFlow(item)
 }
 
 fun stringStateOf(

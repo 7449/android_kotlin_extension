@@ -34,16 +34,8 @@ sealed class DataWrapper<out R> {
     /**
      * 数据请求成功
      */
-    data class Success<out T>(val data: T?) : DataWrapper<T>()
-
-    override fun toString(): String {
-        return when (this) {
-            is Success<*> -> "Success[data=$data]"
-            is Failure -> "Failure[type=$this,message=${exception.message}]"
-            is Normal -> "Normal"
-            is Empty -> "Empty[$this]"
-            is Loading -> "Loading[$this]"
-        }
+    data class Success<out T>(val data: T?) : DataWrapper<T>() {
+        val notNullData: T get() = data ?: throw KotlinNullPointerException("data == null")
     }
 
 }

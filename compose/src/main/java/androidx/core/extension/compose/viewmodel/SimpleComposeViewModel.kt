@@ -1,61 +1,55 @@
 package androidx.core.extension.compose.viewmodel
 
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import androidx.annotation.CallSuper
-import androidx.core.extension.compose.dataWrapperStateFlowOf
+import androidx.core.extension.compose.dataWrapperStateFlow
+import androidx.core.extension.compose.mutableStateListFlow
+import androidx.core.extension.compose.widget.StatusListModel
+import androidx.core.extension.compose.widget.StatusModel
+import androidx.core.extension.compose.widget.statusHandler
 import androidx.core.extension.http.DataWrapper
+import androidx.core.extension.http.getSuccessOrNull
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 abstract class SimpleListComposeViewModel<T>(
     private val initializeUrl: String = "",
     initializeRefresh: Boolean = initializeUrl.isNotBlank(),
-    value: DataWrapper<List<T>> = DataWrapper.Normal,
-) : SimpleComposeViewModel<List<T>>(initializeUrl, initializeRefresh, value) {
-    abstract override suspend fun requestHttp(refresh: Boolean, url: String): Pair<List<T>, String>
-}
-
-abstract class SimpleComposeViewModel<T>(
-    private val initializeUrl: String = "",
-    initializeRefresh: Boolean = initializeUrl.isNotBlank(),
-    value: DataWrapper<T> = DataWrapper.Normal,
-) : ViewModel() {
-
-    companion object {
-        private val viewModelHandler = Handler(Looper.getMainLooper())
-    }
+) : ViewModel(), StatusListModel<T> {
 
     init {
         if (initializeRefresh) {
-            viewModelHandler.post { onRefresh() }
+            statusHandler.post { onRefresh() }
         }
     }
 
-    private val _value = dataWrapperStateFlowOf(value)
-    val value: StateFlow<DataWrapper<T>> get() = _value
+    private val _value = dataWrapperStateFlow<MutableList<T>>(DataWrapper.Normal)
+    override val value: StateFlow<DataWrapper<MutableList<T>>> get() = _value
+    private val _item = mutableStateListFlow(mutableListOf<T>())
+    override val item: StateFlow<MutableList<T>> get() = _item
 
-    private var nextUrl = ""
-    open val firstRequestUrl: String get() = initializeUrl
-    abstract suspend fun requestHttp(refresh: Boolean, url: String): Pair<T?, String>
+    override val requestUrl: String get() = initializeUrl
+    private var currentUrl: String = initializeUrl
 
-    @CallSuper
-    open fun onRefresh() {
-        if (value is DataWrapper.Loading) return
-        nextUrl = firstRequestUrl
-        request(true, nextUrl)
+    override fun onRefresh(retry: Boolean) {
+        if (isLoading) return
+        currentUrl = requestUrl
+        request(currentUrl, true)
     }
 
-    @CallSuper
-    open fun onLoadMore() {
-        if (value is DataWrapper.Loading) return
-        if (nextUrl == DEFAULT_REQUEST_END_MARK) return
-        request(false, nextUrl)
+    override fun onLoadMore(retry: Boolean) {
+        if (retry) {
+            request(currentUrl, false)
+        } else if (isSuccess && currentUrl != DEFAULT_REQUEST_END_MARK) {
+            request(currentUrl, false)
+        }
     }
 
-    fun request(isRefresh: Boolean, url: String) {
+    override fun request(url: String, isRefresh: Boolean) {
         Log.e("Print", "compose request http : $url")
+        if (isRefresh) {
+            _item.value.clear()
+        }
         _value.value = if (isRefresh) DataWrapper.Loading.Default
         else DataWrapper.Loading.More
         composeLaunch(
@@ -64,18 +58,66 @@ abstract class SimpleComposeViewModel<T>(
                 else DataWrapper.Failure.More(it)
             },
             scope = {
-                val body = requestHttp(isRefresh, url)
+                val body = http(url, isRefresh)
                 val result = body.first
-                _value.value = if (result == null) {
+                _value.value = if (isRefresh && result.isEmpty()) {
                     DataWrapper.Empty.Default
-                } else if (result is List<*> && isRefresh && result.isEmpty()) {
-                    DataWrapper.Empty.Default
-                } else if (result is List<*> && !isRefresh && result.isEmpty()) {
+                } else if (!isRefresh && result.isEmpty()) {
                     DataWrapper.Empty.More
                 } else {
+                    currentUrl = body.second.ifBlank { DEFAULT_REQUEST_END_MARK }
+                    _item.value.addAll(result)
                     DataWrapper.Success(result)
                 }
-                nextUrl = body.second.ifBlank { DEFAULT_REQUEST_END_MARK }
+            }
+        )
+    }
+
+}
+
+abstract class SimpleComposeViewModel<T>(
+    private val initializeUrl: String = "",
+    initializeRefresh: Boolean = initializeUrl.isNotBlank(),
+) : ViewModel(), StatusModel<T> {
+
+    init {
+        if (initializeRefresh) {
+            statusHandler.post { onRefresh() }
+        }
+    }
+
+    private val _value = dataWrapperStateFlow<T>(DataWrapper.Normal)
+    override val value: StateFlow<DataWrapper<T>> get() = _value
+    private val _isMore = MutableStateFlow(false)
+    override val isMore: StateFlow<Boolean> get() = _isMore
+
+    override val requestUrl: String get() = initializeUrl
+
+    val data get() = value.value.getSuccessOrNull()?.data
+
+    override fun onRefresh() {
+        if (isLoading || requestUrl.isBlank() || requestUrl == DEFAULT_REQUEST_END_MARK) return
+        request(requestUrl)
+    }
+
+    override fun request(url: String) {
+        Log.e("Print", "compose request http : $url")
+        if (url == initializeUrl) {
+            _isMore.value = false
+            _value.value = DataWrapper.Loading.Default
+        } else {
+            _isMore.value = true
+        }
+        composeLaunch(
+            error = {
+                _isMore.value = false
+                _value.value = DataWrapper.Failure.Default(it)
+            },
+            scope = {
+                val body = http(url)
+                _value.value = if (body == null) DataWrapper.Empty.Default
+                else DataWrapper.Success(body)
+                _isMore.value = false
             }
         )
     }

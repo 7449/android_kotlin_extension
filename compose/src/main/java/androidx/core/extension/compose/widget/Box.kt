@@ -14,28 +14,45 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.extension.compose.colorPrimary
-import androidx.core.extension.compose.viewmodel.SimpleComposeViewModel
 import androidx.core.extension.http.DataWrapper
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun <T, VM : SimpleComposeViewModel<T>> SimpleStatusBox(
+fun <T, MODEL : StatusModel<T>> SimpleStatusBox(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
-    viewModel: VM,
-    content: @Composable BoxScope.(DataWrapper<T>) -> Unit,
+    indicatorContentColor: Color = colorPrimary,
+    indicatorScale: Boolean = false,
+    model: MODEL,
+    content: @Composable BoxScope.(DataWrapper.Success<T>) -> Unit,
 ) {
-    val dataWrapper by viewModel.value.collectAsState()
+    val dataWrapper by model.value.collectAsState()
+    val isMore by model.isMore.collectAsState()
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = contentAlignment,
         propagateMinConstraints = propagateMinConstraints
     ) {
-        SimpleStatusScreen(
-            dataWrapper = dataWrapper,
-            retry = viewModel::onRefresh,
-            empty = viewModel::onRefresh,
-            content = content
+        when (dataWrapper) {
+            is DataWrapper.Success -> content(dataWrapper as DataWrapper.Success<T>)
+            is DataWrapper.Failure.Default -> SimpleStatusFailureScreen(retry = model::onRefresh)
+            DataWrapper.Empty.Default -> SimpleStatusEmptyScreen(empty = model::onRefresh)
+            DataWrapper.Loading.Default -> SimpleStatusLoadingDefaultScreen()
+            DataWrapper.Loading.More -> {}
+            is DataWrapper.Failure.More -> {}
+            DataWrapper.Empty.More -> {}
+            DataWrapper.Normal -> {}
+        }
+        PullRefreshIndicator(
+            refreshing = isMore,
+            state = rememberPullRefreshState(
+                refreshing = isMore,
+                onRefresh = {}
+            ),
+            contentColor = indicatorContentColor,
+            scale = indicatorScale,
+            modifier = Modifier.align(Alignment.TopCenter),
         )
     }
 }

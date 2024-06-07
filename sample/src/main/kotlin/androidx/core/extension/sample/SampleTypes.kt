@@ -139,12 +139,18 @@ enum class SampleTypes {
             PreviewWeb()
         }
     },
-    Status{
+    StatusBox {
         @Composable
         override fun ScreenContent() {
-            PreviewStatus()
+            PreviewStatusBox()
         }
-    }
+    },
+    StatusList{
+        @Composable
+        override fun ScreenContent() {
+            PreviewStatusList()
+        }
+    },
 
     ;
 
