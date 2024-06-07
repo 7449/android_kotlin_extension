@@ -28,10 +28,10 @@ import androidx.core.extension.compose.colorPrimary
 import androidx.core.extension.http.DataWrapper
 
 @Composable
-fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusList(
+fun <T : Any, M : StatusListModel<T>> SimpleStatusList(
     modifier: Modifier = Modifier,
 
-    model: MODEL,
+    model: M,
 
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
@@ -72,7 +72,7 @@ fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusList(
             header()
             itemsIndexed(items) { index, item ->
                 item(item)
-                if (index == items.size - 1 && !model.isLoading) {
+                if (index == items.size - 1 && dataWrapper.isSuccess) {
                     model.onLoadMore()
                 }
             }

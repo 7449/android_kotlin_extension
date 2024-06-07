@@ -59,7 +59,7 @@ import androidx.core.extension.compose.widget.SimpleInput
 import androidx.core.extension.compose.widget.SimpleInterceptWebView
 import androidx.core.extension.compose.widget.SimpleRadioButton
 import androidx.core.extension.compose.widget.SimpleStatusBox
-import androidx.core.extension.compose.widget.SimpleStatusVerticalStaggeredGrid
+import androidx.core.extension.compose.widget.SimpleStatusList
 import androidx.core.extension.compose.widget.SimpleTabLayout
 import androidx.core.extension.compose.widget.SimpleTextButton
 import androidx.core.extension.compose.widget.SingleInputDialog
@@ -159,13 +159,13 @@ class SimplePreviewStatusListViewModel : SimpleListComposeViewModel<String>(
     override suspend fun http(url: String, isRefresh: Boolean): Pair<MutableList<String>, String> {
         delay(1000)
         return arrayListOf<String>().apply {
-            if (maxCount < 3) {
+            if (maxCount < 5) {
                 for (i in 0 until 20) {
                     add(i.toString())
                 }
                 maxCount++
             } else {
-                throw KotlinNullPointerException()
+//                throw KotlinNullPointerException()
             }
         } to "https://www.baidu.com"
     }
@@ -173,15 +173,15 @@ class SimplePreviewStatusListViewModel : SimpleListComposeViewModel<String>(
 
 @Composable
 fun PreviewStatusList(viewModel: SimplePreviewStatusListViewModel = viewModel()) {
-//    SimpleStatusList(model = viewModel) {
-//        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-//    }
+    SimpleStatusList(model = viewModel) {
+        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+    }
 //    SimpleStatusVerticalGrid(model = viewModel) {
 //        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
 //    }
-    SimpleStatusVerticalStaggeredGrid(model = viewModel) {
-        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
-    }
+//    SimpleStatusVerticalStaggeredGrid(model = viewModel) {
+//        Text(text = it, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+//    }
 }
 
 @Composable

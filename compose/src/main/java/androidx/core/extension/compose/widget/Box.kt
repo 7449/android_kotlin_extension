@@ -18,13 +18,13 @@ import androidx.core.extension.http.DataWrapper
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun <T, MODEL : StatusModel<T>> SimpleStatusBox(
+fun <T, M : StatusModel<T>> SimpleStatusBox(
     modifier: Modifier = Modifier,
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
     indicatorContentColor: Color = colorPrimary,
     indicatorScale: Boolean = false,
-    model: MODEL,
+    model: M,
     content: @Composable BoxScope.(DataWrapper.Success<T>) -> Unit,
 ) {
     val dataWrapper by model.value.collectAsState()

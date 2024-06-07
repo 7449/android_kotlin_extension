@@ -48,10 +48,10 @@ fun <T> LazyStaggeredGridScope.fillWidthItem(
 }
 
 @Composable
-fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusVerticalStaggeredGrid(
+fun <T : Any, M : StatusListModel<T>> SimpleStatusVerticalStaggeredGrid(
     modifier: Modifier = Modifier,
 
-    model: MODEL,
+    model: M,
 
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
@@ -94,7 +94,7 @@ fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusVerticalStaggeredGrid(
             header()
             itemsIndexed(items) { index, item ->
                 item(item)
-                if (index == items.size - 1 && !model.isLoading) {
+                if (index == items.size - 1 && dataWrapper.isSuccess) {
                     model.onLoadMore()
                 }
             }

@@ -3,7 +3,9 @@ plugins {
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.compose.compiler)
 }
-apply("$rootDir/build.maven.gradle")
+if (file("$rootDir/build.maven.gradle").exists()) {
+    apply("$rootDir/build.maven.gradle")
+}
 android {
     namespace = "androidx.core.extension.compose"
     compileSdk = libs.versions.compileSdk.get().toInt()

@@ -2,6 +2,18 @@ package androidx.core.extension.http
 
 sealed class DataWrapper<out R> {
 
+    val isLoading get() = this is Loading
+
+    val isEmpty get() = this is Empty
+
+    val isFailure get() = this is Failure
+
+    val isSuccess get() = this is Success
+
+    val value get() = if (this is Success) data else null
+
+    val notNullValue get() = (this as Success).notNullData
+
     /**
      * 初始状态
      */

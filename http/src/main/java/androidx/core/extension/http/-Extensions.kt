@@ -1,12 +1,5 @@
 package androidx.core.extension.http
 
-fun <T> DataWrapper<T>.getSuccessOrNull(): DataWrapper.Success<T>? {
-    if (this is DataWrapper.Success) {
-        return this
-    }
-    return null
-}
-
 inline fun <T : Any> DataWrapper<DataResult<T>>.onResultNotNull(action: (data: T) -> Unit): DataWrapper<DataResult<T>> {
     if (this is DataWrapper.Success && data?.data != null) {
         action.invoke(requireNotNull(data.data))

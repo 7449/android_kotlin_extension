@@ -25,8 +25,8 @@ import kotlinx.coroutines.flow.StateFlow
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusLazyScrollScreen(
-    model: MODEL,
+internal fun <T : Any, M : StatusListModel<T>> SimpleStatusLazyScrollScreen(
+    model: M,
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
     indicatorContentColor: Color = colorPrimary,
@@ -35,13 +35,11 @@ internal fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusLazyScrollScreen(
 ) {
     val dataWrapper by model.value.collectAsState()
     val state = rememberPullRefreshState(
-        refreshing = model.isLoading,
+        refreshing = dataWrapper.isLoading,
         onRefresh = model::onRefresh
     )
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(state),
+        modifier = Modifier.fillMaxSize().pullRefresh(state),
         contentAlignment = contentAlignment,
         propagateMinConstraints = propagateMinConstraints
     ) {
@@ -57,7 +55,7 @@ internal fun <T : Any, MODEL : StatusListModel<T>> SimpleStatusLazyScrollScreen(
             DataWrapper.Normal -> {}
         }
         PullRefreshIndicator(
-            refreshing = model.isLoading,
+            refreshing = dataWrapper.isLoading,
             state = state,
             contentColor = indicatorContentColor,
             scale = indicatorScale,
@@ -112,17 +110,13 @@ internal fun SimpleStatusFailureMoreScreen(retry: () -> Unit) {
 internal val statusHandler = Handler(Looper.getMainLooper())
 
 interface StatusListModel<T> {
-    val value: StateFlow<DataWrapper<MutableList<T>>>
-    val item: StateFlow<MutableList<T>>
+    val value: StateFlow<DataWrapper<List<T>>>
+    val item: StateFlow<List<T>>
     val requestUrl: String
     fun onRefresh(retry: Boolean = false)
     fun onLoadMore(retry: Boolean = false)
     fun request(url: String, isRefresh: Boolean)
-    suspend fun http(url: String, isRefresh: Boolean): Pair<MutableList<T>, String>
-    val isLoading get() = value.value is DataWrapper.Loading
-    val isFailure get() = value.value is DataWrapper.Failure
-    val isEmpty get() = value.value is DataWrapper.Empty
-    val isSuccess get() = value.value is DataWrapper.Success
+    suspend fun http(url: String, isRefresh: Boolean): Pair<List<T>, String>
 }
 
 interface StatusModel<T> {
@@ -132,8 +126,4 @@ interface StatusModel<T> {
     fun onRefresh()
     fun request(url: String)
     suspend fun http(url: String): T?
-    val isLoading get() = value.value is DataWrapper.Loading
-    val isFailure get() = value.value is DataWrapper.Failure
-    val isEmpty get() = value.value is DataWrapper.Empty
-    val isSuccess get() = value.value is DataWrapper.Success
 }
