@@ -14,8 +14,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,13 +25,13 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 internal fun <T : Any, M : StatusListModel<T>> SimpleStatusLazyScrollScreen(
     model: M,
+    dataWrapper: DataWrapper<List<T>>,
     contentAlignment: Alignment = Alignment.TopStart,
     propagateMinConstraints: Boolean = false,
     indicatorContentColor: Color = colorPrimary,
     indicatorScale: Boolean = false,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    val dataWrapper by model.value.collectAsState()
     val state = rememberPullRefreshState(
         refreshing = dataWrapper.isLoading,
         onRefresh = model::onRefresh
@@ -111,7 +109,7 @@ internal val statusHandler = Handler(Looper.getMainLooper())
 
 interface StatusListModel<T> {
     val value: StateFlow<DataWrapper<List<T>>>
-    val item: StateFlow<List<T>>
+    val item: List<T>
     val requestUrl: String
     fun onRefresh(retry: Boolean = false)
     fun onLoadMore(retry: Boolean = false)

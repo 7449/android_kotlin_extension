@@ -17,7 +17,6 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -51,9 +50,9 @@ fun <T : Any, M : StatusListModel<T>> SimpleStatusList(
 ) {
     val state = rememberLazyListState()
     val dataWrapper by model.value.collectAsState()
-    val items by model.item.collectAsState()
     SimpleStatusLazyScrollScreen(
         model = model,
+        dataWrapper = dataWrapper,
         contentAlignment = contentAlignment,
         propagateMinConstraints = propagateMinConstraints,
         indicatorContentColor = indicatorContentColor,
@@ -70,24 +69,19 @@ fun <T : Any, M : StatusListModel<T>> SimpleStatusList(
             userScrollEnabled = userScrollEnabled
         ) {
             header()
-            itemsIndexed(items) { index, item ->
+            itemsIndexed(model.item) { index, item ->
                 item(item)
-                if (index == items.size - 1 && dataWrapper.isSuccess) {
+                if (index == model.item.size - 1 && dataWrapper.isSuccess) {
                     model.onLoadMore()
                 }
             }
             item {
                 if (dataWrapper is DataWrapper.Empty.More) {
-                    SimpleStatusEmptyMoreScreen { model.onLoadMore(retry = true) }
+                    SimpleStatusEmptyMoreScreen { }
                 } else if (dataWrapper is DataWrapper.Failure.More) {
                     SimpleStatusFailureMoreScreen { model.onLoadMore(retry = true) }
                 }
             }
-        }
-    }
-    LaunchedEffect(dataWrapper) {
-        if (dataWrapper is DataWrapper.Empty.More || dataWrapper is DataWrapper.Failure.More) {
-            state.animateScrollToItem(items.size - 1)
         }
     }
 }

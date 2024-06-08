@@ -2,7 +2,6 @@ package androidx.core.extension.compose.viewmodel
 
 import android.util.Log
 import androidx.core.extension.compose.dataWrapperStateFlow
-import androidx.core.extension.compose.mutableStateListFlow
 import androidx.core.extension.compose.widget.StatusListModel
 import androidx.core.extension.compose.widget.statusHandler
 import androidx.core.extension.http.DataWrapper
@@ -22,8 +21,7 @@ abstract class SimpleListComposeViewModel<T>(
 
     private val _value = dataWrapperStateFlow<List<T>>(DataWrapper.Normal)
     override val value: StateFlow<DataWrapper<List<T>>> get() = _value
-    private val _item = mutableStateListFlow(arrayListOf<T>())
-    override val item: StateFlow<List<T>> get() = _item
+    override val item: MutableList<T> = arrayListOf()
 
     override val requestUrl: String get() = initializeUrl
     private var currentUrl: String = initializeUrl
@@ -37,7 +35,7 @@ abstract class SimpleListComposeViewModel<T>(
     override fun onLoadMore(retry: Boolean) {
         if (retry) {
             request(currentUrl, false)
-        } else if (value.value.isSuccess && currentUrl != DEFAULT_REQUEST_END_MARK) {
+        } else if ((value.value.isSuccess || value.value.isFailure) && currentUrl != REQUEST_END_MARK) {
             request(currentUrl, false)
         }
     }
@@ -45,7 +43,7 @@ abstract class SimpleListComposeViewModel<T>(
     override fun request(url: String, isRefresh: Boolean) {
         Log.e("Print", "compose request http : $url")
         if (isRefresh) {
-            _item.value.clear()
+            item.clear()
         }
         _value.value = if (isRefresh) DataWrapper.Loading.Default
         else DataWrapper.Loading.More
@@ -56,15 +54,18 @@ abstract class SimpleListComposeViewModel<T>(
             },
             scope = {
                 val (result, nextUrl) = http(url, isRefresh)
-                _value.value = when {
-                    isRefresh && result.isEmpty() -> DataWrapper.Empty.Default
-                    !isRefresh && result.isEmpty() -> DataWrapper.Empty.More
-                    else -> {
-                        currentUrl = nextUrl.ifBlank { DEFAULT_REQUEST_END_MARK }
-                        _item.value.addAll(result)
-                        DataWrapper.Success(result)
-                    }
+                currentUrl = nextUrl.ifBlank { REQUEST_END_MARK }
+                if (isRefresh && result.isEmpty()) {
+                    _value.value = DataWrapper.Empty.Default
+                    return@composeLaunch
                 }
+                if (result.isNotEmpty()) {
+                    item.addAll(result)
+                    _value.value = if (currentUrl == REQUEST_END_MARK) DataWrapper.Empty.More
+                    else DataWrapper.Success(result)
+                    return@composeLaunch
+                }
+                _value.value = DataWrapper.Empty.More
             }
         )
     }

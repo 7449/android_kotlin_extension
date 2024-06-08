@@ -68,7 +68,7 @@ abstract class SimpleComposeViewModel<T>(
     private fun shouldSkipRefresh(): Boolean {
         return value.value.isLoading
                 || requestUrl.isBlank()
-                || requestUrl == DEFAULT_REQUEST_END_MARK
+                || requestUrl == REQUEST_END_MARK
     }
 
 }

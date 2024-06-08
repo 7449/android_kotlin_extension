@@ -25,7 +25,7 @@ inline fun <reified VM : ViewModel> viewModel(
     constructor.newInstance(*args.map { it }.toTypedArray()) as VM
 }
 
-const val DEFAULT_REQUEST_END_MARK = "request.end"
+const val REQUEST_END_MARK = "request.end"
 
 typealias ComposeScope<T> = suspend (CoroutineScope) -> T
 typealias ComposeError = suspend (Exception) -> Unit
