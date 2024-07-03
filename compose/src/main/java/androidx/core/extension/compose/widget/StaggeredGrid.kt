@@ -46,6 +46,17 @@ fun <T> LazyStaggeredGridScope.fillWidthItem(
     item(span = FullLine, content = { content(item) })
 }
 
+//    LaunchedEffect(state) {
+//        snapshotFlow { state.layoutInfo.visibleItemsInfo }
+//            .map { visibleItems -> visibleItems.lastOrNull()?.index }
+//            .distinctUntilChanged()
+//            .collect { lastVisibleItemIndex ->
+//                if (lastVisibleItemIndex == model.item.size && dataWrapper.isSuccess) {
+//                    model.onLoadMore()
+//                }
+//            }
+//    }
+
 @Composable
 fun <T : Any, M : StatusListModel<T>> SimpleStatusVerticalStaggeredGrid(
     modifier: Modifier = Modifier,

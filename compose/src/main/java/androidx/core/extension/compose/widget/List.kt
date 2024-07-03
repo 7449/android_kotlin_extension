@@ -26,6 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 import androidx.core.extension.http.DataWrapper
 
+//    LaunchedEffect(state) {
+//        snapshotFlow { state.layoutInfo.visibleItemsInfo }
+//            .map { visibleItems -> visibleItems.lastOrNull()?.index }
+//            .distinctUntilChanged()
+//            .collect { lastVisibleItemIndex ->
+//                if (lastVisibleItemIndex == model.item.size && dataWrapper.isSuccess) {
+//                    model.onLoadMore()
+//                }
+//            }
+//    }
+
 @Composable
 fun <T : Any, M : StatusListModel<T>> SimpleStatusList(
     modifier: Modifier = Modifier,
