@@ -48,6 +48,26 @@ fun SimpleRadioButton(
 }
 
 @Composable
+fun <T> SimpleRadioButton(
+    modifier: Modifier = Modifier,
+    value: T,
+    onTextValue: (T) -> String,
+    selected: (T) -> Boolean,
+    onSelect: (T) -> Unit,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.clickable { onSelect(value) }
+    ) {
+        RadioButton(
+            selected = selected(value),
+            onClick = { onSelect(value) }
+        )
+        Text(text = onTextValue(value))
+    }
+}
+
+@Composable
 fun SimpleIconButton(
     imageVector: ImageVector,
     modifier: Modifier = Modifier,
