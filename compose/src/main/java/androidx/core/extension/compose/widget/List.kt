@@ -17,85 +17,11 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
-import androidx.core.extension.http.DataWrapper
-
-//    LaunchedEffect(state) {
-//        snapshotFlow { state.layoutInfo.visibleItemsInfo }
-//            .map { visibleItems -> visibleItems.lastOrNull()?.index }
-//            .distinctUntilChanged()
-//            .collect { lastVisibleItemIndex ->
-//                if (lastVisibleItemIndex == model.item.size && dataWrapper.isSuccess) {
-//                    model.onLoadMore()
-//                }
-//            }
-//    }
-
-@Composable
-fun <T : Any, M : StatusListModel<T>> SimpleStatusList(
-    modifier: Modifier = Modifier,
-
-    model: M,
-
-    contentAlignment: Alignment = Alignment.TopStart,
-    propagateMinConstraints: Boolean = false,
-
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    reverseLayout: Boolean = false,
-    verticalArrangement: Arrangement.Vertical = if (!reverseLayout) Arrangement.Top else Arrangement.Bottom,
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
-    flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
-    userScrollEnabled: Boolean = true,
-
-    indicatorContentColor: Color = colorPrimary,
-    indicatorScale: Boolean = false,
-
-    header: LazyListScope.() -> Unit = {},
-    item: @Composable LazyItemScope.(T) -> Unit,
-) {
-    val state = rememberLazyListState()
-    val dataWrapper by model.value.collectAsState()
-    SimpleStatusLazyScrollScreen(
-        model = model,
-        dataWrapper = dataWrapper,
-        contentAlignment = contentAlignment,
-        propagateMinConstraints = propagateMinConstraints,
-        indicatorContentColor = indicatorContentColor,
-        indicatorScale = indicatorScale
-    ) {
-        LazyColumn(
-            state = state,
-            modifier = Modifier.fillMaxHeight().then(modifier),
-            contentPadding = contentPadding,
-            reverseLayout = reverseLayout,
-            verticalArrangement = verticalArrangement,
-            horizontalAlignment = horizontalAlignment,
-            flingBehavior = flingBehavior,
-            userScrollEnabled = userScrollEnabled
-        ) {
-            header()
-            itemsIndexed(model.item) { index, item ->
-                item(item)
-                if (index == model.item.size - 1 && dataWrapper.isSuccess) {
-                    model.onLoadMore()
-                }
-            }
-            item {
-                if (dataWrapper is DataWrapper.Empty.More) {
-                    SimpleStatusEmptyMoreScreen { }
-                } else if (dataWrapper is DataWrapper.Failure.More) {
-                    SimpleStatusFailureMoreScreen { model.onLoadMore(retry = true) }
-                }
-            }
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -128,6 +54,7 @@ fun <T> SimpleInfiniteList(
         refreshing = refreshing,
         onRefresh = onRefresh
     )
+    val listState = rememberLazyListState()
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -136,7 +63,7 @@ fun <T> SimpleInfiniteList(
         propagateMinConstraints = propagateMinConstraints
     ) {
         LazyColumn(
-            state = rememberLazyListState(),
+            state = listState,
             modifier = Modifier.fillMaxHeight().then(modifier),
             contentPadding = contentPadding,
             reverseLayout = reverseLayout,
@@ -161,4 +88,14 @@ fun <T> SimpleInfiniteList(
             modifier = Modifier.align(Alignment.TopCenter),
         )
     }
+//    LaunchedEffect(listState) {
+//        snapshotFlow { listState.layoutInfo.visibleItemsInfo }
+//            .map { visibleItems -> visibleItems.lastOrNull()?.index }
+//            .distinctUntilChanged()
+//            .collect { lastVisibleItemIndex ->
+//                if (lastVisibleItemIndex == items.size && !refreshing) {
+//                    onLoadMore()
+//                }
+//            }
+//    }
 }
