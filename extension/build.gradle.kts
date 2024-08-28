@@ -10,14 +10,14 @@ android {
     buildFeatures.viewBinding = true
     buildTypes { release { isMinifyEnabled = false } }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
     }
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
 }
 dependencies {
-    implementation(libs.bundles.extension)
+    implementation(libs.bundles.androidx)
     implementation(kotlin("reflect"))
 }

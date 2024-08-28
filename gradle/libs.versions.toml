@@ -7,42 +7,56 @@ versionName = "1.0.0"
 minSdk = "21"
 jvmTarget = "17"
 
-android = "8.5.0"
-kotlin = "2.0.0"
+android = "8.5.2"
+kotlin = "2.0.20"
 
-composeBom = "2024.06.00"
+composeBom = "2024.08.00"
 
 [plugins]
-
+#https://maven.google.com/web/index.html#com.android.application:com.android.application.gradle.plugin
 android-application = { id = "com.android.application", version.ref = "android" }
+#https://maven.google.com/web/index.html#com.android.library:com.android.library.gradle.plugin
 android-library = { id = "com.android.library", version.ref = "android" }
+#https://central.sonatype.com/search?q=org.jetbrains.kotlin.android
 android-kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+#https://central.sonatype.com/artifact/org.jetbrains.kotlin/kotlin-compose-compiler-plugin/versions
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
+#https://maven.google.com/web/index.html#androidx.appcompat:appcompat
+androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
+#https://maven.google.com/web/index.html#androidx.swiperefreshlayout:swiperefreshlayout
+androidx-refresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+#https://maven.google.com/web/index.html#androidx.lifecycle:lifecycle-viewmodel-ktx
+androidx-lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4"
+#https://maven.google.com/web/index.html#androidx.annotation:annotation
+androidx-annotation = "androidx.annotation:annotation:1.8.2"
+#https://maven.google.com/web/index.html#androidx.core:core-ktx
+androidx-core = "androidx.core:core-ktx:1.13.1"
 
-appcompat = "androidx.appcompat:appcompat:1.7.0"
-refresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+#https://maven.google.com/web/index.html#com.google.android.flexbox:flexbox
+google-flexbox = "com.google.android.flexbox:flexbox:3.0.0"
+#https://maven.google.com/web/index.html#com.google.android.material:material
+google-material = "com.google.android.material:material:1.12.0"
 
-flexbox = "com.google.android.flexbox:flexbox:3.0.0"
-material = "com.google.android.material:material:1.12.0"
-annotation = "androidx.annotation:annotation:1.8.0"
-core = "androidx.core:core-ktx:1.13.1"
-lifecycle = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.1"
-
+#https://maven.google.com/web/index.html#androidx.compose:compose-bom
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+#https://maven.google.com/web/index.html#androidx.navigation:navigation-compose
 compose-navigation = "androidx.navigation:navigation-compose:2.7.7"
-compose-navigation-gson = "com.google.code.gson:gson:2.10.1"
+#https://github.com/google/gson#download
+compose-navigation-gson = "com.google.code.gson:gson:2.11.0"
 
 [bundles]
 
-flexbox = ["flexbox"]
-extension = ["annotation", "core", "lifecycle"]
-http = []
+androidx = [
+    "androidx-annotation",
+    "androidx-core",
+    "androidx-lifecycle"
+]
 
 compose = [
     "compose-material",
@@ -54,7 +68,7 @@ compose = [
 ]
 
 component-ui = [
-    "appcompat",
-    "material",
-    "refresh",
+    "androidx-appcompat",
+    "androidx-refresh",
+    "google-material",
 ]
