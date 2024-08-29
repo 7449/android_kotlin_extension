@@ -1,16 +1,23 @@
 package androidx.core.extension.sample
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.boolStateOf
 import androidx.core.extension.compose.material.CopyOrDownloadDialog
@@ -20,6 +27,8 @@ import androidx.core.extension.compose.material.WeightButton
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
+import androidx.core.extension.compose.viewmodel.viewModel
+import androidx.core.extension.compose.widget.FlowChipSize
 import androidx.core.extension.os.mainHandler
 import androidx.core.os.postDelayed
 
@@ -136,7 +145,7 @@ fun PreviewCard() {
             androidx.core.extension.compose.material.SimpleText("Card1")
             androidx.core.extension.compose.material.SimpleText("Card2")
         }
-        androidx.core.extension.compose.material3.SimpleCardBox(modifier = Modifier.padding(5.dp)) {
+        androidx.core.extension.compose.material.SimpleCardBox(modifier = Modifier.padding(5.dp)) {
             androidx.core.extension.compose.material.SimpleText("Card1")
             androidx.core.extension.compose.material.SimpleText("Card2")
         }
@@ -185,32 +194,155 @@ fun PreviewBox() {
 
 @Composable
 fun PreviewChip() {
+    Column {
+        androidx.core.extension.compose.material.SimpleFilterChip(
+            tagString,
+            selected = true,
+            onText = { it }
+        )
+        androidx.core.extension.compose.material.SimpleFlowRowHorizontalScrollFilterChip(
+            item = tagList,
+            onText = { it },
+            onSelect = { it.contains("2") }
+        )
+        Box(modifier = Modifier.height(100.dp)) {
+            androidx.core.extension.compose.material.SimpleFlowRowVerticalScrollFilterChip(
+                item = tagList,
+                onText = { it },
+                size = FlowChipSize.Small,
+                onSelect = { it.contains("2") }
+            )
+        }
+        androidx.core.extension.compose.material.SimpleChip(tagString, onText = { it })
+        androidx.core.extension.compose.material.SimpleFlowRowChip(tagList, onText = { it })
+        androidx.core.extension.compose.material.SimpleFlowRowHorizontalScrollChip(
+            item = tagList,
+            onText = { it },
+        )
+    }
 }
 
 @Composable
 fun PreviewList() {
+    val refresh = remember { boolStateOf(false) }
+    val items = remember { mutableStateList }
+    androidx.core.extension.compose.material.SimpleInfiniteList(
+        items = items,
+        refreshing = refresh.value,
+        onRefresh = {
+            refresh.value = true
+            mainHandler.postDelayed(1000) {
+                refresh.value = false
+                items.add(0, randomString)
+            }
+        },
+        onLoadMore = {
+            refresh.value = true
+            mainHandler.postDelayed(1000) {
+                refresh.value = false
+                items.add(randomString)
+            }
+        }
+    ) { androidx.core.extension.compose.material.SimpleText(it) }
 }
 
 @Composable
 fun PreviewGrid() {
+    val refresh = remember { boolStateOf(false) }
+    val items = remember { mutableStateList }
+    androidx.core.extension.compose.material.SimpleInfiniteVerticalGrid(
+        items = items,
+        refreshing = refresh.value,
+        onRefresh = {
+            refresh.value = true
+            mainHandler.postDelayed(1000) {
+                refresh.value = false
+                items.add(0, randomString)
+            }
+        },
+        onLoadMore = {
+            refresh.value = true
+            mainHandler.postDelayed(1000) {
+                refresh.value = false
+                items.add(randomString)
+            }
+        }
+    ) { androidx.core.extension.compose.material.SimpleText(it) }
 }
 
 @Composable
 fun PreviewStaggeredGrid() {
+    val refresh = remember { boolStateOf(false) }
+    val items = remember { mutableStateList }
+    androidx.core.extension.compose.material.SimpleInfiniteVerticalStaggeredGrid(
+        items = items,
+        refreshing = refresh.value,
+        onRefresh = {
+            refresh.value = true
+            mainHandler.postDelayed(1000) {
+                refresh.value = false
+                items.add(0, randomString)
+            }
+        },
+        onLoadMore = {
+            refresh.value = true
+            mainHandler.postDelayed(1000) {
+                refresh.value = false
+                items.add(randomString)
+            }
+        }
+    ) { androidx.core.extension.compose.material.SimpleText(it) }
 }
 
 @Composable
-fun PreviewSingleBox() {
+fun PreviewSingleBox(viewModel: SimplePreviewSingleViewModel = viewModel()) {
+    androidx.core.extension.compose.material.SimpleSingleBox(viewModel = viewModel) {
+        LazyColumn {
+            items(it.notNullData) {
+                androidx.core.extension.compose.material.SimpleText(
+                    text = it,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            item {
+                androidx.core.extension.compose.material.SimpleTextButton(
+                    "点击加载更多数据",
+                    onClick = viewModel::onClickMore
+                )
+            }
+        }
+    }
 }
 
 @Composable
-fun PreviewMultiList() {
+fun PreviewMultiList(viewModel: SimplePreviewMultiViewModel = viewModel()) {
+    androidx.core.extension.compose.material.SimpleMultiList(viewModel = viewModel) {
+        androidx.core.extension.compose.material.SimpleText(
+            text = it,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 @Composable
-fun PreviewMultiGrid() {
+fun PreviewMultiGrid(viewModel: SimplePreviewMultiViewModel = viewModel()) {
+    androidx.core.extension.compose.material.SimpleMultiVerticalGrid(viewModel = viewModel) {
+        androidx.core.extension.compose.material.SimpleText(
+            text = it,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+    }
 }
 
 @Composable
-fun PreviewMultiStaggeredGrid() {
+fun PreviewMultiStaggeredGrid(viewModel: SimplePreviewMultiViewModel = viewModel()) {
+    androidx.core.extension.compose.material.SimpleMultiVerticalStaggeredGrid(viewModel = viewModel) {
+        androidx.core.extension.compose.material.SimpleText(
+            text = it,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
+    }
 }
