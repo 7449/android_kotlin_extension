@@ -1,8 +1,9 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material3
 
 import android.util.Log
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
@@ -27,7 +28,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
-import androidx.core.extension.compose.composeHandler
+import androidx.core.extension.compose.composeHandlerPost
 import androidx.core.extension.compose.dataWrapperStateFlow
 import androidx.core.extension.compose.viewmodel.REQUEST_END_MARK
 import androidx.core.extension.compose.viewmodel.composeLaunch
@@ -63,7 +64,7 @@ abstract class SimpleMultiViewModel<T>(
 
     init {
         if (initializeRefresh) {
-            composeHandler.post { onRefresh() }
+            composeHandlerPost { onRefresh() }
         }
     }
 
@@ -128,7 +129,11 @@ private fun <T : Any, VM : MultiViewModel<T>> SimpleMultiLazyScroll(
     content: @Composable BoxScope.() -> Unit,
 ) {
     val dataWrapper by viewModel.value.collectAsState()
-    SimpleInfiniteBox(refreshing = dataWrapper.isLoading, onRefresh = viewModel::onRefresh) {
+    SimpleInfiniteBox(
+        refreshing = dataWrapper.isLoading,
+        onRefresh = viewModel::onRefresh,
+        modifier = Modifier.fillMaxSize()
+    ) {
         content()
         when (dataWrapper) {
             is DataWrapper.Failure.Default -> SimpleStatusFailureScreen(retry = viewModel::onRefresh)

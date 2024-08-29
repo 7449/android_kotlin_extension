@@ -1,4 +1,4 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Button
@@ -14,7 +14,7 @@ import androidx.core.extension.compose.horizontalPadding
 fun RowScope.WeightButton(
     text: String,
     size: Int = 12,
-    color: Color = Color.Gray,
+    color: Color = Color.White,
     onClick: () -> Unit = {},
 ) {
     Button(

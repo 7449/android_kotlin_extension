@@ -3,10 +3,8 @@ package androidx.core.extension.compose.widget
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
@@ -15,16 +13,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.pullRefresh
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.core.extension.compose.colorPrimary
 
 fun <T> LazyGridScope.fillWidthItems(
     item: List<T>?,
@@ -42,20 +33,10 @@ fun <T> LazyGridScope.fillWidthItem(
     item(span = { GridItemSpan(maxLineSpan) }, content = { content(item) })
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun <T> SimpleInfiniteVerticalGrid(
-    modifier: Modifier = Modifier,
-
+fun <T> SimpleVerticalGrid(
     items: List<T>,
-
-    refreshing: Boolean = false,
-    onRefresh: () -> Unit = {},
-    onLoadMore: () -> Unit = {},
-
-    contentAlignment: Alignment = Alignment.TopStart,
-    propagateMinConstraints: Boolean = false,
-
+    modifier: Modifier = Modifier,
     columns: GridCells = GridCells.Fixed(2),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
@@ -63,61 +44,31 @@ fun <T> SimpleInfiniteVerticalGrid(
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     userScrollEnabled: Boolean = true,
-
-    indicatorContentColor: Color = colorPrimary,
-    indicatorScale: Boolean = false,
-
-
     header: LazyGridScope.() -> Unit = {},
-    item: @Composable LazyGridItemScope.(T) -> Unit,
+    item: @Composable LazyGridItemScope.(index: Int, item: T) -> Unit,
 ) {
-    val gridState = rememberLazyGridState()
-    val state = rememberPullRefreshState(
-        refreshing = refreshing,
-        onRefresh = onRefresh
-    )
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pullRefresh(state),
-        contentAlignment = contentAlignment,
-        propagateMinConstraints = propagateMinConstraints
-    ) {
-        LazyVerticalGrid(
-            state = gridState,
-            columns = columns,
-            contentPadding = contentPadding,
-            reverseLayout = reverseLayout,
-            verticalArrangement = verticalArrangement,
-            horizontalArrangement = horizontalArrangement,
-            flingBehavior = flingBehavior,
-            userScrollEnabled = userScrollEnabled,
-            modifier = Modifier.fillMaxHeight().then(modifier)
-        ) {
-            header()
-            itemsIndexed(items) { index, item ->
-                item(item)
-                if (index == items.size - 1 && !refreshing) {
-                    onLoadMore()
-                }
-            }
-        }
-        PullRefreshIndicator(
-            refreshing = refreshing,
-            state = state,
-            contentColor = indicatorContentColor,
-            scale = indicatorScale,
-            modifier = Modifier.align(Alignment.TopCenter),
-        )
-    }
 //    LaunchedEffect(gridState) {
 //        snapshotFlow { gridState.layoutInfo.visibleItemsInfo }
 //            .map { visibleItems -> visibleItems.lastOrNull()?.index }
 //            .distinctUntilChanged()
 //            .collect { lastVisibleItemIndex ->
-//                if (lastVisibleItemIndex == items.size && !refreshing) {
+//                if (lastVisibleItemIndex == items.size - 1) {
 //                    onLoadMore()
 //                }
 //            }
 //    }
+    LazyVerticalGrid(
+        state = rememberLazyGridState(),
+        columns = columns,
+        contentPadding = contentPadding,
+        reverseLayout = reverseLayout,
+        verticalArrangement = verticalArrangement,
+        horizontalArrangement = horizontalArrangement,
+        flingBehavior = flingBehavior,
+        userScrollEnabled = userScrollEnabled,
+        modifier = Modifier.fillMaxHeight().then(modifier)
+    ) {
+        header()
+        itemsIndexed(items, itemContent = item)
+    }
 }

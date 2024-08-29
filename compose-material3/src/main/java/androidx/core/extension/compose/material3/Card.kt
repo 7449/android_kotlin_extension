@@ -1,4 +1,4 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +10,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ fun SimpleCardRow(
     }
 }
 
+//如果不需要修改Column的配置,使用默认的SimpleCard即可
 @Composable
 fun SimpleCardColumn(
     modifier: Modifier = Modifier,
@@ -96,19 +98,26 @@ fun SimpleCardBox(
 @Composable
 fun SimpleCard(
     modifier: Modifier = Modifier,
-    padding: Dp = 8.dp,
-    roundedCorner: Dp = 8.dp,
+    padding: Dp = 10.dp,
+    roundedCorner: Dp = 10.dp,
     backgroundColor: Color = Color.White,
-    elevation: Dp = 8.dp,
-    content: @Composable () -> Unit,
+    elevation: Dp = 10.dp,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(padding)
             .then(modifier),
-        elevation = elevation,
-        backgroundColor = backgroundColor,
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = elevation,
+            pressedElevation = elevation,
+            focusedElevation = elevation,
+            hoveredElevation = elevation,
+            draggedElevation = elevation,
+            disabledElevation = elevation
+        ),
+        colors = CardDefaults.cardColors(containerColor = backgroundColor),
         shape = RoundedCornerShape(roundedCorner),
         content = content
     )

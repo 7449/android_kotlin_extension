@@ -17,5 +17,7 @@ include(
     ":flexbox",
     ":http",
     ":compose",
+    ":compose-material",
+    ":compose-material3",
     ":component-ui",
 )

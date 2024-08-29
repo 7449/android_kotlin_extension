@@ -1,4 +1,4 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
@@ -13,6 +13,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.style.TextAlign
+
+@Composable
+fun SimpleText(
+    text: String,
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign = TextAlign.Center,
+) {
+    Text(
+        text = text,
+        textAlign = textAlign,
+        modifier = modifier,
+    )
+}
 
 @Composable
 fun SimpleButton(text: String, onClick: () -> Unit) {

@@ -27,6 +27,9 @@ dependencies {
     implementation(project(":http"))
     implementation(project(":component-ui"))
     implementation(project(":compose"))
+    implementation(project(":compose-material"))
+    implementation(project(":compose-material3"))
     implementation(platform(libs.compose.bom))
-    implementation(libs.bundles.compose)
+    implementation(libs.bundles.compose.material)
+    implementation(libs.bundles.compose.material3)
 }

@@ -1,21 +1,16 @@
-@file:OptIn(ExperimentalMaterialApi::class)
-
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material3
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.pullrefresh.PullRefreshIndicator
-import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.core.extension.compose.colorPrimary
-import androidx.core.extension.compose.composeHandler
+import androidx.core.extension.compose.composeHandlerPost
 import androidx.core.extension.compose.dataWrapperStateFlow
 import androidx.core.extension.compose.viewmodel.REQUEST_END_MARK
 import androidx.core.extension.compose.viewmodel.composeLaunch
@@ -52,7 +47,9 @@ abstract class SimpleSingleViewModel<T>(
 
     init {
         if (initializeRefresh) {
-            composeHandler.post { onRefresh() }
+            composeHandlerPost {
+                onRefresh()
+            }
         }
     }
 
@@ -71,7 +68,7 @@ abstract class SimpleSingleViewModel<T>(
     }
 
     override fun request(url: String) {
-        Log.e("Print", "compose request http : $url")
+        Log.e("Print", "compose request http : $url ${isMoreRequest(url)}")
         if (isMoreRequest(url)) {
             updateIsMore(true)
         } else {
@@ -116,9 +113,20 @@ fun <T, VM : SingleViewModel<T>> SimpleSingleBox(
     viewModel: VM,
     content: @Composable BoxScope.(DataWrapper.Success<T>) -> Unit,
 ) {
+//    val state = rememberPullToRefreshState()
     val dataWrapper by viewModel.value.collectAsState()
     val isMore by viewModel.isMore.collectAsState()
-    Box(modifier = Modifier.fillMaxSize().then(modifier)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+//            .pullToRefresh(
+//                state = state,
+//                isRefreshing = isMore,
+//                enabled = isMore,
+//                onRefresh = {}
+//            )
+            .then(modifier)
+    ) {
         when (dataWrapper) {
             is DataWrapper.Success -> content(dataWrapper as DataWrapper.Success<T>)
             is DataWrapper.Failure.Default -> SimpleStatusFailureScreen(retry = viewModel::onRefresh)
@@ -129,15 +137,15 @@ fun <T, VM : SingleViewModel<T>> SimpleSingleBox(
             DataWrapper.Empty.More -> {}
             DataWrapper.Normal -> {}
         }
-        PullRefreshIndicator(
-            refreshing = isMore,
-            state = rememberPullRefreshState(
-                refreshing = isMore,
-                onRefresh = {}
-            ),
-            contentColor = colorPrimary,
-            scale = false,
-            modifier = Modifier.align(Alignment.TopCenter),
-        )
+//        Indicator(
+//            modifier = Modifier.align(Alignment.TopCenter),
+//            isRefreshing = isMore,
+//            state = state,
+//            containerColor = Color.White,
+//            color = colorPrimary,
+//        )
+        if (isMore) {
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        }
     }
 }

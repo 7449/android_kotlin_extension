@@ -1,20 +1,22 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
+import androidx.core.extension.compose.COPY
+import androidx.core.extension.compose.DOWNLOAD
 import androidx.core.extension.compose.DialogHolder
 import androidx.core.extension.compose.colorPrimary
 
 @Composable
-fun DialogHolder.CopyOrDownloadDialog(
+fun DialogHolder.CopyOrDownloadMaterial3Dialog(
     value: String?,
     onClickCopy: (String) -> Unit,
     onClickDownload: (String) -> Unit,
@@ -26,17 +28,17 @@ fun DialogHolder.CopyOrDownloadDialog(
             TextButton(onClick = {
                 onClickCopy(value.orEmpty())
                 hide()
-            }) { Text("复制", color = Color.Black) }
+            }) { Text(COPY, color = Color.Black) }
             TextButton(onClick = {
                 onClickDownload(value.orEmpty())
                 hide()
-            }) { Text("下载", color = colorPrimary) }
+            }) { Text(DOWNLOAD, color = colorPrimary) }
         }
     )
 }
 
 @Composable
-fun DialogHolder.SimpleDialog(title: String, ok: () -> Unit) {
+fun DialogHolder.SimpleMaterial3Dialog(title: String, ok: () -> Unit) {
     AlertDialog(
         title = { Text(title, fontSize = 15.sp) },
         onDismissRequest = { hide() },
@@ -55,7 +57,7 @@ fun DialogHolder.SimpleDialog(title: String, ok: () -> Unit) {
 }
 
 @Composable
-fun DialogHolder.SingleInputDialog(input: (String) -> Unit) {
+fun DialogHolder.SingleMaterial3InputDialog(input: (String) -> Unit) {
     AlertDialog(
         onDismissRequest = hide,
         text = {

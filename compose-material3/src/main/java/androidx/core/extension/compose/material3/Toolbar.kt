@@ -1,13 +1,14 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleBackToolbar(
     title: String,
@@ -28,6 +30,7 @@ fun SimpleBackToolbar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleBackSearchToolbar(
     title: String,
@@ -37,22 +40,18 @@ fun SimpleBackSearchToolbar(
     SimpleToolbar(
         title = title,
         navigationIcon = singleNavArrowBack(back),
-        actions = {
-            SimpleIconButton(
-                imageVector = Icons.Default.Search,
-                onClick = search
-            )
-        }
+        actions = singleActionSearch(onClick = search)
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleToolbar(
     title: String,
     titleColor: Color = Color.White,
-    bgColor: Color = colorPrimary,
     shadow: Dp = 6.dp,
-    navigationIcon: @Composable (() -> Unit)? = null,
+    colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(containerColor = colorPrimary),
+    navigationIcon: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
 ) {
     TopAppBar(
@@ -66,7 +65,7 @@ fun SimpleToolbar(
                 overflow = TextOverflow.Ellipsis
             )
         },
-        backgroundColor = bgColor,
+        colors = colors,
         modifier = Modifier.shadow(shadow)
     )
 }
@@ -76,20 +75,21 @@ fun singleActionSearch(
 ): @Composable RowScope.() -> Unit {
     if (onClick == null) return {}
     return {
-        SimpleIconButton(imageVector = Icons.Default.Search, onClick = onClick)
+        SimpleIconButton(
+            imageVector = Icons.Default.Search,
+            onClick = onClick
+        )
     }
 }
 
 fun singleNavArrowBack(
     onClick: (() -> Unit)? = null,
-): @Composable (() -> Unit)? {
-    if (onClick == null) return null
+): @Composable () -> Unit {
+    if (onClick == null) return { }
     return {
         SimpleIconButton(
-            imageVector = Icons.AutoMirrored.Filled.ArrowBack, onClick = onClick,
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth()
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            onClick = onClick
         )
     }
 }

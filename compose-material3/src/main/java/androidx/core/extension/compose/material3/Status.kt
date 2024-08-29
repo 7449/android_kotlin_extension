@@ -1,14 +1,17 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.core.extension.compose.DATA_EMPTY
+import androidx.core.extension.compose.DATA_FAILURE
+import androidx.core.extension.compose.DATA_MORE_EMPTY
 
 @Composable
 internal fun BoxScope.SimpleStatusLoadingDefaultScreen() {
@@ -22,7 +25,7 @@ internal fun BoxScope.SimpleStatusEmptyScreen(empty: () -> Unit) {
     TextButton(
         onClick = empty,
         modifier = Modifier.align(Alignment.Center)
-    ) { Text(text = "数据为空") }
+    ) { Text(text = DATA_EMPTY) }
 }
 
 @Composable
@@ -30,7 +33,7 @@ internal fun BoxScope.SimpleStatusFailureScreen(retry: () -> Unit) {
     TextButton(
         onClick = retry,
         modifier = Modifier.align(Alignment.Center)
-    ) { Text(text = "网络请求出错啦") }
+    ) { Text(text = DATA_FAILURE) }
 }
 
 @Composable
@@ -39,7 +42,7 @@ internal fun SimpleStatusEmptyMoreScreen(empty: () -> Unit) {
         TextButton(
             onClick = empty,
             modifier = Modifier.align(Alignment.Center)
-        ) { Text(text = "没有更多的数据啦") }
+        ) { Text(text = DATA_MORE_EMPTY) }
     }
 }
 
@@ -49,6 +52,6 @@ internal fun SimpleStatusFailureMoreScreen(retry: () -> Unit) {
         TextButton(
             onClick = retry,
             modifier = Modifier.align(Alignment.Center)
-        ) { Text(text = "网络请求出错啦") }
+        ) { Text(text = DATA_FAILURE) }
     }
 }

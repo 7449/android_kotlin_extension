@@ -41,10 +41,12 @@ google-material = "com.google.android.material:material:1.12.0"
 
 #https://maven.google.com/web/index.html#androidx.compose:compose-bom
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version = "1.3.0-rc01" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 #https://maven.google.com/web/index.html#androidx.navigation:navigation-compose
 compose-navigation = "androidx.navigation:navigation-compose:2.7.7"
 #https://github.com/google/gson#download
@@ -59,7 +61,23 @@ androidx = [
 ]
 
 compose = [
+    "compose-ui",
+    "compose-navigation",
+    "compose-navigation-gson",
+    "compose-foundation",
+]
+
+compose-material = [
     "compose-material",
+    "compose-ui",
+    "compose-navigation",
+    "compose-navigation-gson",
+    "compose-ui-tooling",
+    "compose-ui-tooling-preview"
+]
+
+compose-material3 = [
+    "compose-material3",
     "compose-ui",
     "compose-navigation",
     "compose-navigation-gson",

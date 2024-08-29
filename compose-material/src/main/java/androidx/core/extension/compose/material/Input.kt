@@ -1,4 +1,4 @@
-package androidx.core.extension.compose.widget
+package androidx.core.extension.compose.material
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
