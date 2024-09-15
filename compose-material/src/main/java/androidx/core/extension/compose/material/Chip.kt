@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
+
 package androidx.core.extension.compose.material
 
 import androidx.compose.foundation.horizontalScroll
@@ -22,7 +24,6 @@ import androidx.core.extension.compose.widget.chipFontSize
 import androidx.core.extension.compose.widget.chipHeight
 import androidx.core.extension.compose.widget.chipPadding
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowChip(
     item: List<T>,
@@ -37,7 +38,6 @@ fun <T> SimpleFlowRowChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowHorizontalScrollChip(
     item: List<T>,
@@ -52,7 +52,6 @@ fun <T> SimpleFlowRowHorizontalScrollChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowVerticalScrollChip(
     item: List<T>,
@@ -67,7 +66,6 @@ fun <T> SimpleFlowRowVerticalScrollChip(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T> SimpleChip(
     item: T,
@@ -76,7 +74,9 @@ fun <T> SimpleChip(
     onClick: () -> Unit = {},
 ) {
     Chip(
-        modifier = Modifier.height(size.chipHeight.dp).padding(size.chipPadding.dp),
+        modifier = Modifier
+            .height(size.chipHeight.dp)
+            .padding(size.chipPadding.dp),
         onClick = onClick,
     ) {
         Text(
@@ -87,7 +87,6 @@ fun <T> SimpleChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowFilterChip(
     item: List<T>,
@@ -108,7 +107,6 @@ fun <T> SimpleFlowRowFilterChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     item: List<T>,
@@ -130,7 +128,6 @@ fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowVerticalScrollFilterChip(
     item: List<T>,
@@ -152,7 +149,6 @@ fun <T> SimpleFlowRowVerticalScrollFilterChip(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T> SimpleFilterChip(
     item: T,
@@ -163,7 +159,9 @@ fun <T> SimpleFilterChip(
 ) {
     FilterChip(
         selected = selected,
-        modifier = Modifier.height(size.chipHeight.dp).padding(size.chipPadding.dp),
+        modifier = Modifier
+            .height(size.chipHeight.dp)
+            .padding(size.chipPadding.dp),
         onClick = onClick,
     ) {
         Text(

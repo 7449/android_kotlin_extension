@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.horizontalScroll
@@ -22,7 +24,6 @@ import androidx.core.extension.compose.widget.chipFontSize
 import androidx.core.extension.compose.widget.chipHeight
 import androidx.core.extension.compose.widget.chipPadding
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowChip(
     item: List<T>,
@@ -37,7 +38,6 @@ fun <T> SimpleFlowRowChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowHorizontalScrollChip(
     item: List<T>,
@@ -52,7 +52,6 @@ fun <T> SimpleFlowRowHorizontalScrollChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowVerticalScrollChip(
     item: List<T>,
@@ -75,7 +74,9 @@ fun <T> SimpleChip(
     onClick: () -> Unit = {},
 ) {
     AssistChip(
-        modifier = Modifier.height(size.chipHeight.dp).padding(size.chipPadding.dp),
+        modifier = Modifier
+            .height(size.chipHeight.dp)
+            .padding(size.chipPadding.dp),
         onClick = onClick,
         shape = ShapeDefaults.Medium,
         label = {
@@ -88,7 +89,6 @@ fun <T> SimpleChip(
     )
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowFilterChip(
     item: List<T>,
@@ -109,7 +109,6 @@ fun <T> SimpleFlowRowFilterChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     item: List<T>,
@@ -131,7 +130,6 @@ fun <T> SimpleFlowRowHorizontalScrollFilterChip(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> SimpleFlowRowVerticalScrollFilterChip(
     item: List<T>,
@@ -164,7 +162,9 @@ fun <T> SimpleFilterChip(
     FilterChip(
         selected = selected,
         onClick = onClick,
-        modifier = Modifier.height(size.chipHeight.dp).padding(size.chipPadding.dp),
+        modifier = Modifier
+            .height(size.chipHeight.dp)
+            .padding(size.chipPadding.dp),
         shape = ShapeDefaults.Medium,
         label = {
             Text(

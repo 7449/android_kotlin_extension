@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.android.serialization)
 }
 android {
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -22,6 +23,7 @@ android {
     }
 }
 dependencies {
+    implementation(kotlin("reflect"))
     implementation(project(":extension"))
     implementation(project(":flexbox"))
     implementation(project(":http"))
@@ -29,7 +31,11 @@ dependencies {
     implementation(project(":compose"))
     implementation(project(":compose-material"))
     implementation(project(":compose-material3"))
+    implementation(libs.compose.navigation.serialization)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose.material)
+    implementation(libs.bundles.compose.material3)
     implementation(libs.bundles.compose.material3)
 }

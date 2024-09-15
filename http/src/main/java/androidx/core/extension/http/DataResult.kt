@@ -1,5 +1,8 @@
 package androidx.core.extension.http
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class DataResult<T>(
     val code: Int,
     val message: String?,

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.layout.RowScope
@@ -18,7 +20,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleBackToolbar(
     title: String,
@@ -30,7 +31,6 @@ fun SimpleBackToolbar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleBackSearchToolbar(
     title: String,
@@ -44,7 +44,6 @@ fun SimpleBackSearchToolbar(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleToolbar(
     title: String,

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.kotlin)
+    alias(libs.plugins.android.serialization)
 }
 if (file("$rootDir/build.maven.gradle").exists()) {
     apply("$rootDir/build.maven.gradle")
@@ -20,4 +21,7 @@ android {
     kotlinOptions {
         jvmTarget = libs.versions.jvmTarget.get()
     }
+}
+dependencies {
+    implementation(libs.bundles.http)
 }

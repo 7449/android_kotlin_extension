@@ -1,6 +1,5 @@
 package androidx.core.extension.compose.material
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.pager.HorizontalPager
@@ -19,12 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> SimpleTabLayout(
     items: List<T>,
     title: (T) -> String,
-    beyondBoundsPageCount: Int = PagerDefaults.BeyondBoundsPageCount,
+    beyondViewportPageCount: Int = PagerDefaults.BeyondViewportPageCount,
     content: @Composable PagerScope.(Int, T) -> Unit,
 ) {
     if (items.isEmpty()) return
@@ -51,7 +49,7 @@ fun <T> SimpleTabLayout(
         }
         HorizontalPager(
             pageSpacing = 0.dp,
-            beyondBoundsPageCount = beyondBoundsPageCount,
+            beyondViewportPageCount = beyondViewportPageCount,
             pageSize = PageSize.Fill,
             state = pagerState
         ) { index ->

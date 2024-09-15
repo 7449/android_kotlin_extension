@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalLayoutApi::class)
+
 package androidx.core.extension.compose.material
 
 import androidx.compose.foundation.clickable
@@ -16,7 +18,6 @@ import androidx.compose.ui.unit.sp
 import androidx.core.extension.compose.widget.ColumnSmallTextContainer
 import androidx.core.extension.compose.widget.textStyle
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun <T> LabelText(
     modifier: Modifier = Modifier,

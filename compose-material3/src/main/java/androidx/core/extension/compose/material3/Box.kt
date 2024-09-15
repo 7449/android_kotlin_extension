@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package androidx.core.extension.compose.material3
 
 import androidx.compose.foundation.layout.BoxScope
@@ -12,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.core.extension.compose.colorPrimary
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleInfiniteBox(
     modifier: Modifier = Modifier,
@@ -24,7 +25,9 @@ fun SimpleInfiniteBox(
     PullToRefreshBox(
         isRefreshing = refreshing,
         onRefresh = onRefresh,
-        modifier = Modifier.fillMaxSize().then(modifier),
+        modifier = Modifier
+            .fillMaxSize()
+            .then(modifier),
         state = state,
         contentAlignment = Alignment.TopStart,
         indicator = {

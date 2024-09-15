@@ -47,7 +47,7 @@ val tagList
 
 @Preview(showBackground = true)
 @Composable
-fun SampleComposePreview(type: SampleTypes = SampleTypes.Toolbar) {
+fun SampleComposePreview(type: SampleType = Toolbar) {
     type.ScreenContent()
 }
 
