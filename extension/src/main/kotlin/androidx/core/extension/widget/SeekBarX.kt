@@ -20,8 +20,11 @@ fun SeekBar.setOnSeekBarChangeListener(
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) =
             onProgressChanged.invoke(seekBar, progress, fromUser)
 
-        override fun onStartTrackingTouch(seekBar: SeekBar) = onStartTrackingTouch.invoke(seekBar)
-        override fun onStopTrackingTouch(seekBar: SeekBar) = onStopTrackingTouch.invoke(seekBar)
+        override fun onStartTrackingTouch(seekBar: SeekBar) =
+            onStartTrackingTouch.invoke(seekBar)
+
+        override fun onStopTrackingTouch(seekBar: SeekBar) =
+            onStopTrackingTouch.invoke(seekBar)
     }
     setOnSeekBarChangeListener(listener)
     return this

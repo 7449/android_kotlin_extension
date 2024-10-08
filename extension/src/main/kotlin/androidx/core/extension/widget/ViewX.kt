@@ -2,7 +2,6 @@ package androidx.core.extension.widget
 
 import android.app.Activity
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,7 +36,7 @@ fun View.postDelayed(delayInMillis: Long, action: () -> Unit): Runnable {
     return runnable
 }
 
-fun View.offKeyboard() {
+fun View.closeKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
     imm?.hideSoftInputFromWindow(windowToken, 0)
 }
@@ -49,14 +48,6 @@ fun View.openKeyboard() {
     findFocus()
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
     imm?.showSoftInput(this, 0)
-}
-
-fun View.closeKeyboard() {
-    val imm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        context.getSystemService(InputMethodManager::class.java)
-    else
-        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.hideSoftInputFromWindow(windowToken, 0)
 }
 
 inline fun <reified T : Activity> View.startActivity(bundle: Bundle = bundleOf()) {
@@ -80,17 +71,22 @@ inline fun <reified T : ViewGroup> View.isParentViewGroup(): Boolean {
     return isParentView<T>()
 }
 
-fun View.isVisible() = visibility == View.VISIBLE
+fun View.removeViewFormParent() {
+    val parent = parent
+    if (parent is ViewGroup) {
+        parent.removeView(this)
+    }
+}
 
-fun View.isGone() = visibility == View.GONE
+val View.layoutInflater: LayoutInflater get() = LayoutInflater.from(context)
 
-fun View.isInVisible() = visibility == View.INVISIBLE
+val View.isVisible get() = visibility == View.VISIBLE
+val View.isGone get() = visibility == View.GONE
+val View.isInVisible get() = visibility == View.INVISIBLE
 
-fun View.visible() = apply { if (!isVisible()) visibility = View.VISIBLE }
-
-fun View.gone() = apply { if (!isGone()) visibility = View.GONE }
-
-fun View.invisible() = apply { if (!isInVisible()) visibility = View.INVISIBLE }
+fun View.visible() = apply { if (!isVisible) visibility = View.VISIBLE }
+fun View.gone() = apply { if (!isGone) visibility = View.GONE }
+fun View.invisible() = apply { if (!isInVisible) visibility = View.INVISIBLE }
 
 fun goneViews(vararg views: View?) {
     for (view in views) {
@@ -107,23 +103,5 @@ fun visibleViews(vararg views: View?) {
 fun invisibleViews(vararg views: View?) {
     for (view in views) {
         view?.invisible()
-    }
-}
-
-fun View.inflate(): LayoutInflater {
-    return LayoutInflater.from(context)
-}
-
-fun View.removeViewFormParent() {
-    val parent = parent
-    if (parent is ViewGroup) {
-        parent.removeView(this)
-    }
-}
-
-fun View.parent(container: (group: ViewGroup) -> Unit) {
-    val parent = parent
-    if (parent is ViewGroup) {
-        container.invoke(parent)
     }
 }

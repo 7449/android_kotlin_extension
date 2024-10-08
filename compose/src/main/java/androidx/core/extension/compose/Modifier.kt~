@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 @Stable
 fun Modifier.noRippleClickable(
     onClick: () -> Unit,
-) = clickable(
+) = this then clickable(
     interactionSource = remember { MutableInteractionSource() },
     indication = null,
     onClick = onClick
@@ -32,7 +32,7 @@ fun Modifier.noRippleCombinedClickable(
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
     onDoubleClick: (() -> Unit)? = null,
-) = combinedClickable(
+) = this then combinedClickable(
     interactionSource = remember { MutableInteractionSource() },
     indication = null,
     onClick = onClick,
@@ -43,25 +43,25 @@ fun Modifier.noRippleCombinedClickable(
 @Stable
 fun Modifier.horizontalPadding(
     padding: Dp,
-) = padding(horizontal = padding)
+) = this then padding(horizontal = padding)
 
 @Stable
 fun Modifier.verticalPadding(
     padding: Dp,
-) = padding(vertical = padding)
+) = this then padding(vertical = padding)
 
 @Stable
 fun Modifier.paddingFillMaxWidth(
     padding: Int = 2,
-) = padding(padding.dp).fillMaxWidth()
+) = then(padding(padding.dp).fillMaxWidth())
 
 @Stable
 fun Modifier.paddingFillMaxHeight(
     padding: Int = 2,
-) = padding(padding.dp).fillMaxHeight()
+) = this then padding(padding.dp).fillMaxHeight()
 
 @Stable
 fun Modifier.paddingSquare(
     padding: Int = 2,
     square: Dp,
-) = padding(padding.dp).size(square)
+) = this then padding(padding.dp).size(square)

@@ -13,6 +13,7 @@ fun storageSize(): Long {
     return runCatching { Environment.getExternalStorageDirectory().usableSpace }.getOrNull() ?: 0
 }
 
+@SuppressLint("DefaultLocale")
 fun Long.formatFileSize(): String {
     return if (this in DEFAULT_SIZE_1024..<DEFAULT_SIZE_1024_SQUARE) String.format(
         "%.2f", this.toDouble() / DEFAULT_SIZE_1024

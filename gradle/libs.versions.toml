@@ -7,10 +7,10 @@ versionName = "1.0.0"
 minSdk = "21"
 jvmTarget = "17"
 
-android = "8.6.0"
+android = "8.6.1"
 kotlin = "2.0.20"
 
-composeBom = "2024.09.01"
+composeBom = "2024.09.03"
 
 [plugins]
 #https://maven.google.com/web/index.html#com.android.application:com.android.application.gradle.plugin

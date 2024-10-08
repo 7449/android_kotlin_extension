@@ -105,20 +105,6 @@ val Context.statusBarHeight: Int
         }.getOrNull() ?: 0
     }
 
-fun Context.showToastShortRes(res: Int) {
-    showToastShort(getString(res))
-}
-
-fun Context.showToastShort(any: Any): Unit =
-    Toast.makeText(this, any.toString(), Toast.LENGTH_SHORT).show()
-
-fun Context.showToastLongRes(res: Int) {
-    showToastLong(getString(res))
-}
-
-fun Context.showToastLong(any: Any): Unit =
-    Toast.makeText(this, any.toString(), Toast.LENGTH_LONG).show()
-
 fun Context.getExternalFilesDirsCompat(type: String?): Array<File> =
     ContextCompat.getExternalFilesDirs(this, type)
 

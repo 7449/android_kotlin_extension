@@ -7,15 +7,12 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import androidx.core.extension.compatible.TYPE_SYSTEM_ALERT_COMPATIBLE
 
-const val MATCH_PARENT = ViewGroup.LayoutParams.MATCH_PARENT
-const val WRAP_CONTENT = ViewGroup.LayoutParams.WRAP_CONTENT
-
 val matchViewGroupParams: ViewGroup.LayoutParams
-    get() = groupParams(height = MATCH_PARENT)
+    get() = viewGroupLayoutParams(height = ViewGroup.LayoutParams.MATCH_PARENT)
 
-fun groupParams(
-    width: Int = LinearLayout.LayoutParams.MATCH_PARENT,
-    height: Int = LinearLayout.LayoutParams.WRAP_CONTENT,
+fun viewGroupLayoutParams(
+    width: Int = ViewGroup.LayoutParams.MATCH_PARENT,
+    height: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
 ): ViewGroup.LayoutParams {
     return ViewGroup.LayoutParams(width, height)
 }
@@ -31,7 +28,7 @@ fun linearParams(
 }
 
 val matchFrameParams: FrameLayout.LayoutParams
-    get() = frameParams(height = LinearLayout.LayoutParams.MATCH_PARENT)
+    get() = frameParams(height = FrameLayout.LayoutParams.MATCH_PARENT)
 
 fun frameParams(
     width: Int = FrameLayout.LayoutParams.MATCH_PARENT,
@@ -40,8 +37,9 @@ fun frameParams(
     return FrameLayout.LayoutParams(width, height)
 }
 
-fun WindowManager.LayoutParams.floatType() = also {
-    type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+fun WindowManager.LayoutParams.setFloatType() = also {
+    type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-    } else TYPE_SYSTEM_ALERT_COMPATIBLE
+    else
+        TYPE_SYSTEM_ALERT_COMPATIBLE
 }

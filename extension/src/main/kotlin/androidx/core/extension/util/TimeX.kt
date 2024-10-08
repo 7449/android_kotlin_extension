@@ -59,12 +59,10 @@ val EN_YYYY_M_D_FORMAT: SimpleDateFormat by lazy { threadLocal("yyyy-M-d") }
 
 val EN_MM_DD_HH_MM_FORMAT: SimpleDateFormat by lazy { threadLocal("MM-dd HH:mm") }
 
+val Long.date get() = Date(this)
+
 fun Long.milliseconds(format: SimpleDateFormat = DEFAULT_FORMAT): String {
     return format.format(Date(this))
-}
-
-fun Long.date(): Date {
-    return Date(this)
 }
 
 fun String.milliseconds(format: SimpleDateFormat = DEFAULT_FORMAT): Long {
