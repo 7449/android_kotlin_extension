@@ -18,6 +18,6 @@ android {
     }
 }
 dependencies {
-    implementation(libs.bundles.androidx)
+    implementation(libs.bundles.extension)
     implementation(kotlin("reflect"))
 }

@@ -17,5 +17,5 @@ android {
     }
 }
 dependencies {
-    implementation(libs.google.flexbox)
+    implementation(libs.bundles.flexbox)
 }

@@ -2,8 +2,8 @@ package androidx.core.extension.app.lifecycle
 
 import androidx.core.app.ComponentActivity
 import androidx.core.extension.app.showProgressDialog
-import androidx.core.extension.content.showToastShort
 import androidx.core.extension.os.postMainThread
+import androidx.core.extension.widget.toastShort
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +18,7 @@ fun ComponentActivity.simpleLaunch(
         showProgressDialog(isDelayed, transparent) { dialog ->
             launch({
                 dialog?.dismiss()
-                postMainThread { showToastShort(it.message.orEmpty()) }
+                postMainThread { toastShort(it.message.orEmpty()) }
             }) {
                 action.invoke()
                 dialog?.dismiss()
