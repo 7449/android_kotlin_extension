@@ -25,7 +25,7 @@ fun Context.appVersionName(packageName: String): String {
             packageName,
             PackageManager.MATCH_DEFAULT_ONLY
         ).versionName
-    }.getOrElse { "" }
+    }.getOrNull().orEmpty()
 }
 
 fun Context.queryAppIcon(packageName: String): Drawable =
@@ -45,7 +45,7 @@ fun Context.isApkDebugAble(packageName: String): Boolean {
         packageManager.getPackageInfo(
             packageName,
             PackageManager.MATCH_DEFAULT_ONLY
-        ).applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
+        ).applicationInfo?.flags?.and(ApplicationInfo.FLAG_DEBUGGABLE) != 0
     }.getOrElse { false }
 }
 
