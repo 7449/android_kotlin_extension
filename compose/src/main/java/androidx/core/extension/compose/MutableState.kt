@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.core.extension.http.DataWrapper
+import androidx.core.extension.wrapper.http.DataWrapper
 import kotlinx.coroutines.flow.MutableStateFlow
 
 fun <T> dataWrapperStateOf(

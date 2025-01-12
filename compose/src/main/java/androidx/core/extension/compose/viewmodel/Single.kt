@@ -3,7 +3,7 @@ package androidx.core.extension.compose.viewmodel
 import android.util.Log
 import androidx.core.extension.compose.composeHandlerPost
 import androidx.core.extension.compose.dataWrapperStateFlow
-import androidx.core.extension.http.DataWrapper
+import androidx.core.extension.wrapper.http.DataWrapper
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

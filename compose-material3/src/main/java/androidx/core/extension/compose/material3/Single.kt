@@ -10,7 +10,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.extension.compose.viewmodel.SingleViewModel
-import androidx.core.extension.http.DataWrapper
+import androidx.core.extension.wrapper.http.DataWrapper
 
 @Composable
 fun <T, VM : SingleViewModel<T>> SimpleSingleBox(

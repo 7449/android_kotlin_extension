@@ -11,12 +11,6 @@ import android.graphics.drawable.StateListDrawable
 import androidx.annotation.ColorInt
 import androidx.core.graphics.drawable.DrawableCompat
 
-val Drawable.alphaCompat: Int
-    get() = DrawableCompat.getAlpha(this)
-
-val Drawable.isAutoMirroredCompat: Boolean
-    get() = DrawableCompat.isAutoMirrored(this)
-
 val Drawable.canApplyThemeCompat: Boolean
     get() = DrawableCompat.canApplyTheme(this)
 
@@ -25,10 +19,6 @@ val Drawable.colorFilterCompat: ColorFilter?
 
 val Drawable.layoutDirectionCompat: Int
     get() = DrawableCompat.getLayoutDirection(this)
-
-fun Drawable.setAutoMirroredCompat(mirrored: Boolean) {
-    DrawableCompat.setAutoMirrored(this, mirrored)
-}
 
 fun Drawable.setHotspotCompat(x: Float, y: Float) =
     DrawableCompat.setHotspot(this, x, y)

@@ -7,15 +7,21 @@ import android.os.Parcelable
 import android.util.Size
 import android.util.SizeF
 import android.util.SparseArray
-import androidx.annotation.RequiresApi
-import androidx.core.extension.compatible.getParcelableArrayCompatible
-import androidx.core.extension.compatible.getParcelableArrayListCompatible
-import androidx.core.extension.compatible.getParcelableCompatible
-import androidx.core.extension.compatible.getSerializableCompatible
-import androidx.core.extension.compatible.getSparseParcelableArrayCompatible
 import java.io.Serializable
 
 fun Bundle?.orEmpty(): Bundle = this ?: Bundle.EMPTY
+
+//getAny
+
+@Suppress("DEPRECATION")
+inline fun <reified T> Bundle.getOrNull(key: String) =
+    get(key) as T?
+
+inline fun <reified T> Bundle.getNotNull(key: String) =
+    checkNotNull(getOrNull<T>(key))
+
+inline fun <reified T> Bundle.getOrNull(key: String, defaultValue: T) =
+    getOrNull<T>(key) ?: defaultValue
 
 //getSerializable
 
@@ -32,7 +38,8 @@ inline fun <reified T : Serializable> Bundle.getSerializable(
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getSerializable(key, T::class.java)
 } else {
-    getSerializableCompatible(key) as T?
+    @Suppress("DEPRECATION")
+    getSerializable(key) as T?
 } ?: ifNone.invoke()
 
 //getParcelable
@@ -50,7 +57,8 @@ inline fun <reified T : Parcelable> Bundle.getParcelable(
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelable(key, T::class.java)
 } else {
-    getParcelableCompatible(key)
+    @Suppress("DEPRECATION")
+    getParcelable(key)
 } ?: ifNone.invoke()
 
 //getParcelableArray
@@ -69,7 +77,8 @@ inline fun <reified T : Parcelable> Bundle.getParcelableArray(
 ): Array<T> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelableArray(key, T::class.java)
 } else {
-    getParcelableArrayCompatible(key) as Array<T>?
+    @Suppress("DEPRECATION")
+    getParcelableArray(key) as Array<T>?
 } ?: ifNone.invoke()
 
 //getParcelableArrayList
@@ -87,7 +96,8 @@ inline fun <reified T : Parcelable> Bundle.getParcelableArrayList(
 ): ArrayList<T> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelableArrayList(key, T::class.java)
 } else {
-    getParcelableArrayListCompatible(key)
+    @Suppress("DEPRECATION")
+    getParcelableArrayList(key)
 } ?: ifNone.invoke()
 
 //getSparseParcelableArray
@@ -105,7 +115,8 @@ inline fun <reified T : Parcelable> Bundle.getSparseParcelableArray(
 ): SparseArray<T> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getSparseParcelableArray(key, T::class.java)
 } else {
-    getSparseParcelableArrayCompatible(key)
+    @Suppress("DEPRECATION")
+    getSparseParcelableArray(key)
 } ?: ifNone.invoke()
 
 //getBinder
@@ -124,34 +135,28 @@ inline fun <reified T : IBinder> Bundle.getBinder(
 
 //getSize
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun Bundle.size(
     key: String,
 ): Size = checkNotNull(getSize(key))
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun Bundle.getSize(
     key: String, defaultValue: Size,
 ): Size = getSize(key) ?: defaultValue
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun Bundle.getSize(
     key: String, ifNone: () -> Size,
 ): Size = getSize(key) ?: ifNone.invoke()
 
 //getSizeF
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun Bundle.sizeF(
     key: String,
 ): SizeF = checkNotNull(getSizeF(key))
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun Bundle.getSizeF(
     key: String, defaultValue: SizeF,
 ): SizeF = getSizeF(key) ?: defaultValue
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 fun Bundle.getSizeF(
     key: String, ifNone: () -> SizeF,
 ): SizeF = getSizeF(key) ?: ifNone.invoke()

@@ -1,14 +1,11 @@
 package androidx.core.extension.os
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
-import android.net.Uri
 import android.os.Build
-import androidx.core.extension.compatible.appVersionCodeCompatible
 
 val Context.isApkDebuggable: Boolean
     get() = isApkDebugAble(packageName)
@@ -49,6 +46,7 @@ fun Context.isApkDebugAble(packageName: String): Boolean {
     }.getOrElse { false }
 }
 
+@Suppress("DEPRECATION")
 fun Context.appVersionCode(packageName: String): Long {
     return runCatching {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -57,7 +55,10 @@ fun Context.appVersionCode(packageName: String): Long {
                 PackageManager.MATCH_DEFAULT_ONLY
             ).longVersionCode
         } else {
-            appVersionCodeCompatible().toLong()
+            packageManager.getPackageInfo(
+                packageName,
+                PackageManager.MATCH_DEFAULT_ONLY
+            ).versionCode.toLong()
         }
     }.getOrElse { -1 }
 }
@@ -75,13 +76,4 @@ fun Context.isSystemApp(packageName: String): Boolean {
             PackageManager.MATCH_DEFAULT_ONLY
         ).flags and ApplicationInfo.FLAG_SYSTEM > 0
     }.getOrElse { false }
-}
-
-fun Context.uninstallApp(packageName: String, action: (throwable: Throwable) -> Unit = {}) {
-    runCatching {
-        val intent = Intent(Intent.ACTION_DELETE)
-        val packageURI = Uri.parse("package:$packageName")
-        intent.data = packageURI
-        startActivity(intent)
-    }.onFailure { action.invoke(it) }
 }

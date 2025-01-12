@@ -14,7 +14,7 @@ fun ContentResolver.moveToNextToId(uri: Uri): Boolean =
     moveToNext(uri, MediaStore.Files.FileColumns._ID)
 
 fun ContentResolver.moveToNext(uri: Uri, name: String): Boolean =
-    query(uri, name).use { it?.moveToNext() ?: false }
+    query(uri, name).use { it?.moveToNext() == true }
 
 fun ContentResolver.queryData(uri: Uri): String? =
     query(uri, MediaStore.MediaColumns.DATA).use {

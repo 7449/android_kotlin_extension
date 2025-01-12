@@ -66,7 +66,9 @@ fun <T> SimpleVerticalGrid(
         horizontalArrangement = horizontalArrangement,
         flingBehavior = flingBehavior,
         userScrollEnabled = userScrollEnabled,
-        modifier = Modifier.fillMaxHeight().then(modifier)
+        modifier = Modifier
+            .fillMaxHeight()
+            .then(modifier)
     ) {
         header()
         itemsIndexed(items, itemContent = item)

@@ -13,17 +13,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.annotation.IdRes
 import androidx.core.extension.R
-import androidx.core.extension.compatible.getCompatible
-import androidx.core.extension.compatible.getOrNullCompatible
-import androidx.core.extension.compatible.hideStatusBarCompatible
-import androidx.core.extension.compatible.showStatusBarCompatible
 import androidx.core.extension.content.activityInfo
 import androidx.core.extension.databinding.ExtLayoutDialogLoadingBinding
 import androidx.core.extension.net.filePath
+import androidx.core.extension.os.getNotNull
+import androidx.core.extension.os.getOrNull
 import androidx.core.extension.os.mainHandler
 import androidx.core.extension.util.lazyValue
 import androidx.core.os.postDelayed
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.viewbinding.ViewBinding
 
 @JvmName("viewBindingByView")
@@ -41,32 +43,35 @@ inline fun <reified T : ViewBinding> Activity.viewBinding(
 }
 
 inline fun <reified T> Activity.bundle(key: String, defaultValue: T): Lazy<T> =
-    lazyValue { intent.extras?.getCompatible(key, defaultValue) ?: defaultValue }
+    lazyValue { intent.extras?.getOrNull(key, defaultValue) ?: defaultValue }
 
 inline fun <reified T> Activity.bundle(key: String): Lazy<T> =
-    lazyValue { requireNotNull(intent.extras?.getCompatible<T>(key)) }
+    lazyValue { requireNotNull(intent.extras?.getNotNull<T>(key)) }
 
 inline fun <reified T> Activity.bundleOrNull(key: String): Lazy<T?> =
-    lazyValue { intent.extras?.getOrNullCompatible<T>(key) }
-
+    lazyValue { intent.extras?.getOrNull<T>(key) }
 
 fun Activity?.isAlive(): Boolean {
     return this != null && !isFinishing && !isDestroyed
 }
 
+@Suppress("DEPRECATION")
 fun Activity.hideStatusBar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         window.insetsController?.hide(WindowInsets.Type.statusBars())
     } else {
-        hideStatusBarCompatible()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 }
 
+@Suppress("DEPRECATION")
 fun Activity.showStatusBar() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
         window.insetsController?.show(WindowInsets.Type.statusBars())
     } else {
-        showStatusBarCompatible()
+        window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        window.addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN)
     }
 }
 
@@ -111,4 +116,80 @@ fun Activity.showProgressDialog(
     dialog.show()
     if (isDelayed) mainHandler.postDelayed(DEFAULT_LOADING_DIALOG_DELAYED) { action.invoke(dialog) }
     else action.invoke(dialog)
+}
+
+
+inline fun <reified T : Fragment> FragmentActivity.findFragmentByTag(tag: String): T? {
+    return supportFragmentManager.findFragmentByTag(tag) as? T
+}
+
+inline fun <reified T : Fragment> FragmentActivity.findFragmentByTag(): T? {
+    return findFragmentByTag(T::class.java.simpleName) as? T
+}
+
+inline fun <reified T : Fragment> FragmentActivity.findFragmentByTag(
+    tag: String,
+    ifNone: (String) -> T,
+): T = findFragmentByTag(tag) ?: ifNone(tag)
+
+fun FragmentActivity.fragments(): MutableList<Fragment> =
+    supportFragmentManager.fragments
+
+fun FragmentActivity.findFragmentByTag(
+    tag: String,
+    of: (fragment: Fragment?) -> Unit,
+) {
+    of.invoke(supportFragmentManager.findFragmentByTag(tag))
+}
+
+fun FragmentActivity.findFragmentById(
+    @IdRes id: Int,
+    of: (fragment: Fragment?) -> Unit,
+) {
+    of.invoke(supportFragmentManager.findFragmentById(id))
+}
+
+fun FragmentActivity.beginTransaction() = supportFragmentManager.beginTransaction()
+
+fun FragmentActivity.showRunOnCommit(
+    fragment: Fragment,
+    runnable: Runnable = Runnable { },
+): FragmentTransaction = beginTransaction().show(fragment).runOnCommit(runnable)
+
+fun FragmentActivity.showFragment(
+    fragment: Fragment,
+    type: CommitType = CommitType.COMMIT_ALLOWING_STATE_LOSS,
+) = beginTransaction().show(fragment).commit(type)
+
+fun FragmentActivity.hideFragment(
+    fragment: Fragment,
+    type: CommitType = CommitType.COMMIT_ALLOWING_STATE_LOSS,
+) = beginTransaction().hide(fragment).commit(type)
+
+fun FragmentActivity.addFragment(
+    id: Int,
+    fragment: Fragment,
+    type: CommitType = CommitType.COMMIT_ALLOWING_STATE_LOSS,
+) = beginTransaction().add(id, fragment, fragment.javaClass.simpleName).commit(type)
+
+fun FragmentActivity.replaceFragment(
+    id: Int,
+    fragment: Fragment,
+    type: CommitType = CommitType.COMMIT_ALLOWING_STATE_LOSS,
+) = beginTransaction().replace(id, fragment, fragment.javaClass.simpleName).commit(type)
+
+private fun FragmentTransaction.commit(type: CommitType) {
+    when (type) {
+        CommitType.COMMIT -> commit()
+        CommitType.COMMIT_ALLOWING_STATE_LOSS -> commitAllowingStateLoss()
+        CommitType.NOW -> commitNow()
+        CommitType.NOW_ALLOWING_STATE_LOSS -> commitNowAllowingStateLoss()
+    }
+}
+
+enum class CommitType {
+    COMMIT,
+    COMMIT_ALLOWING_STATE_LOSS,
+    NOW,
+    NOW_ALLOWING_STATE_LOSS
 }

@@ -36,11 +36,9 @@ fun String.getQueryParameter(key: String, defaultValue: String = ""): String =
 fun String.getBooleanQueryParameter(key: String, defaultValue: Boolean = false): Boolean =
     Uri.parse(this).getBooleanQueryParameter(key, defaultValue)
 
-fun String.getListQueryParameter(vararg key: String): ArrayList<String> {
+fun String.getListQueryParameter(vararg key: String): List<String> {
     val parse = Uri.parse(this)
-    val list = ArrayList<String>()
-    key.forEach {
-        list.add(parse.getQueryParameter(it).orEmpty())
+    return key.map {
+        parse.getQueryParameter(it).orEmpty()
     }
-    return list
 }

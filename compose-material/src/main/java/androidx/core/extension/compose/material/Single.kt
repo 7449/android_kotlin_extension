@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.extension.compose.colorPrimary
 import androidx.core.extension.compose.viewmodel.SingleViewModel
-import androidx.core.extension.http.DataWrapper
+import androidx.core.extension.wrapper.http.DataWrapper
 
 @Composable
 fun <T, VM : SingleViewModel<T>> SimpleSingleBox(

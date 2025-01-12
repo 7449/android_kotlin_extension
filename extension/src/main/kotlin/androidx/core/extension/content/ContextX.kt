@@ -39,7 +39,6 @@ import androidx.annotation.PluralsRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.extension.R
-import androidx.core.extension.compatible.installTimeCompatible
 import androidx.core.extension.version.hasQ
 import androidx.core.os.bundleOf
 import java.io.BufferedReader
@@ -55,12 +54,6 @@ val Context.screenWidth: Int
 
 val Context.dataDirCompat: File?
     get() = ContextCompat.getDataDir(this)
-
-val Context.obbDirsCompat: Array<File>
-    get() = ContextCompat.getObbDirs(this)
-
-val Context.externalCacheDirsCompat: Array<File>
-    get() = ContextCompat.getExternalCacheDirs(this)
 
 val Context.noBackupFilesDirCompat: File?
     get() = ContextCompat.getNoBackupFilesDir(this)
@@ -87,14 +80,13 @@ val Context.installTime: Long
             PackageManager.GET_SIGNING_CERTIFICATES
         ).lastUpdateTime
     } else {
-        installTimeCompatible()
+        @Suppress("DEPRECATION")
+        packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
+            .lastUpdateTime
     }
 
 val Context.installDay: Int
     get() = ((System.currentTimeMillis() - installTime) / (1000 * 60 * 60 * 24)).toInt()
-
-val Context.hasSystemFeature: Boolean
-    get() = packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)
 
 val Context.statusBarHeight: Int
     @SuppressLint("DiscouragedApi", "InternalInsetResource")
@@ -104,9 +96,6 @@ val Context.statusBarHeight: Int
             resources.getDimensionPixelSize(resourceId)
         }.getOrNull() ?: 0
     }
-
-fun Context.getExternalFilesDirsCompat(type: String?): Array<File> =
-    ContextCompat.getExternalFilesDirs(this, type)
 
 fun Context.getDrawableCompat(@DrawableRes id: Int): Drawable? =
     ContextCompat.getDrawable(this, id)
@@ -302,7 +291,7 @@ fun Context.openAppStore(packageName: String, error: () -> Unit) {
 }
 
 fun Context.isInstallApp(packageName: String): Boolean {
-    return runCatching { applicationInfo(packageName)?.enabled }.getOrNull() ?: false
+    return runCatching { applicationInfo(packageName)?.enabled }.getOrNull() == true
 }
 
 fun Context.getDimensionValue(vararg attrs: Int): Int {

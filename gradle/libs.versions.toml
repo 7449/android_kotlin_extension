@@ -7,10 +7,10 @@ versionName = "1.0.0"
 minSdk = "21"
 jvmTarget = "17"
 
-android = "8.7.2"
-kotlin = "2.0.21"
+android = "8.7.3"
+kotlin = "2.1.0"
 
-composeBom = "2024.11.00"
+composeBom = "2024.12.01"
 
 [plugins]
 #https://maven.google.com/web/index.html#com.android.application:com.android.application.gradle.plugin
@@ -25,15 +25,18 @@ android-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", vers
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [libraries]
-
 #https://central.sonatype.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-core/versions
 serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3"
 
+#https://maven.google.com/web/index.html#androidx.appcompat:appcompat
+androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
 #https://maven.google.com/web/index.html#androidx.lifecycle:lifecycle-viewmodel-ktx
 androidx-viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7"
 #https://maven.google.com/web/index.html#androidx.core:core-ktx
 androidx-core = "androidx.core:core-ktx:1.15.0"
 
+#https://maven.google.com/web/index.html#com.google.android.material:material
+google-material = "com.google.android.material:material:1.12.0"
 #https://maven.google.com/web/index.html#com.google.android.flexbox:flexbox
 google-flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 
@@ -45,14 +48,7 @@ compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-material = { group = "androidx.compose.material", name = "material" }
 compose-material-icon = { group = "androidx.compose.material", name = "material-icons-core" }
 #https://maven.google.com/web/index.html#androidx.navigation:navigation-compose
-compose-navigation = "androidx.navigation:navigation-compose:2.8.4"
-
-#https://maven.google.com/web/index.html#androidx.appcompat:appcompat
-androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
-#https://maven.google.com/web/index.html#androidx.swiperefreshlayout:swiperefreshlayout
-androidx-refresh = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
-#https://maven.google.com/web/index.html#com.google.android.material:material
-google-material = "com.google.android.material:material:1.12.0"
+compose-navigation = "androidx.navigation:navigation-compose:2.8.5"
 
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -60,17 +56,12 @@ compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling
 [bundles]
 
 extension = [
+    "serialization",
+    "google-flexbox",
+    "google-material",
     "androidx-core",
     "androidx-viewmodel",
     "androidx-appcompat",
-]
-
-http = [
-    "serialization",
-]
-
-flexbox = [
-    "google-flexbox",
 ]
 
 compose = [
@@ -90,12 +81,6 @@ compose-material3 = [
     "compose-material3",
     "compose-ui",
     "compose-navigation",
-]
-
-component-ui = [
-    "androidx-appcompat",
-    "androidx-refresh",
-    "google-material",
 ]
 
 sample = [

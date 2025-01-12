@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.core.extension.compatible.TYPE_SYSTEM_ALERT_COMPATIBLE
 
 val matchViewGroupParams: ViewGroup.LayoutParams
     get() = viewGroupLayoutParams(height = ViewGroup.LayoutParams.MATCH_PARENT)
@@ -38,8 +37,9 @@ fun frameParams(
 }
 
 fun WindowManager.LayoutParams.setFloatType() = also {
+    @Suppress("DEPRECATION")
     type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
     else
-        TYPE_SYSTEM_ALERT_COMPATIBLE
+        WindowManager.LayoutParams.TYPE_SYSTEM_ALERT
 }

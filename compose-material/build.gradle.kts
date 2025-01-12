@@ -20,7 +20,7 @@ android {
     }
 }
 dependencies {
-    compileOnly(project(":http"))
+    compileOnly(project(":extension"))
     compileOnly(project(":compose"))
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose.material)

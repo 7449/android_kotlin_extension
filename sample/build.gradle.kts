@@ -25,9 +25,6 @@ android {
 dependencies {
     implementation(kotlin("reflect"))
     implementation(project(":extension"))
-    implementation(project(":flexbox"))
-    implementation(project(":http"))
-    implementation(project(":component-ui"))
     implementation(project(":compose"))
     implementation(project(":compose-material"))
     implementation(project(":compose-material3"))

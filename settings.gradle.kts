@@ -12,12 +12,13 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-include(":sample", ":extension")
 include(
-    ":flexbox",
-    ":http",
+    ":sample",
+)
+include(
+    ":extension",
+    ":extension-bom",
     ":compose",
     ":compose-material",
     ":compose-material3",
-    ":component-ui",
 )

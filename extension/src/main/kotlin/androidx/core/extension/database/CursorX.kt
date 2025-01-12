@@ -6,10 +6,10 @@ val Cursor?.columnNameList: Array<String>
     get() = this?.columnNames ?: emptyArray()
 
 fun Cursor?.move(offset: Int): Boolean =
-    this?.move(offset) ?: false
+    this?.move(offset) == true
 
 fun Cursor?.moveToPosition(position: Int): Boolean =
-    this?.moveToPosition(position) ?: false
+    this?.moveToPosition(position) == true
 
 //getColumnName
 

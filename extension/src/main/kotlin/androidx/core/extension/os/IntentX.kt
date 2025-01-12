@@ -4,10 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.core.extension.compatible.getParcelableArrayCompatible
-import androidx.core.extension.compatible.getParcelableArrayListCompatible
-import androidx.core.extension.compatible.getParcelableCompatible
-import androidx.core.extension.compatible.getSerializableCompatible
 import java.io.Serializable
 
 fun Intent?.orEmpty(): Intent = this ?: Intent()
@@ -28,7 +24,8 @@ inline fun <reified T : Parcelable> Intent.getParcelableArray(
 ): Array<T> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelableArrayExtra(key, T::class.java)
 } else {
-    getParcelableArrayCompatible(key) as Array<T>?
+    @Suppress("DEPRECATION")
+    getParcelableArrayExtra(key) as Array<T>?
 } ?: ifNone.invoke()
 
 //getParcelableArrayListExtra
@@ -46,7 +43,8 @@ inline fun <reified T : Parcelable> Intent.getParcelableArrayList(
 ): ArrayList<T> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelableArrayListExtra(key, T::class.java)
 } else {
-    getParcelableArrayListCompatible(key)
+    @Suppress("DEPRECATION")
+    getParcelableArrayListExtra(key)
 } ?: ifNone.invoke()
 
 //getParcelableExtra
@@ -64,7 +62,8 @@ inline fun <reified T : Parcelable> Intent.getParcelable(
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getParcelableExtra(key, T::class.java)
 } else {
-    getParcelableCompatible(key)
+    @Suppress("DEPRECATION")
+    getParcelableExtra(key)
 } ?: ifNone.invoke()
 
 //getSerializableExtra
@@ -82,7 +81,8 @@ inline fun <reified T : Serializable> Intent.getSerializable(
 ): T = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
     getSerializableExtra(key, T::class.java)
 } else {
-    getSerializableCompatible(key) as T?
+    @Suppress("DEPRECATION")
+    getSerializableExtra(key) as T?
 } ?: ifNone.invoke()
 
 //getBooleanExtra

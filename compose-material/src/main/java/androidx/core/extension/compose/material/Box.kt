@@ -26,7 +26,9 @@ fun SimpleInfiniteBox(
         onRefresh = onRefresh
     )
     Box(
-        modifier = modifier.then(Modifier.pullRefresh(state).fillMaxSize()),
+        modifier = modifier.then(Modifier
+            .pullRefresh(state)
+            .fillMaxSize()),
         contentAlignment = Alignment.TopStart,
     ) {
         content()
