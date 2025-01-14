@@ -28,6 +28,7 @@ import android.os.PowerManager
 import android.provider.MediaStore
 import android.telephony.TelephonyManager
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.annotation.ArrayRes
 import androidx.annotation.BoolRes
 import androidx.annotation.ColorRes
@@ -348,6 +349,10 @@ inline fun <reified T> Context.service(name: String): T {
     } else {
         throw NullPointerException(name)
     }
+}
+
+fun Context.composeAct(): ComponentActivity {
+    return findActivity() as ComponentActivity
 }
 
 fun Context.act(): Activity {

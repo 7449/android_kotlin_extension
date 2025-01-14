@@ -355,11 +355,3 @@ data object MultiStaggeredGrid3 : SampleType() {
         PreviewMultiStaggeredGrid3()
     }
 }
-
-@Serializable
-data object Web : SampleType() {
-    @Composable
-    override fun ScreenContent() {
-        PreviewWeb()
-    }
-}

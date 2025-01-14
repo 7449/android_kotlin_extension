@@ -11,12 +11,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.viewmodel.SimpleMultiViewModel
 import androidx.core.extension.compose.viewmodel.SimpleSingleViewModel
-import androidx.core.extension.compose.widget.SimpleInterceptWebView
 import kotlinx.coroutines.delay
 import java.util.UUID
 import kotlin.random.Random
-
-const val REQUEST_URL = "https://www.baidu.com"
 
 val radioBtnWidget = arrayListOf("select1", "select2", "select3")
 
@@ -49,11 +46,6 @@ val tagList
 @Composable
 fun SampleComposePreview(type: SampleType = Toolbar) {
     type.ScreenContent()
-}
-
-@Composable
-fun PreviewWeb() {
-    SimpleInterceptWebView(REQUEST_URL)
 }
 
 @Composable

@@ -49,6 +49,9 @@ compose-material = { group = "androidx.compose.material", name = "material" }
 compose-material-icon = { group = "androidx.compose.material", name = "material-icons-core" }
 #https://maven.google.com/web/index.html#androidx.navigation:navigation-compose
 compose-navigation = "androidx.navigation:navigation-compose:2.8.5"
+#https://github.com/coil-kt/coil/blob/main/coil-compose/README.md
+compose-image = "io.coil-kt.coil3:coil-compose:3.0.4"
+compose-image-network = "io.coil-kt.coil3:coil-network-okhttp:3.0.4"
 
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
@@ -68,6 +71,8 @@ compose = [
     "compose-ui",
     "compose-navigation",
     "compose-foundation",
+    "compose-image",
+    "compose-image-network",
 ]
 
 compose-material = [

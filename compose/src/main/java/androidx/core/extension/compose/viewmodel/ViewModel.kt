@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -29,19 +28,14 @@ const val REQUEST_END_MARK = "request.end"
 
 typealias ComposeScope<T> = suspend (CoroutineScope) -> T
 typealias ComposeError = suspend (Exception) -> Unit
-typealias ComposeCancel = suspend () -> Unit
 
 fun ViewModel.composeLaunch(
     error: ComposeError? = null,
-    cancel: ComposeCancel? = null,
     scope: ComposeScope<Unit>,
 ): Job = viewModelScope.launch {
     try {
         scope.invoke(this)
     } catch (e: Exception) {
-        when (e) {
-            is CancellationException -> cancel?.invoke()
-            else -> error?.invoke(e)
-        }
+        error?.invoke(e)
     }
 }

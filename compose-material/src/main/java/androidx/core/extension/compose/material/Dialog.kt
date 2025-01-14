@@ -16,7 +16,7 @@ import androidx.core.extension.compose.DialogHolder
 import androidx.core.extension.compose.colorPrimary
 
 @Composable
-fun DialogHolder.CopyOrDownloadDialog(
+fun DialogHolder<*>.CopyOrDownloadDialog(
     value: String?,
     onClickCopy: (String) -> Unit,
     onClickDownload: (String) -> Unit,
@@ -38,7 +38,7 @@ fun DialogHolder.CopyOrDownloadDialog(
 }
 
 @Composable
-fun DialogHolder.SimpleDialog(title: String, ok: () -> Unit) {
+fun DialogHolder<*>.SimpleDialog(title: String, ok: () -> Unit) {
     AlertDialog(
         title = { Text(title, fontSize = 15.sp) },
         onDismissRequest = { hide() },
@@ -57,23 +57,23 @@ fun DialogHolder.SimpleDialog(title: String, ok: () -> Unit) {
 }
 
 @Composable
-fun DialogHolder.SingleInputDialog(input: (String) -> Unit) {
+fun DialogHolder<*>.SingleInputDialog(callback: (String) -> Unit) {
     AlertDialog(
         onDismissRequest = hide,
         text = {
             Column {
                 SimpleInput(
                     label = stringResource(android.R.string.search_go),
-                    value = mutableStateInput.value,
+                    value = input.value,
                     keyboardOptions = KeyboardOptions.Default,
-                    onValueChange = { mutableStateInput.value = it },
+                    onValueChange = { input.value = it },
                     keyboardAction = { }
                 )
             }
         },
         confirmButton = {
             TextButton(onClick = {
-                input(mutableStateInput.value.text)
+                callback(input.value.text)
                 hide()
             }) {
                 Text(
