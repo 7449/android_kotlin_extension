@@ -10,12 +10,11 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.extension.compose.colorPrimary
+import androidx.core.extension.compose.shadowWithClipIntersect
 
 @Composable
 fun SimpleBackToolbar(
@@ -51,7 +50,6 @@ fun SimpleToolbar(
     title: String,
     titleColor: Color = Color.White,
     bgColor: Color = colorPrimary,
-    shadow: Dp = 6.dp,
     navigationIcon: @Composable (() -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
 ) {
@@ -66,8 +64,9 @@ fun SimpleToolbar(
                 overflow = TextOverflow.Ellipsis
             )
         },
+        elevation = 10.dp,
         backgroundColor = bgColor,
-        modifier = Modifier.shadow(shadow)
+        modifier = Modifier.shadowWithClipIntersect(10.dp)
     )
 }
 
