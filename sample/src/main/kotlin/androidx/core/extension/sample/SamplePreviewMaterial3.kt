@@ -20,11 +20,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.extension.compose.DialogPosition
 import androidx.core.extension.compose.boolStateOf
-import androidx.core.extension.compose.material3.CopyOrDownloadMaterial3Dialog
+import androidx.core.extension.compose.material3.CopyOrDownloadDialog
 import androidx.core.extension.compose.material3.Material3WeightButton
-import androidx.core.extension.compose.material3.SimpleMaterial3Dialog
-import androidx.core.extension.compose.material3.SingleMaterial3InputDialog
+import androidx.core.extension.compose.material3.SimpleDialog
+import androidx.core.extension.compose.material3.SingleInputDialog
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
@@ -85,15 +86,15 @@ fun PreviewInput3() {
 @Composable
 fun PreviewDialog3() {
     Column {
-        val dialog = rememberDialog {
-            SimpleMaterial3Dialog("Test", ok = hide)
+        val dialog = rememberDialog(position = DialogPosition.Bottom) {
+            SimpleDialog("Test", ok = hide)
         }
         val inputDialog = rememberDialog {
-            SingleMaterial3InputDialog {
+            SingleInputDialog {
             }
         }
         val copyOrDownload = rememberDialog {
-            CopyOrDownloadMaterial3Dialog(
+            CopyOrDownloadDialog(
                 "Test",
                 onClickCopy = {},
                 onClickDownload = {}

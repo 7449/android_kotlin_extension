@@ -19,11 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.extension.compose.DialogPosition
 import androidx.core.extension.compose.boolStateOf
 import androidx.core.extension.compose.material.CopyOrDownloadDialog
 import androidx.core.extension.compose.material.SimpleDialog
 import androidx.core.extension.compose.material.SingleInputDialog
 import androidx.core.extension.compose.material.WeightButton
+import androidx.core.extension.compose.rememberArgsDialog
 import androidx.core.extension.compose.rememberDialog
 import androidx.core.extension.compose.stringStateOf
 import androidx.core.extension.compose.textFieldValueStateOf
@@ -84,8 +86,8 @@ fun PreviewInput() {
 @Composable
 fun PreviewDialog() {
     Column {
-        val dialog = rememberDialog {
-            SimpleDialog("Test", ok = hide)
+        val dialog = rememberArgsDialog<String>(position = DialogPosition.Bottom) {
+            SimpleDialog(args, ok = hide)
         }
         val inputDialog = rememberDialog {
             SingleInputDialog {
@@ -99,7 +101,7 @@ fun PreviewDialog() {
             )
         }
         androidx.core.extension.compose.material.SimpleButton("ShowDialog") {
-            dialog.show()
+            dialog.show("args")
         }
         androidx.core.extension.compose.material.SimpleButton("ShowInputDialog") {
             inputDialog.show()
