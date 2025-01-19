@@ -14,10 +14,10 @@ import androidx.core.extension.compose.material.SimpleBackToolbar
 import androidx.core.extension.compose.material.SimpleCard
 import androidx.core.extension.compose.material.SimpleText
 import androidx.core.extension.compose.material.SimpleToolbar
+import androidx.core.extension.compose.widget.LocalNavController
 import androidx.core.extension.compose.widget.SimpleVerticalGrid
 import androidx.core.extension.util.allSealedSubclasses
 import androidx.navigation.NavBackStackEntry
-import androidx.navigation.NavHostController
 import kotlinx.serialization.Serializable
 
 sealed class SampleType {
@@ -25,9 +25,10 @@ sealed class SampleType {
     val name get() = this::class.simpleName.orEmpty()
 
     @Composable
-    open fun Screen(controller: NavHostController, stack: NavBackStackEntry) {
+    open fun Screen(stack: NavBackStackEntry) {
+        val navHostController = LocalNavController.current
         Column {
-            SimpleBackToolbar(name) { controller.popBackStack() }
+            SimpleBackToolbar(name) { navHostController.popBackStack() }
             Box(modifier = Modifier.padding(5.dp)) {
                 ScreenContent()
             }
@@ -43,7 +44,8 @@ sealed class SampleType {
 @Serializable
 data object Entry : SampleType() {
     @Composable
-    override fun Screen(controller: NavHostController, stack: NavBackStackEntry) {
+    override fun Screen(stack: NavBackStackEntry) {
+        val navHostController = LocalNavController.current
         Column {
             SimpleToolbar(stringResource(R.string.app_name))
             SimpleVerticalGrid(
@@ -57,7 +59,7 @@ data object Entry : SampleType() {
                     SimpleText(
                         text = item.name,
                         modifier = Modifier
-                            .clickable { controller.navigate(item) }
+                            .clickable { navHostController.navigate(item) }
                             .padding(6.dp)
                     )
                 }

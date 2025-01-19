@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavBackStackEntry
@@ -25,6 +26,14 @@ import androidx.navigation.get
 import androidx.navigation.toRoute
 import kotlin.reflect.KClass
 import kotlin.reflect.KType
+
+val LocalNavController = staticCompositionLocalOf<NavHostController> {
+    error("CompositionLocalProvider(LocalNavController provides navController){}")
+}
+
+val currentNavController
+    @Composable
+    get() = LocalNavController.current
 
 //需要plugin.serialization
 @Composable
