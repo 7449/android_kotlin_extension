@@ -10,7 +10,7 @@ jvmTarget = "17"
 android = "8.7.3"
 kotlin = "2.1.0"
 
-composeBom = "2024.12.01"
+composeBom = "2025.01.00"
 
 [plugins]
 #https://maven.google.com/web/index.html#com.android.application:com.android.application.gradle.plugin
@@ -26,7 +26,7 @@ compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "
 
 [libraries]
 #https://central.sonatype.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-core/versions
-serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.7.3"
+serialization = "org.jetbrains.kotlinx:kotlinx-serialization-core:1.8.0"
 
 #https://maven.google.com/web/index.html#androidx.appcompat:appcompat
 androidx-appcompat = "androidx.appcompat:appcompat:1.7.0"
