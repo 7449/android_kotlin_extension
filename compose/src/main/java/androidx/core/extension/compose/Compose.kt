@@ -3,6 +3,7 @@ package androidx.core.extension.compose
 import android.os.Handler
 import android.os.Looper
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 
 const val DOWNLOAD = "下载"
 const val COPY = "复制"
@@ -20,4 +21,4 @@ fun composeHandlerPost(runnable: Runnable) {
     composeHandler.post(runnable)
 }
 
-var colorPrimary = Color(android.graphics.Color.parseColor("#009688"))
+var colorPrimary = Color("#009688".toColorInt())
